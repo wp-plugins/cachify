@@ -41,7 +41,7 @@ final class Cachify {
 	* @since  0.6
 	*/
 
-	const ONLYGUESTS = 0;
+	const ONLYGUESTS = 1;
 
 
 	/**
