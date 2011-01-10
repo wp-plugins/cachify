@@ -31,5 +31,8 @@ Vor der Inbetriebnahme des Plugins ist die Dokumentation durchzulesen, um eine i
 
 
 == Changelog ==
+= 0.7 =
+* Ausgabe des Speicherverbrauchs
+
 = 0.6 =
-* Live on wordpress.org
+* Live auf wordpress.org

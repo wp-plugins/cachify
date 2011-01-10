@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabf
 Author: Sergej M&uuml;ller
 Author URI: http://www.wpSEO.de
 Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 0.6
+Version: 0.7
 */
 
 
@@ -20,7 +20,7 @@ if (!function_exists ('is_admin')) {
 /**
 * Cachify
 *
-* @since 0.1
+* @since  0.1
 */
 
 final class Cachify {
@@ -47,8 +47,8 @@ final class Cachify {
 	/**
 	* Konstruktor der Klasse
 	*
-	* @since  0.1
-	* @change 0.5
+	* @since   0.1
+	* @change  0.5
 	*/
 
   public function __construct()
@@ -96,7 +96,7 @@ final class Cachify {
   		add_action(
 				'init',
 				'Cachify::manage_cache',
-				999
+				1
 			);
   	}
 	}
@@ -105,12 +105,12 @@ final class Cachify {
 	/**
 	* Meta-Links zum Plugin
 	*
-	* @since  0.5
-	* @change 0.5
+	* @since   0.5
+	* @change  0.5
 	*
-	* @param  array   $data  Bereits vorhandene Links
-	* @param  string  $page  Aktuelle Seite
-	* @return array   $data  Modifizierte Links
+	* @param   array   $data  Bereits vorhandene Links
+	* @param   string  $page  Aktuelle Seite
+	* @return  array   $data  Modifizierte Links
 	*/
 
 	public static function plugin_meta($data, $page)
@@ -135,10 +135,10 @@ final class Cachify {
   /**
 	* Verarbeitung der Plugin-Meta-Aktionen
 	*
-	* @since  0.5
-	* @change 0.5
+	* @since   0.5
+	* @change  0.5
 	*
-	* @param  array  $data  Metadaten der Plugins
+	* @param   array  $data  Metadaten der Plugins
 	*/
 
 	public static function plugin_action($data)
@@ -152,10 +152,10 @@ final class Cachify {
 	/**
 	* Löschung des Cache bei neuem Kommentar
 	*
-	* @since  0.1
-	* @change 0.4
+	* @since   0.1
+	* @change  0.4
 	*
-	* @param	integer  $id  ID des Kommentars
+	* @param	 integer  $id  ID des Kommentars
 	*/
 
 	public static function edit_comment($id)
@@ -171,11 +171,11 @@ final class Cachify {
 	/**
 	* Löschung des Cache bei neuem Kommentar
 	*
-	* @since  0.1
-	* @change 0.1
+	* @since   0.1
+	* @change  0.1
 	*
-	* @param	array	$comment	Array mit Eigenschaften
-	* @return	array	$comment	Array mit Eigenschaften
+	* @param   array  $comment  Array mit Eigenschaften
+	* @return  array  $comment  Array mit Eigenschaften
 	*/
 
 	public static function add_comment($comment)
@@ -191,12 +191,12 @@ final class Cachify {
 	/**
 	* Löschung des Cache beim Kommentar-Editieren
 	*
-	* @since  0.1
-	* @change 0.4
+	* @since   0.1
+	* @change  0.4
 	*
-	* @param  string  $new_status  Neuer Status
-	* @param  string  $old_status  Alter Status
-	* @param  object  $comment     Array mit Eigenschaften
+	* @param   string  $new_status  Neuer Status
+	* @param   string  $old_status  Alter Status
+	* @param   object  $comment     Array mit Eigenschaften
 	*/
 
   public static function touch_comment($new_status, $old_status, $comment)
@@ -212,10 +212,10 @@ final class Cachify {
   /**
 	* Leerung des kompletten Cache
 	*
-	* @since  0.1
-	* @change 0.1
+	* @since   0.1
+	* @change  0.1
 	*
-	* @param  intval  $id  ID des Beitrags
+	* @param   intval  $id  ID des Beitrags
 	*/
 
 	public static function edit_post($id)
@@ -233,11 +233,11 @@ final class Cachify {
 	/**
 	* Rückgabe des Cache-Hash-Wertes
 	*
-	* @since  0.1
-	* @change 0.1
+	* @since   0.1
+	* @change  0.1
 	*
-	* @param  string  $url  URL für den Hash-Wert [optional]
-	* @return	string        Cachify-Hash-Wert
+	* @param   string  $url  URL für den Hash-Wert [optional]
+	* @return	 string        Cachify-Hash-Wert
 	*/
 
   private static function cache_hash($url = '')
@@ -261,10 +261,10 @@ final class Cachify {
 	/**
 	* Rückgabe der Query-Anzahl
 	*
-	* @since  0.1
-	* @change 0.1
+	* @since   0.1
+	* @change  0.1
 	*
-	* @return	intval  Query-Anzahl
+	* @return	 intval  Query-Anzahl
 	*/
 
 	private static function page_queries()
@@ -276,25 +276,40 @@ final class Cachify {
 	/**
 	* Rückgabe der Ausführungszeit
 	*
-	* @since  0.1
-	* @change 0.1
+	* @since   0.1
+	* @change  0.1
 	*
-	* @return	intval  Anzahl der Sekunden
+	* @return	 intval  Anzahl der Sekunden
 	*/
 
 	private static function page_timer()
 	{
 		return timer_stop(0, 2);
 	}
+	
+	
+	/**
+	* Rückgabe des Speicherverbrauchs
+	*
+	* @since   0.7
+	* @change  0.7
+	*
+	* @return  string  Konvertierter Größenwert
+	*/
+
+	private static function memory_usage()
+	{
+		return ( function_exists('memory_get_usage') ? size_format(memory_get_usage(), 2) : 0 );
+	}
 
 
 	/**
 	* Prüfung auf Feed
 	*
-	* @since  0.6
-	* @change 0.6
+	* @since   0.6
+	* @change  0.6
 	*
-	* @return	intval  Anzahl der Übereinstimmungen
+	* @return	 intval  Anzahl der Übereinstimmungen
 	*/
 
 	private static function is_feed()
@@ -306,10 +321,10 @@ final class Cachify {
 	/**
 	* Prüfung auf Preview
 	*
-	* @since  0.6
-	* @change 0.6
+	* @since   0.6
+	* @change  0.6
 	*
-	* @return	boolean  TRUE bei Preview
+	* @return	 boolean  TRUE bei Preview
 	*/
 
 	private static function is_preview()
@@ -321,10 +336,10 @@ final class Cachify {
 	/**
 	* Prüfung auf Index
 	*
-	* @since  0.6
-	* @change 0.6
+	* @since   0.6
+	* @change  0.6
 	*
-	* @return	boolean  TRUE bei Index
+	* @return	 boolean  TRUE bei Index
 	*/
 
 	private static function is_index()
@@ -336,11 +351,11 @@ final class Cachify {
 	/**
 	* Definition der Ausnahmen für den Cache
 	*
-	* @since  0.2
-	* @change 0.6
+	* @since   0.2
+	* @change  0.6
 	*
-	* @param  string   $type  Typ der Abfrage [optional]
-	* @return	boolean         TRUE bei Ausnahmen
+	* @param   string   $type  Typ der Abfrage [optional]
+	* @return	 boolean         TRUE bei Ausnahmen
 	*/
 
 	private static function skip_cache($type = '')
@@ -366,10 +381,10 @@ final class Cachify {
 	/**
 	* Löschung des Cache für eine URL
 	*
-	* @since  0.1
-	* @change 0.1
+	* @since   0.1
+	* @change  0.1
 	*
-	* @param  string  $url  URL für den Hash-Wert
+	* @param   string  $url  URL für den Hash-Wert
 	*/
 
 	public static function delete_cache($url)
@@ -383,8 +398,8 @@ final class Cachify {
 	/**
 	* Zurücksetzen des kompletten Cache
 	*
-	* @since  0.1
-	* @change 0.1
+	* @since   0.1
+	* @change  0.1
 	*/
 
 	public static function flush_cache()
@@ -397,11 +412,11 @@ final class Cachify {
 	/**
 	* Zuweisung des Cache
 	*
-	* @since  0.1
-	* @change 0.1
+	* @since   0.1
+	* @change  0.7
 	*
-	* @param  string  $data  Inhalt der Seite
-	* @return	string  $data  Inhalt der Seite
+	* @param   string  $data  Inhalt der Seite
+	* @return	 string  $data  Inhalt der Seite
 	*/
 
 	public static function set_cache($data)
@@ -411,7 +426,8 @@ final class Cachify {
 			array(
 				'data' 		=> $data,
 				'queries' => self::page_queries(),
-				'timer' 	=> self::page_timer()
+				'timer' 	=> self::page_timer(),
+				'memory'	=> self::memory_usage()
 			),
 			60 * 60 * self::EXPIRES
 		);
@@ -423,8 +439,8 @@ final class Cachify {
 	/**
 	* Verwaltung des Cache
 	*
-	* @since  0.1
-	* @change 0.3
+	* @since   0.1
+	* @change  0.7
 	*/
 
 	public static function manage_cache()
@@ -444,14 +460,16 @@ final class Cachify {
   			"\n\n<!--\n%s\n%s\n%s\n-->",
   			'Cachify für WordPress | http://bit.ly/cachify',
  				sprintf(
- 					'Ohne Cachify: %d DB-Anfragen, %s Sekunden',
+ 					'Ohne Cachify: %d DB-Anfragen, %s Sekunden, %s',
  					$cache['queries'],
- 					$cache['timer']
+ 					$cache['timer'],
+ 					$cache['memory']
  				),
   			sprintf(
- 					'Mit Cachify:   %d DB-Anfragen, %s Sekunden',
+ 					'Mit Cachify:   %d DB-Anfragen, %s Sekunden, %s',
  					self::page_queries(),
-  				self::page_timer()
+  				self::page_timer(),
+  				self::memory_usage()
  				)
   		);
 
