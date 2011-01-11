@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabf
 Author: Sergej M&uuml;ller
 Author URI: http://www.wpSEO.de
 Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 0.7
+Version: 0.8
 */
 
 
@@ -32,7 +32,7 @@ final class Cachify {
 	* @since  0.5
 	*/
 
-	const EXPIRES = 1;
+	const CACHE_EXPIRES = 1;
 
 
 	/**
@@ -41,14 +41,32 @@ final class Cachify {
 	* @since  0.6
 	*/
 
-	const ONLYGUESTS = 1;
+	const ONLY_GUESTS = 1;
+	
+	
+	/**
+	* Ausnahme für (Post)IDs (bspw. '1, 2, 3')
+	*
+	* @since  0.8
+	*/
+	
+	const WITHOUT_IDS = '';
+	
+	
+	/**
+	* Ausnahme für UserAgents (bspw. 'MSIE 6, Safari')
+	*
+	* @since  0.8
+	*/
+	
+	const WITHOUT_USER_AGENTS = '';
 
 
 	/**
 	* Konstruktor der Klasse
 	*
 	* @since   0.1
-	* @change  0.5
+	* @change  0.8
 	*/
 
   public function __construct()
@@ -93,11 +111,19 @@ final class Cachify {
 				'Cachify::add_comment',
 				1
 			);
-  		add_action(
-				'init',
-				'Cachify::manage_cache',
-				1
-			);
+			
+			if ( self::WITHOUT_IDS ) {
+	  		add_action(
+					'template_redirect',
+					'Cachify::manage_cache'
+				);
+			} else {
+				add_action(
+					'init',
+					'Cachify::manage_cache',
+					999
+				);
+			}
   	}
 	}
 
@@ -301,6 +327,12 @@ final class Cachify {
 	{
 		return ( function_exists('memory_get_usage') ? size_format(memory_get_usage(), 2) : 0 );
 	}
+	
+	
+	private static function preg_split($input)
+	{
+		return (array)preg_split('/,/', $input, -1, PREG_SPLIT_NO_EMPTY);
+	}
 
 
 	/**
@@ -352,7 +384,7 @@ final class Cachify {
 	* Definition der Ausnahmen für den Cache
 	*
 	* @since   0.2
-	* @change  0.6
+	* @change  0.8
 	*
 	* @param   string   $type  Typ der Abfrage [optional]
 	* @return	 boolean         TRUE bei Ausnahmen
@@ -362,8 +394,28 @@ final class Cachify {
 	{
 		switch ($type) {
 			case 'front':
-		  	if ( self::is_index() or self::is_feed() or self::is_preview() or ( self::ONLYGUESTS && is_user_logged_in() ) ) {
+				/* Filter */
+		  	if ( self::is_index() or self::is_feed() or self::is_preview() or ( self::ONLY_GUESTS && is_user_logged_in() ) ) {
 		  		return true;
+		  	}
+		  	
+		  	/* WP Touch */
+		  	if ( strpos(TEMPLATEPATH, 'wptouch') ) {
+		  		return true;
+		  	}
+		  	
+		  	/* Post IDs */
+	  		if ( self::WITHOUT_IDS && is_singular() ) {
+	  			if ( in_array( $GLOBALS['wp_query']->get_queried_object_id(), self::preg_split(self::WITHOUT_IDS) ) ) {
+	  				return true;
+	  			}
+		  	}
+		  	
+		  	/* User Agents */
+		  	if ( self::WITHOUT_USER_AGENTS && isset($_SERVER['HTTP_USER_AGENT']) ) {
+		  		if ( array_filter( self::preg_split(self::WITHOUT_USER_AGENTS), create_function('$a', 'return strpos($_SERVER["HTTP_USER_AGENT"], $a);') ) ) {
+	  				return true;
+		  		}
 		  	}
 		  break;
 
@@ -427,9 +479,10 @@ final class Cachify {
 				'data' 		=> $data,
 				'queries' => self::page_queries(),
 				'timer' 	=> self::page_timer(),
-				'memory'	=> self::memory_usage()
+				'memory'	=> self::memory_usage(),
+				'time'		=> current_time('timestamp')
 			),
-			60 * 60 * self::EXPIRES
+			60 * 60 * self::CACHE_EXPIRES
 		);
 
 		return $data;
@@ -440,7 +493,7 @@ final class Cachify {
 	* Verwaltung des Cache
 	*
 	* @since   0.1
-	* @change  0.7
+	* @change  0.8
 	*/
 
 	public static function manage_cache()
@@ -457,7 +510,7 @@ final class Cachify {
 
   		/* Signatur */
   		echo sprintf(
-  			"\n\n<!--\n%s\n%s\n%s\n-->",
+  			"\n\n<!--\n%s\n%s\n%s\n%s\n-->",
   			'Cachify für WordPress | http://bit.ly/cachify',
  				sprintf(
  					'Ohne Cachify: %d DB-Anfragen, %s Sekunden, %s',
@@ -470,6 +523,10 @@ final class Cachify {
  					self::page_queries(),
   				self::page_timer(),
   				self::memory_usage()
+ 				),
+ 				sprintf(
+ 					'Generiert:     %s zuvor',
+ 					human_time_diff($cache['time'], current_time('timestamp'))
  				)
   		);
 
