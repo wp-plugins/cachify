@@ -25,11 +25,11 @@ Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer
 Vor der Inbetriebnahme des Plugins ist die Dokumentation durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen des Cache-Tools zu vermeiden!
 
 = Weiterführende Links =
-* [Documentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify")
+* [Dokumentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify")
 * [Twitter](http://twitter.com/wpSEO "wpSEO on Twitter")
 * [Blog](http://playground.ebiene.de "Playground Blog")
-* [Other plugins](http://wpcoder.de "Other plugins")
-* [Author page](http://ebiene.de "Author page")
+* [Andere Plugins](http://wpcoder.de "Other plugins")
+* [Autorenseiten](http://ebiene.de "Author page")
 
 
 == Changelog ==
