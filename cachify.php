@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabf
 Author: Sergej M&uuml;ller
 Author URI: http://www.wpSEO.de
 Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 0.8
+Version: 0.9
 */
 
 
@@ -465,7 +465,7 @@ final class Cachify {
 	* Zuweisung des Cache
 	*
 	* @since   0.1
-	* @change  0.7
+	* @change  0.9
 	*
 	* @param   string  $data  Inhalt der Seite
 	* @return	 string  $data  Inhalt der Seite
@@ -473,17 +473,19 @@ final class Cachify {
 
 	public static function set_cache($data)
 	{
-		set_transient(
-			self::cache_hash(),
-			array(
-				'data' 		=> $data,
-				'queries' => self::page_queries(),
-				'timer' 	=> self::page_timer(),
-				'memory'	=> self::memory_usage(),
-				'time'		=> current_time('timestamp')
-			),
-			60 * 60 * self::CACHE_EXPIRES
-		);
+		if ( !empty($data) ) {
+			set_transient(
+				self::cache_hash(),
+				array(
+					'data' 		=> $data,
+					'queries' => self::page_queries(),
+					'timer' 	=> self::page_timer(),
+					'memory'	=> self::memory_usage(),
+					'time'		=> current_time('timestamp')
+				),
+				60 * 60 * self::CACHE_EXPIRES
+			);
+		}
 
 		return $data;
 	}
@@ -493,7 +495,7 @@ final class Cachify {
 	* Verwaltung des Cache
 	*
 	* @since   0.1
-	* @change  0.8
+	* @change  0.9
 	*/
 
 	public static function manage_cache()
@@ -504,33 +506,35 @@ final class Cachify {
 		}
 
   	/* Im Cache? */
-  	if ( $cache = get_transient( self::cache_hash() ) ) {
-  		/* Content */
-  		echo $cache['data'];
-
-  		/* Signatur */
-  		echo sprintf(
-  			"\n\n<!--\n%s\n%s\n%s\n%s\n-->",
-  			'Cachify für WordPress | http://bit.ly/cachify',
- 				sprintf(
- 					'Ohne Cachify: %d DB-Anfragen, %s Sekunden, %s',
- 					$cache['queries'],
- 					$cache['timer'],
- 					$cache['memory']
- 				),
-  			sprintf(
- 					'Mit Cachify:   %d DB-Anfragen, %s Sekunden, %s',
- 					self::page_queries(),
-  				self::page_timer(),
-  				self::memory_usage()
- 				),
- 				sprintf(
- 					'Generiert:     %s zuvor',
- 					human_time_diff($cache['time'], current_time('timestamp'))
- 				)
-  		);
-
-  		exit;
+  	if ( $cache = get_transient(self::cache_hash()) ) {
+  		if ( !empty($cache['data']) ) {
+	  		/* Content */
+	  		echo $cache['data'];
+	
+	  		/* Signatur */
+	  		echo sprintf(
+	  			"\n\n<!--\n%s\n%s\n%s\n%s\n-->",
+	  			'Cachify für WordPress | http://bit.ly/cachify',
+	 				sprintf(
+	 					'Ohne Cachify: %d DB-Anfragen, %s Sekunden, %s',
+	 					$cache['queries'],
+	 					$cache['timer'],
+	 					$cache['memory']
+	 				),
+	  			sprintf(
+	 					'Mit Cachify:   %d DB-Anfragen, %s Sekunden, %s',
+	 					self::page_queries(),
+	  				self::page_timer(),
+	  				self::memory_usage()
+	 				),
+	 				sprintf(
+	 					'Generiert:     %s zuvor',
+	 					human_time_diff($cache['time'], current_time('timestamp'))
+	 				)
+	  		);
+	
+	  		exit;
+  		}
   	}
 
   	/* Cachen */

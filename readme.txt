@@ -33,6 +33,9 @@ Vor der Inbetriebnahme des Plugins ist die Dokumentation durchzulesen, um eine i
 
 
 == Changelog ==
+= 0.9 =
+* Workaround für Redirects
+
 = 0.8 =
 * Blacklist für PostIDs
 * Blacklist für UserAgents
