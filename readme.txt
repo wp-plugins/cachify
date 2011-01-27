@@ -33,6 +33,10 @@ Vor der Inbetriebnahme des Plugins ist die Dokumentation durchzulesen, um eine i
 
 
 == Changelog ==
+= 0.9.1 =
+* Cache-Reset bei geplanten Beiträgen
+* Unterstützung für das Carrington-Mobile Theme
+
 = 0.9 =
 * Workaround für Redirects
 

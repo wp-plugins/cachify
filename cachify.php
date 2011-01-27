@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabf
 Author: Sergej M&uuml;ller
 Author URI: http://www.wpSEO.de
 Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 0.9
+Version: 0.9.1
 */
 
 
@@ -66,22 +66,24 @@ final class Cachify {
 	* Konstruktor der Klasse
 	*
 	* @since   0.1
-	* @change  0.8
+	* @change  0.9.1
 	*/
 
   public function __construct()
   {
-  	/* Kein Cache? */
-		if ( self::skip_cache() ) {
+  	/* Autosave? */
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
 			return;
 		}
-
+		
+		/* Publish post */
+		add_action(
+			'publish_post',
+			'Cachify::publish_post'
+		);
+		
   	/* Backend */
   	if ( is_admin() ) {
-  		add_action(
-				'publish_post',
-				'Cachify::edit_post'
-			);
 			add_action(
 				'transition_comment_status',
 				'Cachify::touch_comment',
@@ -239,18 +241,18 @@ final class Cachify {
 	* Leerung des kompletten Cache
 	*
 	* @since   0.1
-	* @change  0.1
+	* @change  0.9.1
 	*
 	* @param   intval  $id  ID des Beitrags
 	*/
 
-	public static function edit_post($id)
+	public static function publish_post($id)
 	{
 		/* Post */
 		$post = get_post($id);
-
+		
 		/* Löschen */
-		if ( $post->post_status == 'publish' ) {
+		if ( in_array( $post->post_status, array('publish', 'future') ) ) {
 			self::flush_cache();
   	}
   }
@@ -329,6 +331,16 @@ final class Cachify {
 	}
 	
 	
+	/**
+	* Splittung nach Komma
+	*
+	* @since   0.9.1
+	* @change  0.9.1
+	*
+	* @param   string  Zu splittende Zeichenkette
+	* @return  array   Konvertierter Array
+	*/
+	
 	private static function preg_split($input)
 	{
 		return (array)preg_split('/,/', $input, -1, PREG_SPLIT_NO_EMPTY);
@@ -378,6 +390,21 @@ final class Cachify {
 	{
 		return basename($_SERVER['SCRIPT_NAME']) != 'index.php';
 	}
+	
+	
+	/**
+	* Prüfung auf Mobile Devices
+	*
+	* @since   0.9.1
+	* @change  0.9.1
+	*
+	* @return	 boolean  TRUE bei Mobile
+	*/
+
+	private static function is_mobile()
+	{
+		return ( strpos(TEMPLATEPATH, 'wptouch') or strpos(TEMPLATEPATH, 'carrington') );
+	}
 
 
 	/**
@@ -390,41 +417,31 @@ final class Cachify {
 	* @return	 boolean         TRUE bei Ausnahmen
 	*/
 
-	private static function skip_cache($type = '')
+	private static function skip_cache()
 	{
-		switch ($type) {
-			case 'front':
-				/* Filter */
-		  	if ( self::is_index() or self::is_feed() or self::is_preview() or ( self::ONLY_GUESTS && is_user_logged_in() ) ) {
-		  		return true;
-		  	}
-		  	
-		  	/* WP Touch */
-		  	if ( strpos(TEMPLATEPATH, 'wptouch') ) {
-		  		return true;
-		  	}
-		  	
-		  	/* Post IDs */
-	  		if ( self::WITHOUT_IDS && is_singular() ) {
-	  			if ( in_array( $GLOBALS['wp_query']->get_queried_object_id(), self::preg_split(self::WITHOUT_IDS) ) ) {
-	  				return true;
-	  			}
-		  	}
-		  	
-		  	/* User Agents */
-		  	if ( self::WITHOUT_USER_AGENTS && isset($_SERVER['HTTP_USER_AGENT']) ) {
-		  		if ( array_filter( self::preg_split(self::WITHOUT_USER_AGENTS), create_function('$a', 'return strpos($_SERVER["HTTP_USER_AGENT"], $a);') ) ) {
-	  				return true;
-		  		}
-		  	}
-		  break;
-
-		  default:
-		  	if ( (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) or (defined('DOING_CRON') && DOING_CRON) ) {
-					return true;
-				}
-		  break;
-		}
+		/* Filter */
+  	if ( self::is_index() or self::is_feed() or self::is_preview() or ( self::ONLY_GUESTS && is_user_logged_in() ) ) {
+  		return true;
+  	}
+  	
+  	/* WP Touch */
+  	if ( self::is_mobile() ) {
+  		return true;
+  	}
+  	
+  	/* Post IDs */
+ 		if ( self::WITHOUT_IDS && is_singular() ) {
+ 			if ( in_array( $GLOBALS['wp_query']->get_queried_object_id(), self::preg_split(self::WITHOUT_IDS) ) ) {
+ 				return true;
+ 			}
+  	}
+  	
+  	/* User Agents */
+  	if ( self::WITHOUT_USER_AGENTS && isset($_SERVER['HTTP_USER_AGENT']) ) {
+  		if ( array_filter( self::preg_split(self::WITHOUT_USER_AGENTS), create_function('$a', 'return strpos($_SERVER["HTTP_USER_AGENT"], $a);') ) ) {
+ 				return true;
+  		}
+  	}
 
   	return false;
 	}
@@ -501,7 +518,7 @@ final class Cachify {
 	public static function manage_cache()
 	{
 		/* Kein Cache? */
-		if ( self::skip_cache('front') ) {
+		if ( self::skip_cache() ) {
 			return;
 		}
 
