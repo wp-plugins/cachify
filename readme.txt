@@ -1,6 +1,6 @@
 === Cachify ===
 Contributors: stalkerX
-Tags: cache, performance
+Tags: cache, performance, cache
 Requires at least: 3.0
 Tested up to: 3.1
 Stable tag: trunk
@@ -19,7 +19,7 @@ Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer
 * Bis zu 80 % weniger DB-Anfragen
 * Bis zu 60 % schnellere Ausführungszeiten
 * Manueller und automatischer Cache-Reset
-* Ausgabe der davor, danach Informationen
+* Ausgabe der "davor, danach" Informationen
 
 = Wichtige Information =
 Vor der Inbetriebnahme des Plugins ist die Dokumentation durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen des Cache-Tools zu vermeiden!
