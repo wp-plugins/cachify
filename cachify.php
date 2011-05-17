@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabf
 Author: Sergej M&uuml;ller
 Author URI: http://www.wpSEO.de
 Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 0.9.1
+Version: 0.9.2
 */
 
 
@@ -45,6 +45,15 @@ final class Cachify {
 	
 	
 	/**
+	* Komprimierung des HTML-Codes
+	*
+	* @since  0.9.2
+	*/
+	
+	const COMPRESS_HTML = 0;
+	
+	
+	/**
 	* Ausnahme für (Post)IDs (bspw. '1, 2, 3')
 	*
 	* @since  0.8
@@ -60,6 +69,7 @@ final class Cachify {
 	*/
 	
 	const WITHOUT_USER_AGENTS = '';
+	
 
 
 	/**
@@ -134,7 +144,7 @@ final class Cachify {
 	* Meta-Links zum Plugin
 	*
 	* @since   0.5
-	* @change  0.5
+	* @change  0.9.3
 	*
 	* @param   array   $data  Bereits vorhandene Links
 	* @param   string  $page  Aktuelle Seite
@@ -147,6 +157,10 @@ final class Cachify {
 			$data = array_merge(
 				$data,
 				array(
+					sprintf(
+						'<a href="http://flattr.com/thing/114377/Cachify-Handliches-Cache-Plugin-fur-WordPress" target="_blank">%s</a>',
+						esc_html__('Plugin flattern')
+					),
 					sprintf(
 						'<a href="%s">%s</a>',
 						add_query_arg('_cachify', 'reset', admin_url('plugins.php')),
@@ -445,6 +459,46 @@ final class Cachify {
 
   	return false;
 	}
+	
+	
+	/**
+	* Komprimiert den HTML-Code
+	*
+	* @since   0.9.2
+	* @change  0.9.2
+	*
+	* @param   string   $data  Zu komprimierende Datensatz
+	* @return	 string   $data  Komprimierter Datensatz
+	*/
+	
+	private static function sanitize_cache($data) {
+		/* Komprimieren? */
+		if ( !self::COMPRESS_HTML ) {
+			return $data;
+		}
+		
+		return preg_replace(
+			array(
+				'/\<!--.+?--\>/s',
+				'/\>(\s)+(\S)/s',
+				'/\>[^\S ]+/s',
+				'/[^\S ]+\</s',
+				'/\>(\s)+/s',
+				'/(\s)+\</s',
+				'/\>\s+\</s'
+			),
+			array(
+				'',
+				'>\\1\\2',
+				'>',
+				'<',
+				'>\\1',
+				'\\1<',
+				'><'
+			),
+			(string)$data
+		);
+	}
 
 
 	/**
@@ -494,7 +548,7 @@ final class Cachify {
 			set_transient(
 				self::cache_hash(),
 				array(
-					'data' 		=> $data,
+					'data' 		=> self::sanitize_cache($data),
 					'queries' => self::page_queries(),
 					'timer' 	=> self::page_timer(),
 					'memory'	=> self::memory_usage(),

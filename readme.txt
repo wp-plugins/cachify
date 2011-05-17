@@ -15,6 +15,7 @@ Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer
 = Einige Stärken =
 * Einfache Installation: Aktivieren, fertig
 * Konstanten für Plugin-Justierung
+* Komprimierung der HTML-Ausgabe
 * Blacklists für PostIDs und UserAgents
 * Bis zu 80 % weniger DB-Anfragen
 * Bis zu 60 % schnellere Ausführungszeiten
@@ -33,6 +34,10 @@ Vor der Inbetriebnahme des Plugins ist die Dokumentation durchzulesen, um eine i
 
 
 == Changelog ==
+= 0.9.2 =
+* HTML-Kompression
+* Flattr-Link
+
 = 0.9.1 =
 * Cache-Reset bei geplanten Beiträgen
 * Unterstützung für das Carrington-Mobile Theme
