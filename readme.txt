@@ -67,3 +67,14 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 
 = 0.6 =
 * Live auf wordpress.org
+
+
+== Screenshots ==
+
+1. Cachify Optionsseite
+
+
+== Installation ==
+1. Cachify installieren
+1. [Dokumentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify WordPress Cache") beachten
+1. Einstellungen vornehmen
