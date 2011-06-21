@@ -14,26 +14,36 @@ Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer
 
 = Einige Stärken =
 * Einfache Installation: Aktivieren, fertig
-* Konstanten für Plugin-Justierung
-* Komprimierung der HTML-Ausgabe
-* Blacklists für PostIDs und UserAgents
+* Übersichtliche Optionsseite mit Hilfe
+* Optionale Komprimierung der HTML-Ausgabe
+* Blacklists für PostIDs und User Agents
 * Bis zu 80 % weniger DB-Anfragen
 * Bis zu 60 % schnellere Ausführungszeiten
 * Manueller und automatischer Cache-Reset
-* Ausgabe der "davor, danach" Informationen
+* Ausgabe der "davor, danach" Informationen im Quelltext
 
 = Wichtige Information =
-Vor der Inbetriebnahme des Plugins ist die Dokumentation durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen des Cache-Tools zu vermeiden!
+Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify WordPress Cache") durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen des Cache-Tools zu vermeiden!
 
 = Weiterführende Links =
-* [Dokumentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify")
-* [Twitter](http://twitter.com/wpSEO "wpSEO on Twitter")
 * [Blog](http://playground.ebiene.de "Playground Blog")
-* [Andere Plugins](http://wpcoder.de "Other plugins")
-* [Autorenseiten](http://ebiene.de "Author page")
+* [Flattr](http://flattr.com/profile/sergej.mueller "Flattr")
+* [Twitter](http://twitter.com/wpSEO "wpSEO on Twitter")
+* [Portfolio](http://ebiene.de "Portfolio")
+* [Andere Plugins](http://wpcoder.de "Andere Plugins")
 
 
 == Changelog ==
+= 1.0 =
+* Leerung des Cache beim Aktualisieren von statischen Seiten
+* Seite mit Plugin-Einstellungen
+* Inline-Dokumentation in der Optionsseite
+* Ausschluss von Passwort-geschützten Seiten
+* WordPress 3.2 Support
+* Unterstützung der WordPress Multisite Blogs
+* Umstellung auf den template_redirect-Hook (Plugin-Kompatibilität)
+* Interne Code-Bereinigung
+
 = 0.9.2 =
 * HTML-Kompression
 * Flattr-Link
