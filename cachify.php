@@ -67,6 +67,13 @@ __CLASS__,
 )
 );
 add_action(
+'admin_print_styles',
+array(
+__CLASS__,
+'add_css'
+)
+);
+add_action(
 'transition_comment_status',
 array(
 __CLASS__,
@@ -481,19 +488,12 @@ function add_page()
 {
 self::$menu = add_options_page(
 'Cachify',
-'Cachify',
+'<img src="' .plugins_url('cachify/img/icon.png'). '" alt="Cachify" />Cachify',
 'manage_options',
 'cachify',
 array(
 __CLASS__,
 'options_page'
-)
-);
-add_action(
-'admin_print_styles-' .self::$menu,
-array(
-__CLASS__,
-'add_css'
 )
 );
 }
