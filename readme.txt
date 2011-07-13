@@ -2,7 +2,7 @@
 Contributors: stalkerX
 Tags: cache, performance, cache
 Requires at least: 3.0
-Tested up to: 3.2
+Tested up to: 3.2.1
 Stable tag: trunk
 
 Simple Cache-Lösung für WordPress.
