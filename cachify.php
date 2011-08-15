@@ -155,7 +155,6 @@ self::_install_backend();
 }
 }
 public static function install_later($id) {
-global $wpdb;
 if ( !is_plugin_active_for_network(self::$base) ) {
 return;
 }
@@ -163,7 +162,7 @@ switch_to_blog( (int)$id );
 self::_install_backend();
 restore_current_blog();
 }
-protected static function _install_backend()
+private static function _install_backend()
 {
 add_option(
 'cachify',
@@ -203,7 +202,7 @@ switch_to_blog( (int)$id );
 self::_uninstall_backend();
 restore_current_blog();
 }
-protected static function _uninstall_backend()
+private static function _uninstall_backend()
 {
 delete_option('cachify');
 self::_flush_cache();
@@ -212,11 +211,11 @@ public static function update()
 {
 self::_update_backend();
 }
-protected static function _update_backend()
+private static function _update_backend()
 {
 self::_flush_cache();
 }
-protected static function _get_blog_ids()
+private static function _get_blog_ids()
 {
 global $wpdb;
 return $wpdb->get_col(
@@ -315,7 +314,7 @@ if ( $page->post_status == 'publish' ) {
 self::_flush_cache();
 }
 }
-protected static function _cache_hash($url = '')
+private static function _cache_hash($url = '')
 {
 if ( empty($url) ) {
 $url = esc_url_raw(
@@ -329,31 +328,31 @@ $_SERVER['REQUEST_URI']
 }
 return 'cachify_' .md5($url);
 }
-protected static function _page_queries()
+private static function _page_queries()
 {
 return $GLOBALS['wpdb']->num_queries;
 }
-protected static function _page_timer()
+private static function _page_timer()
 {
 return timer_stop(0, 2);
 }
-protected static function _memory_usage()
+private static function _memory_usage()
 {
 return ( function_exists('memory_get_usage') ? size_format(memory_get_usage(), 2) : 0 );
 }
-protected static function _preg_split($input)
+private static function _preg_split($input)
 {
 return (array)preg_split('/,/', $input, -1, PREG_SPLIT_NO_EMPTY);
 }
-protected static function _is_index()
+private static function _is_index()
 {
 return basename($_SERVER['SCRIPT_NAME']) != 'index.php';
 }
-protected static function _is_mobile()
+private static function _is_mobile()
 {
 return ( strpos(TEMPLATEPATH, 'wptouch') or strpos(TEMPLATEPATH, 'carrington') );
 }
-protected static function _skip_cache()
+private static function _skip_cache()
 {
 $options = get_option('cachify');
 if ( self::_is_index() or is_feed() or is_trackback() or is_robots() or is_preview() or post_password_required() or ( $options['only_guests'] && is_user_logged_in() ) ) {
@@ -374,10 +373,12 @@ return true;
 }
 return false;
 }
-protected static function _sanitize_cache($data) {
+private static function _sanitize_cache($data) {
 $options = get_option('cachify');
-if ( $options['compress_html'] ) {
-return preg_replace(
+if ( !$options['compress_html'] ) {
+return($data);
+}
+$cleaned = preg_replace(
 array(
 '/\<!--.+?--\>/s',
 '/\>(\s)+(\S)/s',
@@ -398,16 +399,18 @@ array(
 ),
 (string)$data
 );
+if ( strlen($cleaned) <= 1 ) {
+return($data);
 }
-return $data;
+return($cleaned);
 }
-protected static function _delete_cache($url)
+private static function _delete_cache($url)
 {
 delete_transient(
 self::_cache_hash($url)
 );
 }
-protected static function _flush_cache()
+private static function _flush_cache()
 {
 $GLOBALS['wpdb']->query("DELETE FROM `" .$GLOBALS['wpdb']->options. "` WHERE `option_name` LIKE ('_transient%_cachify_%')");
 $GLOBALS['wpdb']->query("OPTIMIZE TABLE `" .$GLOBALS['wpdb']->options. "`");
