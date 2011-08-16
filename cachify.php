@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Cachify
-Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabfragen und dynamischer Anweisungen. Minimiert die Ladezeit der Blogseiten.
+Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabfragen und dynamischer Anweisungen. Minimiert Ladezeiten der Blogseiten.
 Author: Sergej M&uuml;ller
 Author URI: http://www.wpSEO.de
 Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 1.0
+Version: 1.1
 */
 
 
@@ -38,6 +38,13 @@ __CLASS__,
 )
 );
 if ( is_admin() ) {
+add_action(
+'pre_current_active_plugins',
+array(
+__CLASS__,
+'receive_flush'
+)
+);
 add_action(
 'wpmu_new_blog',
 array(
@@ -89,13 +96,6 @@ __CLASS__,
 'edit_comment'
 )
 );
-add_action(
-'pre_current_active_plugins',
-array(
-__CLASS__,
-'receive_reset'
-)
-);
 add_filter(
 'plugin_row_meta',
 array(
@@ -111,15 +111,6 @@ array(
 __CLASS__,
 'action_links'
 )
-);
-add_filter(
-'contextual_help',
-array(
-__CLASS__,
-'contextual_help'
-),
-10,
-2
 );
 } else {
 add_action(
@@ -250,18 +241,19 @@ $data = array_merge(
 $data,
 array(
 '<a href="http://flattr.com/thing/114377/Cachify-Handliches-Cache-Plugin-fur-WordPress" target="_blank">Plugin flattern</a>',
+'<a href="https://plus.google.com/110569673423509816572" target="_blank">Auf Google+ folgen</a>',
 sprintf(
 '<a href="%s">Cache leeren</a>',
-add_query_arg('_cachify', 'reset', 'plugins.php')
+add_query_arg('_cachify', 'flush', 'plugins.php')
 )
 )
 );
 }
 return $data;
 }
-public static function receive_reset($data)
+public static function receive_flush($data)
 {
-if ( empty($_GET['_cachify']) or $_GET['_cachify'] !== 'reset' ) {
+if ( empty($_GET['_cachify']) or $_GET['_cachify'] !== 'flush' ) {
 return;
 }
 global $wpdb;
@@ -423,7 +415,7 @@ set_transient(
 self::_cache_hash(),
 array(
 'data'=> self::_sanitize_cache($data),
-'queries' => self::_page_queries(),
+'queries'=> self::_page_queries(),
 'timer'=> self::_page_timer(),
 'memory'=> self::_memory_usage(),
 'time'=> current_time('timestamp')
@@ -466,24 +458,14 @@ exit;
 }
 ob_start('Cachify::set_cache');
 }
-public static function contextual_help($data, $screen)
-{
-if ( $screen != self::$menu ) {
-return $data;
-}
-return 
-'<p><strong>Cache-Gültigkeit in Stunden</strong><br />Aufbewahrungsdauer des Cache in Stunden.</p>'.
-'<p><strong>Ausnahme für (Post/Page) IDs</strong><br />Erweiterung der Ausnahmeliste für einzelne Blogseiten. Eine Komma-separierte Liste an Post- und/oder Page-IDs, die vom Cache ausgeschlossen werden sollen.<br /><em>Beispiel: 1, 2, 3</em></p>'.
-'<p><strong>Ausnahme für User Agents</strong><br />Erweiterung der Ausnahmeliste für einzelne Browser. Komma-separierte Liste der User Agents (gerne nur der wesentliche Teil des Strings), die vom Cache ausgeschlossen werden sollen.<br /><em>Beispiel: MSIE 6, Opera</em></p>'.
-'<p><strong>Komprimierung der Ausgabe</strong><br />Komprimierung (Minification) der HTML-Ausgabe. Überflüssige Zeichen wie Umbrüche und HTML-Kommentare werden entfernt.</p>'.
-'<p><strong>Nur für nicht eingeloggte Nutzer</strong><br />In aktivierter Form sorgt die Checkbox dafür, dass alle Blogleser <em>ausgenommen eingeloggte Nutzer</em> den Cache initialisieren dürfen und die zwischengespeicherte Version einer Blogseite angezeigt bekommen. Praktisch, wenn angemeldete Blog-Autoren und Administratoren beispielsweise die integrierte Admin-Bar oder Editieren-Links im Theme eingeblendet bekommen, die gewiss nicht zum Bestandteil des Cache werden sollen. "Kein Haken" als Wert bedeutet, angemeldete Nutzer sehen identische Ausgabe wie gewöhnliche Besucher der Seite.</p>'.
-'<p><a href="http://playground.ebiene.de/2652/cachify-wordpress-cache/" target="_blank">Weitere Informationen zu Cachify</a></p>';
-}
 function add_css()
 {
+$data = get_plugin_data(__FILE__);
 wp_register_style(
 'cachify_css',
-plugins_url('css/style.css', __FILE__)
+plugins_url('css/style.css', __FILE__),
+array(),
+$data['Version']
 );
 wp_enqueue_style('cachify_css');
 }
@@ -498,6 +480,12 @@ array(
 __CLASS__,
 'options_page'
 )
+);
+}
+function help_link($anchor) {
+echo sprintf(
+'<span>[<a href="http://playground.ebiene.de/2652/cachify-wordpress-cache/#%s" target="_blank">?</a>]</span>',
+$anchor
 );
 }
 function register_settings()
@@ -535,11 +523,7 @@ Cachify
 <table class="form-table cachify">
 <tr>
 <th>
-Cache-Gültigkeit in Stunden
-<br />
-<small>
-z.B. 12
-</small>
+Cache-Gültigkeit in Stunden <?php self::help_link('cache_expires') ?>
 </th>
 <td>
 <input type="text" name="cachify[cache_expires]" value="<?php echo $options['cache_expires'] ?>" />
@@ -547,11 +531,7 @@ z.B. 12
 </tr>
 <tr>
 <th>
-Ausnahme für (Post/Pages) IDs
-<br />
-<small>
-z.B. 1, 2, 3
-</small>
+Ausnahme für (Post/Pages) IDs <?php self::help_link('without_ids') ?>
 </th>
 <td>
 <input type="text" name="cachify[without_ids]" value="<?php echo $options['without_ids'] ?>" />
@@ -559,11 +539,7 @@ z.B. 1, 2, 3
 </tr>
 <tr>
 <th>
-Ausnahme für User Agents
-<br />
-<small>
-z.B. MSIE 6, Opera
-</small>
+Ausnahme für User Agents <?php self::help_link('without_agents') ?>
 </th>
 <td>
 <input type="text" name="cachify[without_agents]" value="<?php echo $options['without_agents'] ?>" />
@@ -571,7 +547,7 @@ z.B. MSIE 6, Opera
 </tr>
 <tr>
 <th>
-Komprimierung der Ausgabe
+Komprimierung der Ausgabe <?php self::help_link('compress_html') ?>
 </th>
 <td>
 <input type="checkbox" name="cachify[compress_html]" value="1" <?php checked('1', $options['compress_html']); ?> />
@@ -579,7 +555,7 @@ Komprimierung der Ausgabe
 </tr>
 <tr>
 <th>
-Nur für nicht eingeloggte Nutzer
+Nur für nicht eingeloggte Nutzer <?php self::help_link('only_guests') ?>
 </th>
 <td>
 <input type="checkbox" name="cachify[only_guests]" value="1" <?php checked('1', $options['only_guests']); ?> />

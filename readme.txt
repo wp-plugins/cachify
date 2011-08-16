@@ -1,6 +1,6 @@
 === Cachify ===
-Contributors: stalkerX
-Tags: cache, performance, cache
+Contributors: sergej.mueller
+Tags: cache, performance
 Requires at least: 3.0
 Tested up to: 3.2.1
 Stable tag: trunk
@@ -14,7 +14,7 @@ Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer
 
 = Einige Stärken =
 * Einfache Installation: Aktivieren, fertig
-* Übersichtliche Optionsseite mit Hilfe
+* Übersichtliche Optionsseite mit integrierter Hilfe
 * Optionale Komprimierung der HTML-Ausgabe
 * Blacklists für PostIDs und User Agents
 * Bis zu 80 % weniger DB-Anfragen
@@ -28,12 +28,18 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 = Weiterführende Links =
 * [Blog](http://playground.ebiene.de "Playground Blog")
 * [Flattr](http://flattr.com/profile/sergej.mueller "Flattr")
-* [Twitter](http://twitter.com/wpSEO "wpSEO on Twitter")
+* [Google+](https://plus.google.com/110569673423509816572 "Google+")
 * [Portfolio](http://ebiene.de "Portfolio")
 * [Andere Plugins](http://wpcoder.de "Andere Plugins")
 
 
 == Changelog ==
+= 1.1 =
+* Interne Prüfung auf fehlerhafte Cache-Generierung
+* Anpassungen an der Code-Struktur
+* Entfernung der Inline-Hilfe
+* Verknüpfung der Online-Hilfe mit Optionen
+
 = 1.0 =
 * Leerung des Cache beim Aktualisieren von statischen Seiten
 * Seite mit Plugin-Einstellungen
@@ -75,6 +81,6 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 
 
 == Installation ==
-1. Cachify installieren
+1. *Cachify* installieren
 1. [Dokumentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify WordPress Cache") beachten
 1. Einstellungen vornehmen
