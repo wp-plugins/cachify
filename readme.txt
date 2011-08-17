@@ -5,7 +5,7 @@ Requires at least: 3.0
 Tested up to: 3.3
 Stable tag: trunk
 
-Simple Cache-Lösung für WordPress.
+Simple und effiziente Cache-Lösung für WordPress.
 
 
 == Description ==
