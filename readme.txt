@@ -13,10 +13,11 @@ Simple und effiziente Cache-Lösung für WordPress.
 Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form in der Datenbank abgelegt und beim Seitenaufruf direkt ausgegeben werden. Dabei wird die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert.
 
 = Einige Stärken =
+* NEU: Adminbar-Schaltfläche "Cache leeren"
 * Einfache Installation: Aktivieren, fertig
-* Übersichtliche Optionsseite mit integrierter Hilfe
+* Übersichtliche Optionsseite mit verknüpfter Online-Hilfe
 * Optionale Komprimierung der HTML-Ausgabe
-* Blacklists für PostIDs und User Agents
+* Ausnahmelisten für PostIDs und User Agents
 * Bis zu 80 % weniger DB-Anfragen
 * Bis zu 60 % schnellere Ausführungszeiten
 * Manueller und automatischer Cache-Reset
@@ -34,6 +35,12 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 
 
 == Changelog ==
+
+= 1.2 =
+* Schaltfläche "Cache leeren" in der Adminbar (ab WordPress 3.1)
+* `flush_cache` auf public gesetzt, um von [wpSEO](http://wpseo.de "WordPress SEO Plugin") ansprechen zu können
+* Ausführliche Tests unter WordPress 3.3
+
 = 1.1 =
 * Interne Prüfung auf fehlerhafte Cache-Generierung
 * Anpassungen an der Code-Struktur
@@ -78,6 +85,7 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 == Screenshots ==
 
 1. Cachify Optionsseite
+2. Cachify Cache leeren
 
 
 == Installation ==

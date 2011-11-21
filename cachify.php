@@ -3,9 +3,9 @@
 Plugin Name: Cachify
 Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabfragen und dynamischer Anweisungen. Minimiert Ladezeiten der Blogseiten.
 Author: Sergej M&uuml;ller
-Author URI: http://www.wpSEO.de
+Author URI: http://wpseo.de
 Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 1.1
+Version: 1.2
 */
 
 
@@ -16,7 +16,6 @@ exit();
 }
 final class Cachify {
 private static $base;
-private static $menu;
 public static function init()
 {
 if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
@@ -39,13 +38,6 @@ __CLASS__,
 );
 if ( is_admin() ) {
 add_action(
-'pre_current_active_plugins',
-array(
-__CLASS__,
-'receive_flush'
-)
-);
-add_action(
 'wpmu_new_blog',
 array(
 __CLASS__,
@@ -64,6 +56,13 @@ add_action(
 array(
 __CLASS__,
 'register_settings'
+)
+);
+add_action(
+'admin_init',
+array(
+__CLASS__,
+'receive_flush'
 )
 );
 add_action(
@@ -95,6 +94,14 @@ array(
 __CLASS__,
 'edit_comment'
 )
+);
+add_action(
+'admin_bar_menu',
+array(
+__CLASS__,
+'add_menu'
+),
+90
 );
 add_filter(
 'plugin_row_meta',
@@ -167,7 +174,7 @@ array(
 '',
 'no'
 );
-self::_flush_cache();
+self::flush_cache();
 }
 public static function uninstall()
 {
@@ -196,7 +203,7 @@ restore_current_blog();
 private static function _uninstall_backend()
 {
 delete_option('cachify');
-self::_flush_cache();
+self::flush_cache();
 }
 public static function update()
 {
@@ -204,7 +211,7 @@ self::_update_backend();
 }
 private static function _update_backend()
 {
-self::_flush_cache();
+self::flush_cache();
 }
 private static function _get_blog_ids()
 {
@@ -251,6 +258,19 @@ add_query_arg('_cachify', 'flush', 'plugins.php')
 }
 return $data;
 }
+public static function add_menu() {
+global $wp_admin_bar;
+if ( !function_exists('is_admin_bar_showing') or !is_object($wp_admin_bar) or !is_super_admin() or !is_admin_bar_showing() ) {
+return;
+}
+$wp_admin_bar->add_menu(
+array(
+'id'=> 'cachify_empty',
+'title' => 'Cache leeren',
+'href'=> add_query_arg('_cachify', 'flush')
+)
+);
+}
 public static function receive_flush($data)
 {
 if ( empty($_GET['_cachify']) or $_GET['_cachify'] !== 'flush' ) {
@@ -262,12 +282,32 @@ $old = $wpdb->blogid;
 $ids = self::_get_blog_ids();
 foreach ($ids as $id) {
 switch_to_blog($id);
-self::_flush_cache();
+self::flush_cache();
 }
 switch_to_blog($old);
+add_action(
+'network_admin_notices',
+array(
+__CLASS__,
+'flush_notice'
+)
+);
 } else {
-self::_flush_cache();
+self::flush_cache();
+add_action(
+'admin_notices',
+array(
+__CLASS__,
+'flush_notice'
+)
+);
 }
+}
+public static function flush_notice() {
+if ( !is_super_admin() ) {
+return false;
+}
+echo '<div id="message" class="updated"><p><strong>Cachify-Cache geleert.</strong></p></div>';
 }
 public static function edit_comment($id)
 {
@@ -296,14 +336,14 @@ public static function publish_post($id)
 {
 $post = get_post($id);
 if ( in_array( $post->post_status, array('publish', 'future') ) ) {
-self::_flush_cache();
+self::flush_cache();
 }
 }
 public static function publish_page($id)
 {
 $page = get_page($id);
 if ( $page->post_status == 'publish' ) {
-self::_flush_cache();
+self::flush_cache();
 }
 }
 private static function _cache_hash($url = '')
@@ -387,7 +427,7 @@ array(
 '<',
 '>\\1',
 '\\1<',
-'><'
+'> <'
 ),
 (string)$data
 );
@@ -402,7 +442,7 @@ delete_transient(
 self::_cache_hash($url)
 );
 }
-private static function _flush_cache()
+public static function flush_cache()
 {
 $GLOBALS['wpdb']->query("DELETE FROM `" .$GLOBALS['wpdb']->options. "` WHERE `option_name` LIKE ('_transient%_cachify_%')");
 $GLOBALS['wpdb']->query("OPTIMIZE TABLE `" .$GLOBALS['wpdb']->options. "`");
@@ -471,7 +511,7 @@ wp_enqueue_style('cachify_css');
 }
 function add_page()
 {
-self::$menu = add_options_page(
+add_options_page(
 'Cachify',
 '<img src="' .plugins_url('cachify/img/icon.png'). '" alt="Cachify" />Cachify',
 'manage_options',
@@ -501,7 +541,7 @@ __CLASS__,
 }
 public static function validate_options($data)
 {
-self::_flush_cache();
+self::flush_cache();
 return array(
 'only_guests'=> (int)(!empty($data['only_guests'])),
 'compress_html'=> (int)(!empty($data['compress_html'])),
