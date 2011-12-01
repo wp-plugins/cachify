@@ -36,6 +36,9 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 
 == Changelog ==
 
+= 1.2.1 =
+* Icon für die "Cache leeren" Schaltfläche in der Admin Bar
+
 = 1.2 =
 * Schaltfläche "Cache leeren" in der Adminbar (ab WordPress 3.1)
 * `flush_cache` auf public gesetzt, um von [wpSEO](http://wpseo.de "WordPress SEO Plugin") ansprechen zu können
@@ -85,7 +88,6 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 == Screenshots ==
 
 1. Cachify Optionsseite
-2. Cachify Cache leeren
 
 
 == Installation ==

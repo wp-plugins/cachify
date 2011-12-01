@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabf
 Author: Sergej M&uuml;ller
 Author URI: http://wpseo.de
 Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 1.2
+Version: 1.2.1
 */
 
 
@@ -260,13 +260,13 @@ return $data;
 }
 public static function add_menu() {
 global $wp_admin_bar;
-if ( !function_exists('is_admin_bar_showing') or !is_object($wp_admin_bar) or !is_super_admin() or !is_admin_bar_showing() ) {
+if ( !function_exists('is_admin_bar_showing') or !is_admin_bar_showing() or !is_object($wp_admin_bar) or !is_super_admin() ) {
 return;
 }
 $wp_admin_bar->add_menu(
 array(
 'id'=> 'cachify_empty',
-'title' => 'Cache leeren',
+'title' => '<span class="ab-icon cachify"></span><span class="ab-label">Cache leeren</span>',
 'href'=> add_query_arg('_cachify', 'flush')
 )
 );
