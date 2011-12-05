@@ -258,15 +258,14 @@ add_query_arg('_cachify', 'flush', 'plugins.php')
 }
 return $data;
 }
-public static function add_menu() {
-global $wp_admin_bar;
+public static function add_menu( $wp_admin_bar ) {
 if ( !function_exists('is_admin_bar_showing') or !is_admin_bar_showing() or !is_object($wp_admin_bar) or !is_super_admin() ) {
 return;
 }
 $wp_admin_bar->add_menu(
 array(
-'id'=> 'cachify_empty',
-'title' => '<span class="ab-icon cachify"></span><span class="ab-label">Cache leeren</span>',
+'id'=> 'cachify',
+'title' => '<span class="ab-icon"></span><span class="ab-label">Cache leeren</span>',
 'href'=> add_query_arg('_cachify', 'flush')
 )
 );

@@ -1,6 +1,7 @@
 === Cachify ===
 Contributors: sergej.mueller
 Tags: performance,caching,cache
+Donate link: http://flattr.com/profile/sergej.mueller
 Requires at least: 3.0
 Tested up to: 3.3
 Stable tag: trunk
@@ -27,11 +28,8 @@ Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer
 Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify WordPress Cache") durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen des Cache-Tools zu vermeiden!
 
 = Weiterführende Links =
-* [Blog](http://playground.ebiene.de "Playground Blog")
-* [Flattr](http://flattr.com/profile/sergej.mueller "Flattr")
 * [Google+](https://plus.google.com/110569673423509816572 "Google+")
-* [Portfolio](http://ebiene.de "Portfolio")
-* [Andere Plugins](http://wpcoder.de "Andere Plugins")
+* [Other plugins](http://wordpress.org/extend/plugins/profile/sergejmueller "Other plugins")
 
 
 == Changelog ==
