@@ -551,7 +551,7 @@ return array(
 }
 public static function options_page()
 { ?>
-<div class="wrap">
+<div class="wrap" id="cachify_main">
 <?php screen_icon('cachify') ?>
 <h2>
 Cachify
@@ -559,7 +559,7 @@ Cachify
 <form method="post" action="options.php">
 <?php settings_fields('cachify') ?>
 <?php $options = get_option('cachify') ?>
-<table class="form-table cachify">
+<table class="form-table">
 <tr>
 <th>
 Cache-Gültigkeit in Stunden <?php self::help_link('cache_expires') ?>
