@@ -259,7 +259,7 @@ add_query_arg('_cachify', 'flush', 'plugins.php')
 return $data;
 }
 public static function add_menu( $wp_admin_bar ) {
-if ( !function_exists('is_admin_bar_showing') or !is_admin_bar_showing() or !is_object($wp_admin_bar) or !is_super_admin() ) {
+if ( !function_exists('is_admin_bar_showing') or !is_admin_bar_showing() or !is_super_admin() ) {
 return;
 }
 $wp_admin_bar->add_menu(
@@ -351,7 +351,7 @@ if ( empty($url) ) {
 $url = esc_url_raw(
 sprintf(
 '%s://%s%s',
-(is_ssl() ? 'https' : 'http'),
+( is_ssl() ? 'https' : 'http' ),
 $_SERVER['HTTP_HOST'],
 $_SERVER['REQUEST_URI']
 )
@@ -512,7 +512,7 @@ function add_page()
 {
 add_options_page(
 'Cachify',
-'<img src="' .plugins_url('cachify/img/icon.png'). '" alt="Cachify" />Cachify',
+'<span id="cachify_sidebar_icon"></span>Cachify',
 'manage_options',
 'cachify',
 array(
