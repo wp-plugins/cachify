@@ -266,7 +266,8 @@ $wp_admin_bar->add_menu(
 array(
 'id'=> 'cachify',
 'title' => '<span class="ab-icon"></span><span class="ab-label">Cache leeren</span>',
-'href'=> add_query_arg('_cachify', 'flush')
+'href'=> add_query_arg('_cachify', 'flush'),
+'parent' => 'top-secondary'
 )
 );
 }
