@@ -451,13 +451,13 @@ if ( empty($data) ) {
 return '';
 }
 $options = get_option('cachify');
-$lifetime = (int)$options['cache_expires'];
+$lifetime = 60 * 60 * (int)$options['cache_expires'];
 $hash = self::_cache_hash();
 if ( self::_apc_active() ) {
 apc_store(
 $hash,
 gzencode( self::_sanitize_cache($data) . self::_apc_signatur(), 6 ),
-( $lifetime ? $lifetime * 60 : 0 )
+$lifetime
 );
 return $data;
 }
@@ -470,7 +470,7 @@ array(
 'memory'=> self::_memory_usage(),
 'time'=> current_time('timestamp')
 ),
-60 * 60 * $lifetime
+$lifetime
 );
 return $data;
 }
