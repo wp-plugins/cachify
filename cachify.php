@@ -169,7 +169,8 @@ array(
 'compress_html'=> 0,
 'cache_expires'=> 12,
 'without_ids'=> '',
-'without_agents' => ''
+'without_agents' => '',
+'use_apc'=> 0
 ),
 '',
 'no'
