@@ -513,7 +513,7 @@ ob_start('Cachify::set_cache');
 private static function _apc_active()
 {
 $options = get_option('cachify');
-return ( $options['use_apc'] && function_exists('apc_fetch') );
+return ( !empty($options['use_apc']) && function_exists('apc_fetch') );
 }
 private static function _apc_signatur()
 {
