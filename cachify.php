@@ -4,8 +4,8 @@ Plugin Name: Cachify
 Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabfragen und dynamischer Anweisungen. Minimiert Ladezeiten der Blogseiten.
 Author: Sergej M&uuml;ller
 Author URI: http://wpseo.de
-Plugin URI: http://playground.ebiene.de/2652/cachify-wordpress-cache/
-Version: 1.2.1
+Plugin URI: http://playground.ebiene.de/cachify-wordpress-cache/
+Version: 1.3
 */
 
 
@@ -191,7 +191,8 @@ switch_to_blog($old);
 self::_uninstall_backend();
 }
 }
-public static function uninstall_later($id) {
+public static function uninstall_later($id)
+{
 global $wpdb;
 if ( !is_plugin_active_for_network(self::$base) ) {
 return;
@@ -248,24 +249,21 @@ $data = array_merge(
 $data,
 array(
 '<a href="http://flattr.com/thing/114377/Cachify-Handliches-Cache-Plugin-fur-WordPress" target="_blank">Plugin flattern</a>',
-'<a href="https://plus.google.com/110569673423509816572" target="_blank">Auf Google+ folgen</a>',
-sprintf(
-'<a href="%s">Cache leeren</a>',
-add_query_arg('_cachify', 'flush', 'plugins.php')
-)
+'<a href="https://plus.google.com/110569673423509816572" target="_blank">Auf Google+ folgen</a>'
 )
 );
 }
 return $data;
 }
-public static function add_menu( $wp_admin_bar ) {
+public static function add_menu( $wp_admin_bar )
+{
 if ( !function_exists('is_admin_bar_showing') or !is_admin_bar_showing() or !is_super_admin() ) {
 return;
 }
 $wp_admin_bar->add_menu(
 array(
 'id'=> 'cachify',
-'title' => '<span class="ab-icon"></span><span class="ab-label">Cache leeren</span>',
+'title'=> '<span class="ab-icon"></span><span class="ab-label">Cache leeren</span>',
 'href'=> add_query_arg('_cachify', 'flush'),
 'parent' => 'top-secondary'
 )
@@ -303,7 +301,8 @@ __CLASS__,
 );
 }
 }
-public static function flush_notice() {
+public static function flush_notice()
+{
 if ( !is_super_admin() ) {
 return false;
 }
@@ -348,17 +347,9 @@ self::flush_cache();
 }
 private static function _cache_hash($url = '')
 {
-if ( empty($url) ) {
-$url = esc_url_raw(
-sprintf(
-'%s://%s%s',
-( is_ssl() ? 'https' : 'http' ),
-$_SERVER['HTTP_HOST'],
-$_SERVER['REQUEST_URI']
-)
+return 'cachify_' .md5(
+empty($url) ? ( $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) : ( parse_url($url, PHP_URL_HOST) . parse_url($url, PHP_URL_PATH) )
 );
-}
-return 'cachify_' .md5($url);
 }
 private static function _page_queries()
 {
@@ -412,7 +403,7 @@ return($data);
 }
 $cleaned = preg_replace(
 array(
-'/<!--[^\[](.|\s)*?-->/s',
+'/\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>/',
 '/\>(\s)+(\S)/s',
 '/\>[^\S ]+/s',
 '/[^\S ]+\</s',
@@ -438,36 +429,57 @@ return($cleaned);
 }
 private static function _delete_cache($url)
 {
-delete_transient(
-self::_cache_hash($url)
-);
+$hash = self::_cache_hash($url);
+if ( self::_apc_active() ) {
+apc_delete($hash);
+} else {
+delete_transient($hash);
+}
 }
 public static function flush_cache()
 {
 $GLOBALS['wpdb']->query("DELETE FROM `" .$GLOBALS['wpdb']->options. "` WHERE `option_name` LIKE ('_transient%_cachify_%')");
 $GLOBALS['wpdb']->query("OPTIMIZE TABLE `" .$GLOBALS['wpdb']->options. "`");
+if ( self::_apc_active() ) {
+apc_clear_cache('user');
+}
 }
 public static function set_cache($data)
 {
+if ( empty($data) ) {
+return '';
+}
 $options = get_option('cachify');
-if ( !empty($data) ) {
+$lifetime = (int)$options['cache_expires'];
+$hash = self::_cache_hash();
+if ( self::_apc_active() ) {
+apc_store(
+$hash,
+gzencode( self::_sanitize_cache($data) . self::_apc_signatur(), 6 ),
+( $lifetime ? $lifetime * 60 : 0 )
+);
+return $data;
+}
 set_transient(
-self::_cache_hash(),
+$hash,
 array(
 'data'=> self::_sanitize_cache($data),
-'queries'=> self::_page_queries(),
+'queries' => self::_page_queries(),
 'timer'=> self::_page_timer(),
 'memory'=> self::_memory_usage(),
 'time'=> current_time('timestamp')
 ),
-60 * 60 * (int)$options['cache_expires']
+60 * 60 * $lifetime
 );
-}
 return $data;
 }
 public static function manage_cache()
 {
 if ( self::_skip_cache() ) {
+return;
+}
+if ( self::_apc_active() ) {
+ob_start('Cachify::set_cache');
 return;
 }
 if ( $cache = get_transient(self::_cache_hash()) ) {
@@ -498,7 +510,21 @@ exit;
 }
 ob_start('Cachify::set_cache');
 }
-function add_css()
+private static function _apc_active()
+{
+$options = get_option('cachify');
+return ( $options['use_apc'] && function_exists('apc_fetch') );
+}
+private static function _apc_signatur()
+{
+return sprintf(
+"\n\n<!-- %s\n%s %s -->",
+'Cachify für WordPress | http://bit.ly/cachify',
+'Methode: APC | Generiert:',
+date_i18n('d.m.Y H:i:s', (current_time('timestamp')))
+);
+}
+public static function add_css()
 {
 $data = get_plugin_data(__FILE__);
 wp_register_style(
@@ -509,7 +535,7 @@ $data['Version']
 );
 wp_enqueue_style('cachify_css');
 }
-function add_page()
+public static function add_page()
 {
 add_options_page(
 'Cachify',
@@ -522,13 +548,14 @@ __CLASS__,
 )
 );
 }
-function help_link($anchor) {
+private static function _help_link($anchor)
+{
 echo sprintf(
-'<span>[<a href="http://playground.ebiene.de/2652/cachify-wordpress-cache/#%s" target="_blank">?</a>]</span>',
+'<span>[<a href="http://playground.ebiene.de/cachify-wordpress-cache/#%s" target="_blank">?</a>]</span>',
 $anchor
 );
 }
-function register_settings()
+public static function register_settings()
 {
 register_setting(
 'cachify',
@@ -547,7 +574,8 @@ return array(
 'compress_html'=> (int)(!empty($data['compress_html'])),
 'cache_expires'=> (int)(@$data['cache_expires']),
 'without_ids'=> (string)sanitize_text_field(@$data['without_ids']),
-'without_agents' => (string)sanitize_text_field(@$data['without_agents'])
+'without_agents' => (string)sanitize_text_field(@$data['without_agents']),
+'use_apc'=> (int)(!empty($data['use_apc']))
 );
 }
 public static function options_page()
@@ -563,7 +591,7 @@ Cachify
 <table class="form-table">
 <tr>
 <th>
-Cache-Gültigkeit in Stunden <?php self::help_link('cache_expires') ?>
+Cache-Gültigkeit in Stunden <?php self::_help_link('cache_expires') ?>
 </th>
 <td>
 <input type="text" name="cachify[cache_expires]" value="<?php echo $options['cache_expires'] ?>" />
@@ -571,7 +599,7 @@ Cache-Gültigkeit in Stunden <?php self::help_link('cache_expires') ?>
 </tr>
 <tr>
 <th>
-Ausnahme für (Post/Pages) IDs <?php self::help_link('without_ids') ?>
+Ausnahme für (Post/Pages) IDs <?php self::_help_link('without_ids') ?>
 </th>
 <td>
 <input type="text" name="cachify[without_ids]" value="<?php echo $options['without_ids'] ?>" />
@@ -579,7 +607,7 @@ Ausnahme für (Post/Pages) IDs <?php self::help_link('without_ids') ?>
 </tr>
 <tr>
 <th>
-Ausnahme für User Agents <?php self::help_link('without_agents') ?>
+Ausnahme für User Agents <?php self::_help_link('without_agents') ?>
 </th>
 <td>
 <input type="text" name="cachify[without_agents]" value="<?php echo $options['without_agents'] ?>" />
@@ -587,7 +615,7 @@ Ausnahme für User Agents <?php self::help_link('without_agents') ?>
 </tr>
 <tr>
 <th>
-Komprimierung der Ausgabe <?php self::help_link('compress_html') ?>
+Komprimierung der Ausgabe <?php self::_help_link('compress_html') ?>
 </th>
 <td>
 <input type="checkbox" name="cachify[compress_html]" value="1" <?php checked('1', $options['compress_html']); ?> />
@@ -595,12 +623,22 @@ Komprimierung der Ausgabe <?php self::help_link('compress_html') ?>
 </tr>
 <tr>
 <th>
-Nur für nicht eingeloggte Nutzer <?php self::help_link('only_guests') ?>
+Nur für nicht eingeloggte Nutzer <?php self::_help_link('only_guests') ?>
 </th>
 <td>
 <input type="checkbox" name="cachify[only_guests]" value="1" <?php checked('1', $options['only_guests']); ?> />
 </td>
 </tr>
+<?php if ( function_exists('apc_fetch') ) { ?>
+<tr>
+<th>
+APC (Alternative PHP Cache) nutzen <?php self::_help_link('use_apc') ?>
+</th>
+<td>
+<input type="checkbox" name="cachify[use_apc]" value="1" <?php checked('1', $options['use_apc']); ?> />
+</td>
+</tr>
+<?php } ?>
 </table>
 <p class="submit">
 <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />

@@ -14,7 +14,8 @@ Simple und effiziente Cache-Lösung für WordPress.
 Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form in der Datenbank abgelegt und beim Seitenaufruf direkt ausgegeben werden. Dabei wird die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert.
 
 = Einige Stärken =
-* NEU: Adminbar-Schaltfläche "Cache leeren"
+* NEU: APC-Support für perfekten Cache
+* Adminbar-Schaltfläche "Cache leeren"
 * Einfache Installation: Aktivieren, fertig
 * Übersichtliche Optionsseite mit verknüpfter Online-Hilfe
 * Optionale Komprimierung der HTML-Ausgabe
@@ -25,7 +26,7 @@ Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer
 * Ausgabe der "davor, danach" Informationen im Quelltext
 
 = Wichtige Information =
-Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify WordPress Cache") durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen des Cache-Tools zu vermeiden!
+Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify WordPress Cache") durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen des Cache-Tools zu vermeiden!
 
 = Weiterführende Links =
 * [Google+](https://plus.google.com/110569673423509816572 "Google+")
@@ -33,6 +34,11 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 
 
 == Changelog ==
+
+= 1.3 =
+* Unterstützung für APC (Alternative PHP Cache)
+* Umpositionierung des Admin Bar Buttons
+
 
 = 1.2.1 =
 * Icon für die "Cache leeren" Schaltfläche in der Admin Bar
@@ -90,5 +96,5 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 
 == Installation ==
 1. *Cachify* installieren
-1. [Dokumentation](http://playground.ebiene.de/2652/cachify-wordpress-cache/ "Cachify WordPress Cache") beachten
+1. [Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify WordPress Cache") beachten
 1. Einstellungen vornehmen
