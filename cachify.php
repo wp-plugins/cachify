@@ -479,11 +479,14 @@ public static function manage_cache()
 if ( self::_skip_cache() ) {
 return;
 }
+$hash = self::_cache_hash();
 if ( self::_apc_active() ) {
+if ( !apc_exists($hash) ) {
 ob_start('Cachify::set_cache');
+}
 return;
 }
-if ( $cache = get_transient(self::_cache_hash()) ) {
+if ( $cache = get_transient($hash) ) {
 if ( !empty($cache['data']) ) {
 echo $cache['data'];
 echo sprintf(
@@ -514,14 +517,14 @@ ob_start('Cachify::set_cache');
 private static function _apc_active()
 {
 $options = get_option('cachify');
-return ( !empty($options['use_apc']) && function_exists('apc_fetch') );
+return ( !empty($options['use_apc']) && extension_loaded('apc') );
 }
 private static function _apc_signatur()
 {
 return sprintf(
 "\n\n<!-- %s\n%s %s -->",
-'Cachify für WordPress | http://bit.ly/cachify',
-'Methode: APC | Generiert:',
+'Cachify | http://bit.ly/cachify',
+'APC Cache @',
 date_i18n('d.m.Y H:i:s', (current_time('timestamp')))
 );
 }
