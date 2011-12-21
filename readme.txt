@@ -1,34 +1,34 @@
 === Cachify ===
 Contributors: sergej.mueller
-Tags: performance,caching,cache,apc
+Tags: apc, cache, caching, performance
 Donate link: http://flattr.com/profile/sergej.mueller
 Requires at least: 3.0
 Tested up to: 3.3
 Stable tag: trunk
 
-Simple und effiziente Cache-Lösung für WordPress.
+
+Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs Wesentliche. Empfehlenswert für CMS-Seiten.
 
 
 == Description ==
 = Unkompliziert und ausbaufähig =
-Cachify optimiert die Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form in der Datenbank abgelegt und beim Seitenaufruf direkt ausgegeben werden. Dabei wird die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert.
+*Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form in der Datenbank abgelegt und beim Seitenaufruf direkt ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich um ein Vielfaches.
 
-= Einige Stärken =
-* NEU: APC-Support für perfekten Cache
-* Adminbar-Schaltfläche "Cache leeren"
-* Einfache Installation: Aktivieren, fertig
-* Übersichtliche Optionsseite mit verknüpfter Online-Hilfe
+= Stärken =
+* Unterstützung für Alternative PHP Cache (APC)
+* *Cache leeren* in der Admin Bar
+* Trviale Installation begleitet vom Online-Handbuch
 * Optionale Komprimierung der HTML-Ausgabe
-* Ausnahmelisten für PostIDs und User Agents
+* Ausnahmelisten für Beiträge und User Agents
 * Bis zu 80 % weniger DB-Anfragen
 * Bis zu 60 % schnellere Ausführungszeiten
 * Manueller und automatischer Cache-Reset
 * Ausgabe der "davor, danach" Informationen im Quelltext
 
-= Wichtige Information =
-Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify WordPress Cache") durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen zu vermeiden.
+= Information =
+Vor der Inbetriebnahme ist die [Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify WordPress Cache") durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen zu vermeiden.
 
-= Weiterführende Links =
+= Autor =
 * [Google+](https://plus.google.com/110569673423509816572 "Google+")
 * [Portfolio](http://ebiene.de "Portfolio")
 
@@ -38,7 +38,6 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 = 1.3 =
 * Unterstützung für APC (Alternative PHP Cache)
 * Umpositionierung des Admin Bar Buttons
-
 
 = 1.2.1 =
 * Icon für die "Cache leeren" Schaltfläche in der Admin Bar
@@ -91,10 +90,4 @@ Vor der Inbetriebnahme des Plugins ist die [Dokumentation](http://playground.ebi
 
 == Screenshots ==
 
-1. Cachify Optionsseite
-
-
-== Installation ==
-1. *Cachify* installieren
-1. [Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify WordPress Cache") beachten
-1. Einstellungen vornehmen
+1. Cachify Optionen
