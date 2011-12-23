@@ -20,7 +20,7 @@ Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs
 = Stärken =
 * Unterstützung für APC (Alternative PHP Cache)
 * "Cache leeren" in der Admin Bar
-* Trviale Installation begleitet vom Online-Handbuch
+* Triviale Installation begleitet vom Online-Handbuch
 * Optionale Komprimierung der HTML-Ausgabe
 * Ausnahmelisten für Beiträge und User Agents
 * Bis zu 80 % weniger DB-Anfragen
