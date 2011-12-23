@@ -7,16 +7,19 @@ Tested up to: 3.3
 Stable tag: trunk
 
 
+
 Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs Wesentliche. Empfehlenswert für CMS-Seiten.
 
 
+
 == Description ==
+
 = Unkompliziert und ausbaufähig =
 *Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form in der Datenbank abgelegt und beim Seitenaufruf direkt ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich um ein Vielfaches.
 
 = Stärken =
-* Unterstützung für Alternative PHP Cache (APC)
-* *Cache leeren* in der Admin Bar
+* Unterstützung für APC (Alternative PHP Cache)
+* "Cache leeren" in der Admin Bar
 * Trviale Installation begleitet vom Online-Handbuch
 * Optionale Komprimierung der HTML-Ausgabe
 * Ausnahmelisten für Beiträge und User Agents
@@ -25,15 +28,19 @@ Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs
 * Manueller und automatischer Cache-Reset
 * Ausgabe der "davor, danach" Informationen im Quelltext
 
-= Information =
-Vor der Inbetriebnahme ist die [Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify WordPress Cache") durchzulesen, um eine inkorrekte Funktionsweise und negative Auswirkungen zu vermeiden.
+= Dokumentation =
+* [Cachify WordPress Cache](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify WordPress Cache")
 
 = Autor =
 * [Google+](https://plus.google.com/110569673423509816572 "Google+")
 * [Portfolio](http://ebiene.de "Portfolio")
 
 
+
 == Changelog ==
+
+= 1.4 =
+* Xmas Edition
 
 = 1.3 =
 * Unterstützung für APC (Alternative PHP Cache)
@@ -86,6 +93,7 @@ Vor der Inbetriebnahme ist die [Dokumentation](http://playground.ebiene.de/cachi
 
 = 0.6 =
 * Live auf wordpress.org
+
 
 
 == Screenshots ==

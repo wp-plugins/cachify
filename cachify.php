@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Anzahl der Datenbankabf
 Author: Sergej M&uuml;ller
 Author URI: http://wpseo.de
 Plugin URI: http://playground.ebiene.de/cachify-wordpress-cache/
-Version: 1.3
+Version: 1.4
 */
 
 

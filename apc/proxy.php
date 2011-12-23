@@ -8,7 +8,8 @@ if (
 	header('Vary: Accept-Encoding');
 	header('X-Powered-By: Cachify');
 	header('Content-Encoding: gzip');
-	header('Content-Length: '.strlen($cache)); 
+	header('Content-Length: '.strlen($cache));
+	header('Content-Type: text/html; charset=utf-8');
 
     echo $cache;
     exit;
