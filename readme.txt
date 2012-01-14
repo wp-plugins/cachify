@@ -39,6 +39,11 @@ Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs
 
 == Changelog ==
 
+= 1.5 =
+* Überarbeitung des Regexp für HTML-Minify
+* Reduzierung des Toolbar-Buttons auf das Icon
+* Formatierung und Kommentierung des Quelltextes
+
 = 1.4 =
 * Xmas Edition
 
