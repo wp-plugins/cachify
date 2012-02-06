@@ -39,6 +39,9 @@ Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs
 
 == Changelog ==
 
+= 1.5.1 =
+* `zlib.output_compression = Off` für Apache Webserver
+
 = 1.5 =
 * Überarbeitung des Regexp für HTML-Minify
 * Reduzierung des Toolbar-Buttons auf das Icon
