@@ -2,34 +2,36 @@
 Contributors: sergej.mueller
 Tags: apc, cache, caching, performance
 Donate link: http://flattr.com/profile/sergej.mueller
-Requires at least: 3.0
-Tested up to: 3.3
+Requires at least: 3.1
+Tested up to: 3.4
 Stable tag: trunk
 
 
 
-Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs Wesentliche. Empfehlenswert für CMS-Seiten.
+Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs Wesentliche.
 
 
 
 == Description ==
 
 = Unkompliziert und ausbaufähig =
-*Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form in der Datenbank abgelegt und beim Seitenaufruf direkt ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich um ein Vielfaches.
+*Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form wahlweise in der Datenbank, auf der Festplatte des Webservers oder im APC (Alternative PHP Cache) abgelegt und beim Seitenaufruf ohne Umwege ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich je nach Methode um Faktor 10.
 
 = Stärken =
-* Unterstützung für APC (Alternative PHP Cache)
+* Speicherungsmethoden: DB, HDD und APC
 * "Cache leeren" in der Admin Bar
-* Triviale Installation begleitet vom Online-Handbuch
+* Inline- und Online-Handbuch
 * Optionale Komprimierung der HTML-Ausgabe
 * Ausnahmelisten für Beiträge und User Agents
-* Bis zu 80 % weniger DB-Anfragen
-* Bis zu 60 % schnellere Ausführungszeiten
 * Manueller und automatischer Cache-Reset
 * Ausgabe der "davor, danach" Informationen im Quelltext
+* Verständliche Oberfläche zum Sofortstart
+* Automatisches Management des Cache-Bestandes
+* Cache-Belegung auf dem Dashboard
 
-= Dokumentation =
-* [Cachify WordPress Cache](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify WordPress Cache")
+= Information =
+* [Offizielle Homepage](http://cachify.de "Cachify WordPress Cache")
+* [Online-Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify Online-Doku")
 
 = Autor =
 * [Google+](https://plus.google.com/110569673423509816572 "Google+")
@@ -38,6 +40,18 @@ Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs
 
 
 == Changelog ==
+
+= 2.0 =
+* Überarbeitung der GUI
+* Source Code-Modularisierung
+* Cache-Größe auf dem Dashboard
+* Festplatte als Ablageort für Cache
+* Mindestanforderungen: WordPress 3.1
+* Produktseite online: http://cachify.de
+* Cache-Neuaufbau bei Kommentarstatusänderungen
+* APC-Anforderungen: APC 3.0.0, empfohlen 3.1.4
+* Optional: Kein Cache für kommentierende Nutzer
+* Schnellübersicht der Optionen als Inline-Hilfe
 
 = 1.5.1 =
 * `zlib.output_compression = Off` für Apache Webserver

@@ -1,3 +1,12 @@
+/* @group Icon */
+
+#icon-cachify {
+	background: url('../img/icon32.png') no-repeat;
+}
+
+/* @end group */
+
+
 /* @group Sidebar */
 
 #cachify_sidebar_icon {
@@ -27,21 +36,58 @@
 
 /* @group GUI */
 
-#icon-cachify {
-	background: url(../img/icon32.png) no-repeat;
+#cachify_main .table {
+	width: 460px;
+	height: 1%;
+	margin: 20px 0 0;
+	padding: 0 0 5px;
+	overflow: hidden;
+	border: 1px solid #DFDFDF;
+}
+#cachify_main .form-table {
+	margin: 0;
+}
+#cachify_main .form-table th {
+	width: 230px;
+	vertical-align: middle;
+}
+#cachify_main .form-table th small {
+	color: #8F8F8F;
+	display: block;
+	text-shadow: none;
+}
+#cachify_main .form-table caption {
+	width: 100%;
+	color: #8F8F8F;
+	margin: 0 0 5px;
+	background: whiteSmoke;
+	line-height: 20px;
+	text-shadow: 1px 1px #FFF;
+}
+#cachify_main .rounded {
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 
-#cachify_main .form-table th {
-	width: 220px;
-	line-height: 26px;
+#cachify_main input,
+#cachify_main select {
+	width: 172px;
 }
-#cachify_main .form-table th span {
+#cachify_main input.small {
+	width: 50px;
+}
+#cachify_main .submit {
+	width: 460px;
+	height: 1%;
+	overflow: hidden;
+}
+#cachify_main .help {
+	float: right;
+	color: #bebebe;
 	font-size: 11px;
-	white-space: nowrap;
-}
-#cachify_main .form-table th span a {
-	padding: 0 1px;
-	text-decoration: none;
+	text-align: right;
+	line-height: 11px;
 }
 
 /* @end group */
