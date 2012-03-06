@@ -17,10 +17,18 @@ if ( !class_exists('WP') ) {
 
 /* Filter */
 if ( ! ( (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) or (defined('DOING_CRON') && DOING_CRON) ) ) {
+	/* PHP-Check */
+	if ( ! function_exists('spl_autoload_register') ) {
+		wp_die('Cachify benötigt mindestens PHP 5.1.2');
+	}
+	
 	/* Konstanten */
 	define('CACHIFY_FILE', __FILE__);
 	define('CACHIFY_BASE', plugin_basename(__FILE__));
 	define('CACHIFY_CACHE_DIR', WP_CONTENT_DIR . '/cache/cachify');
+	
+	/* Autoload */
+	spl_autoload_register('cachify_autoload');
 	
 	/* Init */
 	add_action(
@@ -52,7 +60,7 @@ if ( ! ( (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) or (defined('DOING_CRON')
 
 
 /* Autoload */
-function __autoload($class) {
+function cachify_autoload($class) {
 	if ( in_array($class, array('Cachify', 'Cachify_APC', 'Cachify_DB', 'Cachify_HDD')) ) {
 		require_once(
 			sprintf(

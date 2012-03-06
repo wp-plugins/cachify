@@ -46,12 +46,12 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 * Source Code-Modularisierung
 * Cache-Größe auf dem Dashboard
 * Festplatte als Ablageort für Cache
-* Mindestanforderungen: WordPress 3.1
 * Produktseite online: http://cachify.de
 * Cache-Neuaufbau bei Kommentarstatusänderungen
 * APC-Anforderungen: APC 3.0.0, empfohlen 3.1.4
 * Optional: Kein Cache für kommentierende Nutzer
 * Schnellübersicht der Optionen als Inline-Hilfe
+* Mindestanforderungen: WordPress 3.1 & PHP 5.1.2
 
 = 1.5.1 =
 * `zlib.output_compression = Off` für Apache Webserver
