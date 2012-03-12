@@ -245,7 +245,7 @@ final class Cachify_HDD {
 	
 	
 	/**
-	* Ermittlugn der Ordnergröße
+	* Ermittlung der Ordnergröße
 	*
 	* @since   2.0
 	* @change  2.0

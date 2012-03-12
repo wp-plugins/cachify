@@ -32,7 +32,7 @@ final class Cachify {
 	* Initialisierung des Plugins
 	*
 	* @since   1.0
-	* @change  2.0
+	* @change  2.0.1
 	*/
 
   	public static function init()
@@ -40,7 +40,14 @@ final class Cachify {
 		/* Variablen */
 		self::_set_vars();
 		
-		/* Publish post */
+		/* Publish Single */
+		add_action(
+			'publish_future_post',
+			array(
+				__CLASS__,
+				'publish_post'
+			)
+		);
 		add_action(
 			'publish_post',
 			array(
@@ -48,8 +55,6 @@ final class Cachify {
 				'publish_post'
 			)
 		);
-
-		/* Publish page */
 		add_action(
 			'publish_page',
 			array(
@@ -876,17 +881,17 @@ final class Cachify {
 
 
 	/**
-	* Komprimierung des HTML-Codes
+	* Minimierung des HTML-Codes
 	*
 	* @since   0.9.2
-	* @change  1.2.1
+	* @change  2.0.1
 	*
-	* @param   string  $data  Zu komprimierende Datensatz
-	* @return  string  $data  Komprimierter Datensatz
+	* @param   string  $data  Zu minimierender Datensatz
+	* @return  string  $data  Minimierter Datensatz
 	*/
 
 	private static function _minify_cache($data) {
-		/* Komprimieren? */
+		/* Minimierung? */
 		if ( !self::$options['compress_html'] ) {
 			return($data);
 		}
@@ -1116,7 +1121,7 @@ final class Cachify {
 							 	'<li><em>Cache-Gültigkeit in Stunden</em><br />'.
 							 	'Gültigkeitsdauer der Aufbewahrung von Cache-Inhalten. Keine Verwendung bei <em>Festplatte</em> als Caching-Methode. <em>0</em> = <em>unbegrenzt</em></li>'.
 							 	
-							 	'<li><em>Komprimierung der Ausgabe</em><br />'.
+							 	'<li><em>Minimierung der Ausgabe</em><br />'.
 							 	'Durch die Entfernung von HTML-Kommentaren und Umbrüchen im Quelltext der Blogseiten kann die Ausgabegröße reduziert und die Übertragung beschleunigt werden. In Fehlerfällen ist die Option zu deaktivieren.</li>'.
 							 '</ul>'
 			)
@@ -1302,7 +1307,7 @@ final class Cachify {
 						
 						<tr>
 							<th>
-								Komprimierung der Ausgabe
+								Minimierung der Ausgabe
 							</th>
 							<td>
 								<input type="checkbox" name="cachify[compress_html]" value="1" <?php checked('1', $options['compress_html']); ?> />

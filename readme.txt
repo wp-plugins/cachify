@@ -41,6 +41,11 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 
 == Changelog ==
 
+= 2.0.1 =
+* Verbesserter Autoload-Prozess
+* Diverse Umbenennungen der Optionen
+* Cache-Neuaufbau bei geplanten Beiträgen (Cachify DB)
+
 = 2.0 =
 * Überarbeitung der GUI
 * Source Code-Modularisierung

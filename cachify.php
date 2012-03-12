@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Ladezeit der Blogseiten
 Author: Sergej M&uuml;ller
 Author URI: http://wpseo.de
 Plugin URI: http://cachify.de
-Version: 2.0
+Version: 2.0.1
 */
 
 
@@ -16,19 +16,19 @@ if ( !class_exists('WP') ) {
 
 
 /* Filter */
-if ( ! ( (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) or (defined('DOING_CRON') && DOING_CRON) ) ) {
+if ( ! (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) ) {
 	/* PHP-Check */
 	if ( ! function_exists('spl_autoload_register') ) {
 		wp_die('Cachify benötigt mindestens PHP 5.1.2');
 	}
 	
+	/* Autoload */
+	spl_autoload_register('cachify_autoload');
+	
 	/* Konstanten */
 	define('CACHIFY_FILE', __FILE__);
 	define('CACHIFY_BASE', plugin_basename(__FILE__));
-	define('CACHIFY_CACHE_DIR', WP_CONTENT_DIR . '/cache/cachify');
-	
-	/* Autoload */
-	spl_autoload_register('cachify_autoload');
+	define('CACHIFY_CACHE_DIR', WP_CONTENT_DIR. '/cache/cachify');
 	
 	/* Init */
 	add_action(
