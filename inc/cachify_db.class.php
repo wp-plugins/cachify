@@ -116,11 +116,18 @@ final class Cachify_DB {
 	* Ausgabe des Cache
 	*
 	* @since   2.0
-	* @change  2.0
+	* @change  2.0.2
+	* 
+	* @param   array  $cache  Array mit Cache-Werten
 	*/
 	
-	public static function print_cache(array $cache)
+	public static function print_cache($cache)
 	{
+		/* Kein Array? */
+		if ( ! is_array($cache) ) {
+			return;
+		}
+		
 		/* Content */
 		echo $cache['data'];
 
@@ -159,14 +166,19 @@ final class Cachify_DB {
 	* Generierung der Signatur
 	*
 	* @since   2.0
-	* @change  2.0
+	* @change  2.0.2
 	*
 	* @param   array   $meta  Inhalt der Metadaten
 	* @return  string  $diff  Signatur als String
 	*/
 	
-	private static function _cache_signatur(array $meta)
+	private static function _cache_signatur($meta)
 	{
+		/* Kein Array? */
+		if ( ! is_array($meta) ) {
+			return;
+		}
+		
 		return sprintf(
 			"\n\n<!--\n%s\n%s\n%s\n%s\n-->",
 			'Cachify | http://bit.ly/cachify',

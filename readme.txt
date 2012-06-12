@@ -1,7 +1,7 @@
 === Cachify ===
 Contributors: sergej.mueller
 Tags: apc, cache, caching, performance
-Donate link: http://flattr.com/profile/sergej.mueller
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5RDDW9FEHGLG6
 Requires at least: 3.1
 Tested up to: 3.4
 Stable tag: trunk
@@ -19,7 +19,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 
 = Stärken =
 * Speicherungsmethoden: DB, HDD und APC
-* "Cache leeren" in der Admin Bar
+* "Cache leeren" als Schaltfläche in der Admin Bar
 * Inline- und Online-Handbuch
 * Optionale Komprimierung der HTML-Ausgabe
 * Ausnahmelisten für Beiträge und User Agents
@@ -27,19 +27,33 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 * Ausgabe der "davor, danach" Informationen im Quelltext
 * Verständliche Oberfläche zum Sofortstart
 * Automatisches Management des Cache-Bestandes
-* Cache-Belegung auf dem Dashboard
+* Anzeige der Cache-Belegung auf dem Dashboard
+* Deutschsprachige Benutzeroberfläche
+* Konfigurationseinstellungen für Apache- und Nginx-Server
 
-= Information =
+= Systemvoraussetzungen =
+* WordPress ab 3.1
+* PHP ab 5.1.2
+* APC ab 3.1.4 (falls installiert)
+
+= Informationen =
 * [Offizielle Homepage](http://cachify.de "Cachify WordPress Cache")
 * [Online-Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify Online-Doku")
 
 = Autor =
 * [Google+](https://plus.google.com/110569673423509816572 "Google+")
+* [Plugins](http://wpcoder.de "Plugins")
 * [Portfolio](http://ebiene.de "Portfolio")
 
 
 
 == Changelog ==
+
+= 2.0.2 =
+* Unterstützung für WordPress 3.4
+* Hochauflösende Icons für iPad & Co.
+* Anpassungen für ältere PHP5-Versionen
+* Entfernung des Plugin-Icons aus der Sidebar
 
 = 2.0.1 =
 * Verbesserter Autoload-Prozess

@@ -452,8 +452,7 @@ final class Cachify {
 		return array_merge(
 			$data,
 			array(
-				'<a href="http://flattr.com/profile/sergej.mueller" target="_blank">Plugin flattern</a>',
-				'<a href="https://plus.google.com/110569673423509816572" target="_blank">Auf Google+ folgen</a>'
+				'<a href="http://wpcoder.de" target="_blank">Weitere Plugins des Autors</a>'
 			)
 		);
 	}
@@ -1064,14 +1063,14 @@ final class Cachify {
 	* Einfügen der Optionsseite
 	*
 	* @since   1.0
-	* @change  2.0
+	* @change  2.0.2
 	*/
 
 	public static function add_page()
 	{
 		$page = add_options_page(
 			'Cachify',
-			'<span id="cachify_sidebar_icon"></span>Cachify',
+			'Cachify',
 			'manage_options',
 			'cachify',
 			array(
@@ -1095,7 +1094,7 @@ final class Cachify {
 	* Hilfe-Tab oben rechts
 	*
 	* @since   2.0
-	* @change  2.0
+	* @change  2.0.2
 	*/
 	
 	public static function add_help()
@@ -1115,14 +1114,14 @@ final class Cachify {
 				'title'	  => 'Einstellungen',
 				'content' => '<p>Bereitgestellte Einstellungen in Schnellübersicht:</p>'.
 							 '<ul>'.
-							 	'<li><em>Aufbewahrungsort für Cache</em><br />'.
-							 	'Je nach Verfügbarkeit stehen 3 Methoden der Cache-Speicherung zur Nutzung bereit: <em>Datenbank</em>, <em>APC</em>, <em>Festplatte</em>. Die Standard-Einstellung ist <em>Datenbank</em> - Cache-Inhalte werden dabei in der WordPress-Datenbank abgelegt und dort verwaltet. <em>APC</em> (Alternative PHP Cache) kann bei installiertem APC-PHP-Modul ausgewählt und verwendet werden. <em>Festplatte</em> als Methode ist erst bei eingeschalteten WordPress-Permalinks nutzbar. Bei der Auswahl <em>Festplatte</em> und <em>APC</em> sind Anpassungen in der Datei <em>.htaccess</em> / <em>nginx.conf</em> notwendig.</li>'.
+							 	'<li><strong>Aufbewahrungsort für Cache</strong><br />'.
+							 	'Je nach Verfügbarkeit stehen 3 Methoden der Cache-Speicherung zur Nutzung bereit: <em>Datenbank</em>, <em>APC</em>, <em>Festplatte</em>. Die Standard-Einstellung ist <em>Datenbank</em> - Cache-Inhalte werden dabei in der WordPress-Datenbank abgelegt und dort verwaltet. <em>APC</em> (Alternative PHP Cache) kann bei installiertem APC-PHP-Modul ausgewählt und verwendet werden. <em>Festplatte</em> als Methode ist erst bei eingeschalteten WordPress-Permalinks nutzbar. Bei der Auswahl <em>Festplatte</em> und <em>APC</em> sind Anpassungen in der Datei <em>.htaccess</em> / <em>nginx.conf</em> notwendig (siehe Online-Dokumentation).</li>'.
 							 	
-							 	'<li><em>Cache-Gültigkeit in Stunden</em><br />'.
+							 	'<li><strong>Cache-Gültigkeit in Stunden</strong><br />'.
 							 	'Gültigkeitsdauer der Aufbewahrung von Cache-Inhalten. Keine Verwendung bei <em>Festplatte</em> als Caching-Methode. <em>0</em> = <em>unbegrenzt</em></li>'.
 							 	
-							 	'<li><em>Minimierung der Ausgabe</em><br />'.
-							 	'Durch die Entfernung von HTML-Kommentaren und Umbrüchen im Quelltext der Blogseiten kann die Ausgabegröße reduziert und die Übertragung beschleunigt werden. In Fehlerfällen ist die Option zu deaktivieren.</li>'.
+							 	'<li><strong>Minimierung der Ausgabe</strong><br />'.
+							 	'Durch die Entfernung von HTML-Kommentaren und Umbrüchen im Quelltext der Blogseiten kann die Ausgabegröße reduziert und die Übertragung der Daten zum Browser beschleunigt werden. In Fehlerfällen ist die Option zu deaktivieren.</li>'.
 							 '</ul>'
 			)
 		);
@@ -1132,13 +1131,13 @@ final class Cachify {
 				'title'	  => 'Filter',
 				'content' => '<p>Filter grenzen die Cache-Anwendung wie folgt ein:</p>'.
 							 '<ul>'.
-							 	'<li><em>Ausnahme für (Post/Pages) IDs</em><br />'.
+							 	'<li><strong>Ausnahme für (Post/Pages) IDs</strong><br />'.
 							 	'IDs bestimmter Artikel oder/und Seiten, die vom Caching ausgeschlossen werden sollen. Kommaseparierte Liste.</li>'.
 							 	
-							 	'<li><em>Ausnahme für User Agents</em><br />'.
+							 	'<li><strong>Ausnahme für User Agents</strong><br />'.
 							 	'User Agents gewünschter Browser bzw. Apps, die eine zwischengespeicherte Version der Webseite nie angezeigt bekommen sollen. Gilt nicht bei <em>APC</em> und <em>Festplatte</em> als Caching-Methoden.</li>'.
 							 	
-							 	'<li><em>Kein Cache für eingeloggte bzw. kommentierende Nutzer</em><br />'.
+							 	'<li><strong>Kein Cache für eingeloggte bzw. kommentierende Nutzer</strong><br />'.
 							 	'Bei aktiver Option bekommen ausschließlich nicht angemeldete bzw. nicht kommentierende Blog-Nutzer die Cache-Variante einer Webseite angezeigt. Gilt nicht bei <em>APC</em>. Online-Dokumentation beachten.</li>'.
 							 '</ul>'
 			)
@@ -1147,7 +1146,7 @@ final class Cachify {
 			array(
 				'id'	  => 'cachify_dashboard',
 				'title'	  => 'Dashboard',
-				'content' => '<p>Auf dem Admin-Dashboard bildet Cachify die aktuelle Cache-Größe ab. Der Wert aktualisiert sich alle 15 Minuten.</p>'
+				'content' => '<p>Auf dem Admin-Dashboard bildet Cachify die aktuelle Cache-Größe ab. Cachify speichert den Wert für 15 Minuten zwischen.</p>'
 			)
 		);
 		$screen->add_help_tab(
@@ -1163,8 +1162,8 @@ final class Cachify {
 		$screen->set_help_sidebar(
 			'<p><strong>Mehr zum Autor</strong></p>'.
 			'<p><a href="https://plus.google.com/110569673423509816572/" target="_blank">Google+</a></p>'.
-			'<p><a href="http://ebiene.de" target="_blank">Portfolio</a></p>'.
-			'<p><a href="http://flattr.com/profile/sergej.mueller" target="_blank">Flattr</a></p>'
+			'<p><a href="http://wpcoder.de" target="_blank">Plugins</a></p>'.
+			'<p><a href="http://ebiene.de" target="_blank">Portfolio</a></p>'
 		);
 	}
 	
