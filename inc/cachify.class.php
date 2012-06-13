@@ -847,7 +847,12 @@ final class Cachify {
 		$options = self::$options;
 		
 		/* Filter */
-		if ( !empty($_POST) or self::_is_index() or is_search() or is_404() or is_feed() or is_trackback() or is_robots() or is_preview() or post_password_required() ) {
+		if ( self::_is_index() or is_search() or is_404() or is_feed() or is_trackback() or is_robots() or is_preview() or post_password_required() ) {
+			return true;
+		}
+		
+		/* Request */
+		if ( !empty($_POST) or (!empty($_GET) && get_option('permalink_structure')) ) {
 			return true;
 		}
 		
