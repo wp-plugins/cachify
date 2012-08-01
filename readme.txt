@@ -53,6 +53,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 = 2.0.3 =
 * Cache-Leerung beim Veröffentlichen verfügbarer Custom Post Types
 * Noindex in der von WordPress generierten `robots.txt` für den Ordner mit HDD-Cache
+* Hook `cachify_flush_cache` zum Leeren des Cache aus Drittanwendungen
 
 = 2.0.2 =
 * Unterstützung für WordPress 3.4

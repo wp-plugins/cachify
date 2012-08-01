@@ -43,6 +43,15 @@ final class Cachify {
 		/* Publish-Hooks */
 		self::_publish_hooks();
 		
+		/* Flush Hook */
+		add_action(
+			'cachify_flush_cache',
+			array(
+				__CLASS__,
+				'flush_cache'
+			)
+		);
+		
 		/* Backend */
 		if ( is_admin() ) {
 			add_action(
