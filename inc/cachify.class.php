@@ -40,28 +40,8 @@ final class Cachify {
 		/* Variablen */
 		self::_set_vars();
 		
-		/* Publish Single */
-		add_action(
-			'publish_future_post',
-			array(
-				__CLASS__,
-				'publish_post'
-			)
-		);
-		add_action(
-			'publish_post',
-			array(
-				__CLASS__,
-				'publish_post'
-			)
-		);
-		add_action(
-			'publish_page',
-			array(
-				__CLASS__,
-				'publish_page'
-			)
-		);
+		/* Publish-Hooks */
+		self::_publish_hooks();
 		
 		/* Flush Hook */
 		add_action(
@@ -71,7 +51,7 @@ final class Cachify {
 				'flush_cache'
 			)
 		);
-
+		
 		/* Backend */
 		if ( is_admin() ) {
 			add_action(
@@ -184,6 +164,13 @@ final class Cachify {
 					'manage_cache'
 				),
 				0
+			);
+			add_action(
+				'robots_txt',
+				array(
+					__CLASS__,
+					'robots_txt'
+				)
 			);
 		}
 	}
@@ -381,6 +368,46 @@ final class Cachify {
 	
 	
 	/**
+	* Generierung von Publish-Hooks für Custom Post Types
+	*
+	* @since   2.0.3
+	* @change  2.0.3
+	*/
+	
+	private static function _publish_hooks() {
+		/* Verfügbare CPT */
+		$available_cpt = get_post_types(
+			array('public' => true)
+		);
+
+		/* Leer? */
+		if ( empty($available_cpt) ) {
+			return;
+		}
+
+		/* Loopen */
+		foreach ( $available_cpt as $cpt ) {
+			add_action(
+				'publish_' .$cpt,
+				array(
+					__CLASS__,
+					'publish_cpt'
+				),
+				10,
+				2
+			);
+			add_action(
+				'publish_future_' .$cpt,
+				array(
+					__CLASS__,
+					'publish_cpt'
+				)
+			);
+		}
+	}
+	
+	
+	/**
 	* Rückgabe der Optionen
 	*
 	* @since   2.0
@@ -404,6 +431,37 @@ final class Cachify {
 		);
 	}
 
+
+	/**
+	* Hinzufügen der Action-Links
+	*
+	* @since   1.0
+	* @change  2.0.2
+	*
+	* @param   string  $data  Ursprungsinhalt der dynamischen robots.txt
+	* @return  string  $data  Modifizierter Inhalt der robots.txt
+	*/
+	
+	public static function robots_txt($data)
+	{
+		/* HDD only */
+		if ( self::$options['use_apc'] !== 2 ) {
+			return $data;
+		}
+		
+		/* Pfad */
+		$path = parse_url(site_url(), PHP_URL_PATH);
+		
+		/* Ausgabe */
+		$data .= sprintf(
+			'Disallow: %s/wp-content/cache/%s',
+			( empty($path) ? '' : $path ),
+			"\n"
+		);
+		
+		return $data;
+	}
+	
 
 	/**
 	* Hinzufügen der Action-Links
@@ -669,45 +727,27 @@ final class Cachify {
 			);
 		}
 	}
-
-
-  	/**
-	* Leerung des Cache bei neuen Beiträgen
+	
+	
+	/**
+	* Leerung des Cache bei neuen CPTs
 	*
-	* @since   0.1
-	* @change  0.9.1
+	* @since   2.0.3
+	* @change  2.0.3
 	*
-	* @param   intval  $id  ID des Beitrags
+	* @param   integer  $id    PostID
+	* @param   object   $post  Object mit CPT-Metadaten [optional]
 	*/
 
-	public static function publish_post($id)
+	public static function publish_cpt($id, $post = false)
 	{
-		/* Post */
-		$post = get_post($id);
-
-		/* Löschen */
-		if ( in_array( $post->post_status, array('publish', 'future') ) ) {
-			self::flush_cache();
+		/* Leer? */
+		if ( empty($post) ) {
+			return;
 		}
-	}
-
-
-  	/**
-	* Leerung des Cache bei neuen Beiträgen
-	*
-	* @since   1.0
-	* @change  1.0
-	*
-	* @param   intval  $id  ID des Beitrags
-	*/
-
-	public static function publish_page($id)
-	{
-		/* Page */
-		$page = get_page($id);
-
-		/* Löschen */
-		if ( $page->post_status == 'publish' ) {
+		
+		/* Status */
+		if ( in_array( $post->post_status, array('publish', 'future') ) ) {
 			self::flush_cache();
 		}
 	}

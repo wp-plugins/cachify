@@ -3,7 +3,7 @@ Contributors: sergej.mueller
 Tags: apc, cache, caching, performance
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5RDDW9FEHGLG6
 Requires at least: 3.1
-Tested up to: 3.4
+Tested up to: 3.5
 Stable tag: trunk
 
 
@@ -18,6 +18,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 *Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form wahlweise in der Datenbank, auf der Festplatte des Webservers oder im APC (Alternative PHP Cache) abgelegt und beim Seitenaufruf ohne Umwege ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich je nach Methode um Faktor 10.
 
 = Stärken =
+* Zusammenarbeit mit Custom Post Types
 * Speicherungsmethoden: DB, HDD und APC
 * "Cache leeren" als Schaltfläche in der Admin Bar
 * Inline- und Online-Handbuch
@@ -50,7 +51,9 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 == Changelog ==
 
 = 2.0.3 =
-* Einführung des Hook *cachify_flush_cache*
+* Cache-Leerung beim Veröffentlichen verfügbarer Custom Post Types
+* Noindex in der von WordPress generierten `robots.txt` für den Ordner mit HDD-Cache
+* Hook `cachify_flush_cache` zum Leeren des Cache aus Drittanwendungen
 
 = 2.0.2 =
 * Unterstützung für WordPress 3.4

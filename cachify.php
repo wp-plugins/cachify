@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Ladezeit der Blogseiten
 Author: Sergej M&uuml;ller
 Author URI: http://wpseo.de
 Plugin URI: http://cachify.de
-Version: 2.0.2
+Version: 2.0.3
 */
 
 
@@ -32,11 +32,12 @@ if ( ! (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) ) {
 	
 	/* Init */
 	add_action(
-		'plugins_loaded',
+		'init',
 		array(
 			'Cachify',
 			'init'
-		)
+		),
+		99
 	);
 	
 	/* Install */
