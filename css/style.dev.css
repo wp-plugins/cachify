@@ -83,3 +83,16 @@
 }
 
 /* @end group */
+
+
+/* @group Dashboard */
+
+#dashboard_right_now .table_cachify {
+	margin-top: 36px;
+}
+#dashboard_right_now .table_cachify .b {
+	font-size: 18px;
+	padding-top: 0;
+}
+
+/* @end group */

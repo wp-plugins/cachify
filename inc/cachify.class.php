@@ -557,7 +557,7 @@ final class Cachify {
 	* Anzeige des Spam-Counters auf dem Dashboard
 	*
 	* @since   2.0
-	* @change  2.0
+	* @change  2.0.4
 	*/
 
 	public static function add_count()
@@ -580,13 +580,21 @@ final class Cachify {
 		    );
 		}
 		
+		/* Formatierung */
+		$format = ( empty($size) ? array(0, 'Bytes') : explode(' ', size_format($size)) );
+		
 		/* Ausgabe */
 		echo sprintf(
-			'<tr>
-				<td class="b b-spam" style="font-size:18px">%s</td>
-				<td class="last t">Cache</td>
-			</tr>',
-			( $size ? size_format($size) : 0 )
+			'</table></div>
+			<div class="table table_discussion table_cachify">
+				<p class="sub">Cache</p>
+				<table>
+					<tr>
+						<td class="b">%s</td>
+						<td class="last t">%s</td>
+					</tr>',
+			(int)$format[0],
+			$format[1]
 		);
 	}
 

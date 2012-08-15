@@ -50,6 +50,9 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 
 == Changelog ==
 
+= 2.0.4 =
+* Bessere Trennung der Cache-Gesamtgröße im Dashboard-Widget "Auf einen Blick"
+
 = 2.0.3 =
 * Cache-Leerung beim Veröffentlichen verfügbarer Custom Post Types
 * Noindex in der von WordPress generierten `robots.txt` für den Ordner mit HDD-Cache
@@ -146,3 +149,5 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 == Screenshots ==
 
 1. Cachify Optionen
+
+2. Cachegröße auf dem Dashboard
