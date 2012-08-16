@@ -89,6 +89,7 @@
 
 #dashboard_right_now .table_cachify {
 	margin-top: 36px;
+	border-top: #ececec 1px solid;
 }
 #dashboard_right_now .table_cachify .b {
 	font-size: 18px;

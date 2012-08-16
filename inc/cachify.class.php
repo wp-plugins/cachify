@@ -123,7 +123,7 @@ final class Cachify {
 				90
 			);
 			add_action(
-				'right_now_table_end',
+				'right_now_content_table_end',
 				array(
 					__CLASS__,
 					'add_count'
@@ -585,14 +585,19 @@ final class Cachify {
 		
 		/* Ausgabe */
 		echo sprintf(
-			'</table></div>
-			<div class="table table_discussion table_cachify">
-				<p class="sub">Cache</p>
-				<table>
-					<tr>
-						<td class="b">%s</td>
-						<td class="last t">%s</td>
-					</tr>',
+			'<tr>
+				<td colspan="2">
+					<div class="table table_cachify">
+						<p class="sub">Cache</p>
+						<table>
+							<tr>
+								<td class="b">%s</td>
+								<td class="last t">%s</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>',
 			(int)$format[0],
 			$format[1]
 		);
