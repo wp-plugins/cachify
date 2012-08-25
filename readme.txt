@@ -17,6 +17,9 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 = Unkompliziert und ausbaufähig =
 *Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form wahlweise in der Datenbank, auf der Festplatte des Webservers oder im APC (Alternative PHP Cache) abgelegt und beim Seitenaufruf ohne Umwege ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich je nach Methode um Faktor 10.
 
+= Kindle eBook =
+Als Begleithandbuch und Installationshilfe für *Cachify* wurde ein Kindle eBook mit dem Titel „[WordPress Performance](http://www.amazon.de/dp/B0091LDUVA "WordPress Performance"): Beschleunigung der Blogseiten durch Caching“ konzipiert und veröffentlicht. Das digitale Buch beleuchtet verfügbare Caching-Methoden, empfiehlt Einstellungen und liefert wertvolle Tipps & Tricks zur Geschwindigkeitsoptimierung von WordPress-Blogs.
+
 = Stärken =
 * Zusammenarbeit mit Custom Post Types
 * Speicherungsmethoden: DB, HDD und APC
