@@ -1224,6 +1224,14 @@ final class Cachify {
 							 '<p><a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank">http://playground.ebiene.de/cachify-wordpress-cache/</a></p>'
 			)
 		);
+		$screen->add_help_tab(
+			array(
+				'id'	  => 'cachify_ebook',
+				'title'	  => 'eBook',
+				'content' => '<p>Das Kindle eBook „WordPress Performance: Beschleunigung der Blogseiten durch Caching“ beleuchtet sinnvolle Optimierungsschritte, führt in die Thematik „Caching“ ein und begleitet die Installation und Einrichtung von Cachify. Einsteigerfreundlich und begreiflich verfasst.</p>'.
+							 '<p><a href="http://www.amazon.de/dp/B0091LDUVA" target="_blank">http://www.amazon.de/dp/B0091LDUVA</a></p>'
+			)
+		);
 		
 		/* Sidebar */
 		$screen->set_help_sidebar(
