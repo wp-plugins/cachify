@@ -166,7 +166,7 @@ final class Cachify_DB {
 	* Generierung der Signatur
 	*
 	* @since   2.0
-	* @change  2.0.2
+	* @change  2.0.5
 	*
 	* @param   array   $meta  Inhalt der Metadaten
 	* @return  string  $diff  Signatur als String
@@ -181,7 +181,7 @@ final class Cachify_DB {
 		
 		return sprintf(
 			"\n\n<!--\n%s\n%s\n%s\n%s\n-->",
-			'Cachify | http://bit.ly/cachify',
+			'Cachify | http://cachify.de',
 			sprintf(
 				'Ohne Plugin: %d DB-Anfragen, %s Sekunden, %s',
 				$meta['queries'],

@@ -139,7 +139,7 @@ final class Cachify_APC {
 	* Generierung der Signatur
 	*
 	* @since   2.0
-	* @change  2.0
+	* @change  2.0.5
 	*
 	* @return  string  $diff  Signatur als String
 	*/
@@ -148,7 +148,7 @@ final class Cachify_APC {
 	{
 		return sprintf(
 			"\n\n<!-- %s\n%s @ %s -->",
-			'Cachify | http://bit.ly/cachify',
+			'Cachify | http://cachify.de',
 			'APC Cache',
 			date_i18n(
 				'd.m.Y H:i:s',
