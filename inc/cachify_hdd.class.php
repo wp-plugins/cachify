@@ -201,12 +201,15 @@ final class Cachify_HDD {
 	* Rekrusive Leerung eines Ordners
 	*
 	* @since   2.0
-	* @change  2.0
+	* @change  2.0.5
 	*
 	* @param   string  $dir  Ordnerpfad
 	*/
 	
 	private static function _clear_dir($dir) {
+		/* Weg mit dem Slash */
+		$dir = untrailingslashit($dir);
+		
 		/* Ordner? */
 		if ( !is_dir($dir) ) {
 			return;
