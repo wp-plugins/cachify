@@ -14,35 +14,53 @@ final class Cachify {
 	* @since  2.0
 	* @var    array
 	*/
-	
+
 	private static $options;
-	
-	
+
+
 	/**
 	* Cache-Methode
 	*
 	* @since  2.0
 	* @var    object
 	*/
-	
+
 	private static $method;
 
 
 	/**
-	* Initialisierung des Plugins
+	* Pseudo-Konstruktor der Klasse
 	*
-	* @since   1.0
-	* @change  2.0.3
+	* @since   2.0.5
+	* @change  2.0.5
 	*/
 
-  	public static function init()
+	public static function instance()
+	{
+		new self();
+	}
+
+
+	/**
+	* Konstruktor der Klasse
+	*
+	* @since   1.0.0
+	* @change  2.0.5
+	*/
+
+  	public function __construct()
   	{
+  		/* Filter */
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+			return;
+		}
+
 		/* Variablen */
 		self::_set_vars();
-		
+
 		/* Publish-Hooks */
 		self::_publish_hooks();
-		
+
 		/* Flush Hook */
 		add_action(
 			'cachify_flush_cache',
@@ -51,7 +69,14 @@ final class Cachify {
 				'flush_cache'
 			)
 		);
-		
+		add_action(
+			'_core_updated_successfully',
+			array(
+				__CLASS__,
+				'flush_cache'
+			)
+		);
+
 		/* Backend */
 		if ( is_admin() ) {
 			add_action(
@@ -68,7 +93,7 @@ final class Cachify {
 					'uninstall_later'
 				)
 			);
-			
+
 			add_action(
 				'admin_init',
 				array(
@@ -91,12 +116,12 @@ final class Cachify {
 				)
 			);
 			add_action(
-					'admin_print_styles',
-					array(
-						__CLASS__,
-						'add_css'
-					)
-				);
+				'admin_print_styles',
+				array(
+					__CLASS__,
+					'add_css'
+				)
+			);
 
 			add_action(
 				'transition_comment_status',
@@ -174,8 +199,8 @@ final class Cachify {
 			);
 		}
 	}
-	
-	
+
+
 	/**
 	* Plugin-Installation für MU-Blogs
 	*
@@ -322,8 +347,8 @@ final class Cachify {
 		/* Cache leeren */
 		self::flush_cache();
 	}
-	
-	
+
+
 	/**
 	* Rückgabe der IDs installierter Blogs
 	*
@@ -332,30 +357,30 @@ final class Cachify {
 	*
 	* @return  array  Blog-IDs
 	*/
-	
+
 	private static function _get_blog_ids()
 	{
 		/* Global */
 		global $wpdb;
-		
+
 		return $wpdb->get_col(
 			$wpdb->prepare("SELECT blog_id FROM `$wpdb->blogs`")
 		);
 	}
-	
-	
+
+
 	/**
 	* Eigenschaften des Objekts
 	*
 	* @since   2.0
 	* @change  2.0
 	*/
-	
+
 	private static function _set_vars()
 	{
 		/* Optionen */
 		self::$options = self::_get_options();
-		
+
 		/* Methode */
 		if ( self::$options['use_apc'] === 1 && extension_loaded('apc') ) {
 			self::$method = new Cachify_APC;
@@ -365,15 +390,15 @@ final class Cachify {
 			self::$method = new Cachify_DB;
 		}
 	}
-	
-	
+
+
 	/**
 	* Generierung von Publish-Hooks für Custom Post Types
 	*
 	* @since   2.0.3
 	* @change  2.0.3
 	*/
-	
+
 	private static function _publish_hooks() {
 		/* Verfügbare CPT */
 		$available_cpt = get_post_types(
@@ -405,8 +430,8 @@ final class Cachify {
 			);
 		}
 	}
-	
-	
+
+
 	/**
 	* Rückgabe der Optionen
 	*
@@ -415,7 +440,7 @@ final class Cachify {
 	*
 	* @return  array  $diff  Array mit Werten
 	*/
-	
+
 	private static function _get_options()
 	{
 		return wp_parse_args(
@@ -441,27 +466,27 @@ final class Cachify {
 	* @param   string  $data  Ursprungsinhalt der dynamischen robots.txt
 	* @return  string  $data  Modifizierter Inhalt der robots.txt
 	*/
-	
+
 	public static function robots_txt($data)
 	{
 		/* HDD only */
 		if ( self::$options['use_apc'] !== 2 ) {
 			return $data;
 		}
-		
+
 		/* Pfad */
 		$path = parse_url(site_url(), PHP_URL_PATH);
-		
+
 		/* Ausgabe */
 		$data .= sprintf(
 			'Disallow: %s/wp-content/cache/%s',
 			( empty($path) ? '' : $path ),
 			"\n"
 		);
-		
+
 		return $data;
 	}
-	
+
 
 	/**
 	* Hinzufügen der Action-Links
@@ -502,29 +527,30 @@ final class Cachify {
 	* Meta-Links des Plugins
 	*
 	* @since   0.5
-	* @change  1.3
+	* @change  2.0.5
 	*
-	* @param   array   $data  Bereits vorhandene Links
-	* @param   string  $page  Aktuelle Seite
-	* @return  array   $data  Modifizierte Links
+	* @param   array   $input  Bereits vorhandene Links
+	* @param   string  $page   Aktuelle Seite
+	* @return  array   $data   Modifizierte Links
 	*/
 
-	public static function row_meta($data, $page)
+	public static function row_meta($input, $page)
 	{
 		/* Rechte */
 		if ( $page != CACHIFY_BASE ) {
-			return $data;
+			return $input;
 		}
-		
+
 		return array_merge(
-			$data,
+			$input,
 			array(
-				'<a href="http://wpcoder.de" target="_blank">Weitere Plugins des Autors</a>'
+				'<a href="https://flattr.com/donation/give/to/sergej.mueller" target="_blank">Flattr</a>',
+				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>'
 			)
 		);
 	}
-	
-	
+
+
 	/**
 	* Hinzufügen eines Admin-Bar-Menüs
 	*
@@ -533,14 +559,14 @@ final class Cachify {
 	*
 	* @param   object  Objekt mit Menü-Eigenschaften
 	*/
-	
+
 	public static function add_menu($wp_admin_bar)
 	{
 		/* Aussteigen */
 		if ( !is_admin_bar_showing() or !is_super_admin() ) {
 			return;
 		}
-		
+
 		/* Hinzufügen */
 		$wp_admin_bar->add_menu(
 			array(
@@ -551,8 +577,8 @@ final class Cachify {
 			)
 		);
 	}
-	
-	
+
+
 	/**
 	* Anzeige des Spam-Counters auf dem Dashboard
 	*
@@ -571,7 +597,7 @@ final class Cachify {
 					'get_stats'
 				)
 			);
-			
+
 			/* Speichern */
 			set_transient(
 		      'cachify_cache_size',
@@ -579,10 +605,10 @@ final class Cachify {
 		      60 * 15
 		    );
 		}
-		
+
 		/* Formatierung */
 		$format = ( empty($size) ? array(0, 'Bytes') : explode(' ', size_format($size)) );
-		
+
 		/* Ausgabe */
 		echo sprintf(
 			'<tr>
@@ -619,7 +645,7 @@ final class Cachify {
 		if ( empty($_GET['_cachify']) or $_GET['_cachify'] !== 'flush' ) {
 			return;
 		}
-		
+
 		/* Global */
 		global $wpdb;
 
@@ -639,7 +665,7 @@ final class Cachify {
 
 			/* Wechsel zurück */
 			switch_to_blog($old);
-			
+
 			/* Notiz */
 			add_action(
 				'network_admin_notices',
@@ -651,7 +677,7 @@ final class Cachify {
 		} else {
 			/* Leeren */
 			self::flush_cache();
-			
+
 			/* Notiz */
 			add_action(
 				'admin_notices',
@@ -662,22 +688,22 @@ final class Cachify {
 			);
 		}
 	}
-	
-	
+
+
 	/**
 	* Hinweis nach erfolgreichem Cache-Leeren
 	*
 	* @since   1.2
 	* @change  1.2
 	*/
-	
+
 	public static function flush_notice()
 	{
 		/* Kein Admin */
 		if ( !is_super_admin() ) {
 			return false;
 		}
-		
+
 		echo '<div id="message" class="updated"><p><strong>Cachify-Cache geleert.</strong></p></div>';
 	}
 
@@ -740,8 +766,8 @@ final class Cachify {
 			);
 		}
 	}
-	
-	
+
+
 	/**
 	* Leerung des Cache bei neuen CPTs
 	*
@@ -758,14 +784,14 @@ final class Cachify {
 		if ( empty($post) ) {
 			return;
 		}
-		
+
 		/* Status */
 		if ( in_array( $post->post_status, array('publish', 'future') ) ) {
 			self::flush_cache();
 		}
 	}
-	
-	
+
+
 	/**
 	* Rückgabe der Cache-Gültigkeit
 	*
@@ -774,12 +800,12 @@ final class Cachify {
 	*
 	* @return  intval    Gültigkeit in Sekunden
 	*/
-	
+
 	private static function _cache_expires()
 	{
 		return 60 * 60 * self::$options['cache_expires'];
 	}
-	
+
 
 	/**
 	* Rückgabe des Cache-Hash-Wertes
@@ -813,8 +839,8 @@ final class Cachify {
 	{
 		return (array)preg_split('/,/', $input, -1, PREG_SPLIT_NO_EMPTY);
 	}
-	
-	
+
+
 	/**
 	* Prüfung der WordPress-Version
 	*
@@ -862,37 +888,37 @@ final class Cachify {
 	{
 		return ( strpos(TEMPLATEPATH, 'wptouch') or strpos(TEMPLATEPATH, 'carrington') or strpos(TEMPLATEPATH, 'jetpack') );
 	}
-	
-	
+
+
 	/**
 	* Prüfung auf eingeloggte und kommentierte Nutzer
 	*
-	* @since   2.0
-	* @change  2.0
+	* @since   2.0.0
+	* @change  2.0.5
 	*
 	* @return  boolean  $diff  TRUE bei "vermerkten" Nutzern
 	*/
-	
+
 	private static function _is_logged_in()
 	{
 		/* Eingeloggt */
 		if ( is_user_logged_in() ) {
 			return true;
 		}
-		
+
 		/* Cookie? */
 		if ( empty($_COOKIE) ) {
 			return false;
 		}
-		
+
 		/* Loopen */
 		foreach ( $_COOKIE as $k => $v) {
-			if ( preg_match('/^(wp-postpass|wordpress|comment_author)_/', $k) ) {
+			if ( preg_match('/^(wp-postpass|wordpress_logged_in|comment_author)_/', $k) ) {
 				return true;
 			}
 		}
 	}
-	
+
 
 	/**
 	* Definition der Ausnahmen für den Cache
@@ -907,41 +933,41 @@ final class Cachify {
 	{
 		/* Optionen */
 		$options = self::$options;
-		
+
 		/* Filter */
 		if ( self::_is_index() or is_search() or is_404() or is_feed() or is_trackback() or is_robots() or is_preview() or post_password_required() ) {
 			return true;
 		}
-		
+
 		/* Request */
 		if ( !empty($_POST) or (!empty($_GET) && get_option('permalink_structure')) ) {
 			return true;
 		}
-		
+
 		/* Logged in */
 		if ( $options['only_guests'] && self::_is_logged_in() ) {
 			return true;
 		}
-	
+
 		/* WP Touch */
 		if ( self::_is_mobile() ) {
 			return true;
 		}
-	
+
 		/* Post IDs */
 		if ( $options['without_ids'] && is_singular() ) {
 			if ( in_array( $GLOBALS['wp_query']->get_queried_object_id(), self::_preg_split($options['without_ids']) ) ) {
 				return true;
 			}
 		}
-	
+
 		/* User Agents */
 		if ( $options['without_agents'] && isset($_SERVER['HTTP_USER_AGENT']) ) {
 			if ( array_filter( self::_preg_split($options['without_agents']), create_function('$a', 'return strpos($_SERVER["HTTP_USER_AGENT"], $a);') ) ) {
 				return true;
 			}
 		}
-	
+
 		return false;
 	}
 
@@ -961,7 +987,7 @@ final class Cachify {
 		if ( !self::$options['compress_html'] ) {
 			return($data);
 		}
-		
+
 		/* Verkleinern */
 		$cleaned = preg_replace(
 			array(
@@ -974,7 +1000,7 @@ final class Cachify {
 			),
 			(string) $data
 		);
-		
+
 		/* Fehlerhaft? */
 		if ( strlen($cleaned) <= 1 ) {
 			return($data);
@@ -1017,18 +1043,18 @@ final class Cachify {
 	{
 		/* DB */
 		Cachify_DB::clear_cache();
-		
+
 		/* APC */
 		Cachify_APC::clear_cache();
-		
+
 		/* HD */
 		Cachify_HDD::clear_cache();
-		
+
 		/* Transient */
 		delete_transient('cachify_cache_size');
 	}
-	
-	
+
+
 	/**
 	* Zuweisung des Cache
 	*
@@ -1074,7 +1100,7 @@ final class Cachify {
 		if ( self::_skip_cache() ) {
 			return;
 		}
-		
+
 		/* Daten im Cache */
 		$cache = call_user_func(
 			array(
@@ -1083,13 +1109,13 @@ final class Cachify {
 			),
 			self::_cache_hash()
 		);
-		
+
 		/* Kein Cache? */
 		if ( empty($cache) ) {
 			ob_start('Cachify::set_cache');
 			return;
 		}
-		
+
 		/* Cache verarbeiten */
 		call_user_func(
 			array(
@@ -1112,11 +1138,11 @@ final class Cachify {
 	{
 		/* Infos auslesen */
 		$data = get_plugin_data(CACHIFY_FILE);
-		
+
 		/* CSS registrieren */
 		wp_register_style(
 			'cachify_css',
-			plugins_url('css/style.css', CACHIFY_FILE),
+			plugins_url('css/styles.min.css', CACHIFY_FILE),
 			array(),
 			$data['Version']
 		);
@@ -1145,104 +1171,9 @@ final class Cachify {
 				'options_page'
 			)
 		);
-		
-		/* Hilfe */
-		add_action(
-			'load-' .$page,
-			array(
-				__CLASS__,
-				'add_help'
-			)
-		);
 	}
-	
-	
-	/**
-	* Hilfe-Tab oben rechts
-	*
-	* @since   2.0
-	* @change  2.0.2
-	*/
-	
-	public static function add_help()
-	{
-		/* WP zu alt? */
-		if ( !self::_is_wp('3.3') ) {
-			return;
-		}
-		
-		/* Screen */
-		$screen = get_current_screen();
-		
-		/* Tabs */
-		$screen->add_help_tab(
-			array(
-				'id'	  => 'cachify_settings',
-				'title'	  => 'Einstellungen',
-				'content' => '<p>Bereitgestellte Einstellungen in Schnellübersicht:</p>'.
-							 '<ul>'.
-							 	'<li><strong>Aufbewahrungsort für Cache</strong><br />'.
-							 	'Je nach Verfügbarkeit stehen 3 Methoden der Cache-Speicherung zur Nutzung bereit: <em>Datenbank</em>, <em>APC</em>, <em>Festplatte</em>. Die Standard-Einstellung ist <em>Datenbank</em> - Cache-Inhalte werden dabei in der WordPress-Datenbank abgelegt und dort verwaltet. <em>APC</em> (Alternative PHP Cache) kann bei installiertem APC-PHP-Modul ausgewählt und verwendet werden. <em>Festplatte</em> als Methode ist erst bei eingeschalteten WordPress-Permalinks nutzbar. Bei der Auswahl <em>Festplatte</em> und <em>APC</em> sind Anpassungen in der Datei <em>.htaccess</em> / <em>nginx.conf</em> notwendig (siehe Online-Dokumentation).</li>'.
-							 	
-							 	'<li><strong>Cache-Gültigkeit in Stunden</strong><br />'.
-							 	'Gültigkeitsdauer der Aufbewahrung von Cache-Inhalten. Keine Verwendung bei <em>Festplatte</em> als Caching-Methode. <em>0</em> = <em>unbegrenzt</em></li>'.
-							 	
-							 	'<li><strong>Minimierung der Ausgabe</strong><br />'.
-							 	'Durch die Entfernung von HTML-Kommentaren und Umbrüchen im Quelltext der Blogseiten kann die Ausgabegröße reduziert und die Übertragung der Daten zum Browser beschleunigt werden. In Fehlerfällen ist die Option zu deaktivieren.</li>'.
-							 '</ul>'
-			)
-		);
-		$screen->add_help_tab(
-			array(
-				'id'	  => 'cachify_filter',
-				'title'	  => 'Filter',
-				'content' => '<p>Filter grenzen die Cache-Anwendung wie folgt ein:</p>'.
-							 '<ul>'.
-							 	'<li><strong>Ausnahme für (Post/Pages) IDs</strong><br />'.
-							 	'IDs bestimmter Artikel oder/und Seiten, die vom Caching ausgeschlossen werden sollen. Kommaseparierte Liste.</li>'.
-							 	
-							 	'<li><strong>Ausnahme für User Agents</strong><br />'.
-							 	'User Agents gewünschter Browser bzw. Apps, die eine zwischengespeicherte Version der Webseite nie angezeigt bekommen sollen. Gilt nicht bei <em>APC</em> und <em>Festplatte</em> als Caching-Methoden.</li>'.
-							 	
-							 	'<li><strong>Kein Cache für eingeloggte bzw. kommentierende Nutzer</strong><br />'.
-							 	'Bei aktiver Option bekommen ausschließlich nicht angemeldete bzw. nicht kommentierende Blog-Nutzer die Cache-Variante einer Webseite angezeigt. Gilt nicht bei <em>APC</em>. Online-Dokumentation beachten.</li>'.
-							 '</ul>'
-			)
-		);
-		$screen->add_help_tab(
-			array(
-				'id'	  => 'cachify_dashboard',
-				'title'	  => 'Dashboard',
-				'content' => '<p>Auf dem Admin-Dashboard bildet Cachify die aktuelle Cache-Größe ab. Cachify speichert den Wert für 15 Minuten zwischen.</p>'
-			)
-		);
-		$screen->add_help_tab(
-			array(
-				'id'	  => 'cachify_manual',
-				'title'	  => 'Dokumentation',
-				'content' => '<p>Ausführliche Dokumentation für das Cachify-Plugin online verfügbar:</p>'.
-							 '<p><a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank">http://playground.ebiene.de/cachify-wordpress-cache/</a></p>'
-			)
-		);
-		$screen->add_help_tab(
-			array(
-				'id'	  => 'cachify_ebook',
-				'title'	  => 'eBook',
-				'content' => '<p>Das Kindle eBook „WordPress Performance: Beschleunigung der Blogseiten durch Caching“ beleuchtet sinnvolle Optimierungsschritte, führt in die Thematik „Caching“ ein und begleitet die Installation und Einrichtung von Cachify. Einsteigerfreundlich und begreiflich verfasst.</p>'.
-							 '<p><a href="http://www.amazon.de/dp/B0091LDUVA" target="_blank">http://www.amazon.de/dp/B0091LDUVA</a></p>'
-			)
-		);
-		
-		/* Sidebar */
-		$screen->set_help_sidebar(
-			'<p><strong>Mehr zum Autor</strong></p>'.
-			'<p><a href="https://plus.google.com/110569673423509816572/" target="_blank">Google+</a></p>'.
-			'<p><a href="http://wpcoder.de" target="_blank">Plugins</a></p>'.
-			'<p><a href="http://ebiene.de" target="_blank">Portfolio</a></p>'
-		);
-	}
-	
-	
+
+
 	/**
 	* Verfügbare Cache-Methoden
 	*
@@ -1251,7 +1182,7 @@ final class Cachify {
 	*
 	* @param  array  $available  Array mit verfügbaren Arten
 	*/
-	
+
 	private static function _method_select()
 	{
 		/* Verfügbar */
@@ -1260,17 +1191,17 @@ final class Cachify {
 			1 => 'APC',
 			2 => 'Festplatte'
 		);
-		
+
 		/* Kein APC */
 		if ( !extension_loaded('apc') ) {
 			unset($available[1]);
 		}
-		
+
 		/* Keine Permalinks */
 		if ( !get_option('permalink_structure') ) {
 			unset($available[2]);
 		}
-		
+
 		return $available;
 	}
 
@@ -1309,7 +1240,7 @@ final class Cachify {
 	{
 		/* Cache leeren */
 		self::flush_cache();
-		
+
 		/* Hinweis */
 		if ( self::$options['use_apc'] != $data['use_apc'] && $data['use_apc'] >= 1 ) {
 			add_settings_error(
@@ -1319,7 +1250,7 @@ final class Cachify {
 				'error'
 			);
 		}
-		
+
 		/* Rückgabe */
 		return array(
 			'only_guests'	 => (int)(!empty($data['only_guests'])),
@@ -1352,11 +1283,11 @@ final class Cachify {
 				<?php settings_fields('cachify') ?>
 
 				<?php $options = self::_get_options() ?>
-				
+
 				<div class="table rounded">
 					<table class="form-table">
 						<caption class="rounded">Einstellungen</caption>
-						
+
 						<tr>
 							<th>
 								Aufbewahrungsort für Cache
@@ -1369,7 +1300,7 @@ final class Cachify {
 								</select>
 							</td>
 						</tr>
-						
+
 						<tr>
 							<th>
 								Cache-Gültigkeit in Stunden
@@ -1378,7 +1309,7 @@ final class Cachify {
 								<input type="text" name="cachify[cache_expires]" value="<?php echo $options['cache_expires'] ?>" class="small" />
 							</td>
 						</tr>
-						
+
 						<tr>
 							<th>
 								Minimierung der Ausgabe
@@ -1389,11 +1320,11 @@ final class Cachify {
 						</tr>
 					</table>
 				</div>
-				
+
 				<div class="table rounded">
 					<table class="form-table">
 						<caption class="rounded">Filter</caption>
-						
+
 						<tr>
 							<th>
 								Ausnahme für (Post/Pages) IDs
@@ -1402,7 +1333,7 @@ final class Cachify {
 								<input type="text" name="cachify[without_ids]" value="<?php echo $options['without_ids'] ?>" />
 							</td>
 						</tr>
-	
+
 						<tr>
 							<th>
 								Ausnahme für User Agents
@@ -1411,7 +1342,7 @@ final class Cachify {
 								<input type="text" name="cachify[without_agents]" value="<?php echo $options['without_agents'] ?>" />
 							</td>
 						</tr>
-						
+
 						<tr>
 							<th>
 								Kein Cache für eingeloggte<br />bzw. kommentierende Nutzer
@@ -1422,11 +1353,14 @@ final class Cachify {
 						</tr>
 					</table>
 				</div>
-				
-				<p class="submit">
-					<span class="help">Beachte die Hilfe<br />oben rechts</span>
+
+				<div class="submit">
+					<p>
+						<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank">Handbuch</a><a href="http://www.amazon.de/dp/B0091LDUVA" target="_blank">Kindle eBook</a><a href="https://flattr.com/donation/give/to/sergej.mueller" target="_blank">Flattr</a><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>
+					</p>
+
 					<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-				</p>
+				</div>
 			</form>
 		</div><?php
 	}

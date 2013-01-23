@@ -20,7 +20,7 @@
 	margin-top: 6px;
 	background: url(../img/trash@2x.png);
 	background-size: 100%;
-	
+
 }
 
 /* @end group */
@@ -74,12 +74,23 @@
 	height: 1%;
 	overflow: hidden;
 }
-#cachify_main .help {
+#cachify_main .submit > p {
 	float: right;
-	color: #bebebe;
-	font-size: 11px;
-	text-align: right;
-	line-height: 11px;
+	margin: 0;
+	height: 24px;
+}
+#cachify_main .submit > p > a {
+	float: left;
+	line-height: 24px;
+}
+#cachify_main .submit > p > a:before {
+	margin: 0 4px;
+	content: '|';
+	display: inline-block;
+}
+#cachify_main .submit > p > a:first-child:before {
+	margin: 0;
+	content: '';
 }
 
 /* @end group */

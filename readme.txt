@@ -36,9 +36,9 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 Als Begleithandbuch und Installationshilfe für *Cachify* wurde ein Kindle eBook mit dem Titel „[WordPress Performance](http://www.amazon.de/dp/B0091LDUVA "WordPress Performance"): Beschleunigung der Blogseiten durch Caching“ konzipiert und veröffentlicht. Das digitale Buch beleuchtet verfügbare Caching-Methoden, empfiehlt Einstellungen und liefert wertvolle Tipps & Tricks zur Geschwindigkeitsoptimierung von WordPress-Blogs.
 
 = Systemvoraussetzungen =
-* WordPress ab 3.1
-* PHP ab 5.1.2
-* APC ab 3.1.4 (falls installiert)
+* WordPress ab 3.4
+* PHP ab 5.2.4
+* APC ab 3.1.4 (optional, falls installiert)
 
 = Informationen =
 * [Offizielle Homepage](http://cachify.de "Cachify WordPress Cache")
@@ -52,6 +52,12 @@ Als Begleithandbuch und Installationshilfe für *Cachify* wurde ein Kindle eBook
 
 
 == Changelog ==
+
+= 2.0.5 =
+* Cache-Leerung nach einem WordPress-Upgrade
+* Keine Cache-Ausgabe für Jetpack Mobile Theme
+* Abfrage auf eingeloggte Nutzer bei APC als Caching-Methode
+* Änderung der Systemvoraussetzungen
 
 = 2.0.4 =
 * Bessere Trennung der Cache-Gesamtgröße im Dashboard-Widget "Auf einen Blick"
