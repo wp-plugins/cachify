@@ -71,6 +71,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 * Keine Cache-Ausgabe für Jetpack Mobile Theme
 * Abfrage auf eingeloggte Nutzer bei APC als Caching-Methode
 * Änderung der Systemvoraussetzungen
+* Cache-Reset nach WordPress-Update
 
 = 2.0.4 =
 * Bessere Trennung der Cache-Gesamtgröße im Dashboard-Widget "Auf einen Blick"
