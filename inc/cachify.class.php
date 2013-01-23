@@ -1229,8 +1229,8 @@ final class Cachify {
 	/**
 	* Valisierung der Optionsseite
 	*
-	* @since   1.0
-	* @change  2.0
+	* @since   1.0.0
+	* @change  2.0.5
 	*
 	* @param   array  $data  Array mit Formularwerten
 	* @return  array         Array mit geprüften Werten
@@ -1247,7 +1247,7 @@ final class Cachify {
 				'cachify_method_tip',
 				'cachify_method_tip',
 				'Die Server-Konfigurationsdatei (z.B. .htaccess) muss jetzt erweitert werden [<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank">?</a>]',
-				'error'
+				'updated'
 			);
 		}
 
