@@ -50,7 +50,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 
 
 = Handbuch =
-* [Online-Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify Handbuch")
+* [Cachify: Caching für WordPress](http://playground.ebiene.de/cachify-wordpress-cache/)
 
 
 = Website =
