@@ -2,9 +2,11 @@
 Contributors: sergej.mueller
 Tags: apc, cache, caching, performance
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5RDDW9FEHGLG6
-Requires at least: 3.1
+Requires at least: 3.4
 Tested up to: 3.5
 Stable tag: trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 
@@ -15,39 +17,50 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 == Description ==
 
 = Unkompliziert und ausbaufähig =
-*Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form wahlweise in der Datenbank, auf der Festplatte des Webservers oder im APC (Alternative PHP Cache) abgelegt und beim Seitenaufruf ohne Umwege ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich je nach Methode um Faktor 10.
+*Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form wahlweise in der Datenbank, auf der Festplatte oder dank APC (Alternative PHP Cache) im Speicher des Webservers abgelegt und beim Seitenaufruf ohne Umwege ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich je nach gewählter Methode gegen Null.
 
-= Stärken =
+
+= Pluspunkte =
 * Zusammenarbeit mit Custom Post Types
 * Speicherungsmethoden: DB, HDD und APC
 * "Cache leeren" als Schaltfläche in der Admin Bar
-* Inline- und Online-Handbuch
+* Online-Handbuch
 * Optionale Komprimierung der HTML-Ausgabe
 * Ausnahmelisten für Beiträge und User Agents
 * Manueller und automatischer Cache-Reset
-* Ausgabe der "davor, danach" Informationen im Quelltext
-* Verständliche Oberfläche zum Sofortstart
+* Deutschsprachige Oberfläche zum Sofortstart
 * Automatisches Management des Cache-Bestandes
 * Anzeige der Cache-Belegung auf dem Dashboard
-* Deutschsprachige Benutzeroberfläche
 * Konfigurationseinstellungen für Apache- und Nginx-Server
 
-= Kindle eBook =
-Als Begleithandbuch und Installationshilfe für *Cachify* wurde ein Kindle eBook mit dem Titel „[WordPress Performance](http://www.amazon.de/dp/B0091LDUVA "WordPress Performance"): Beschleunigung der Blogseiten durch Caching“ konzipiert und veröffentlicht. Das digitale Buch beleuchtet verfügbare Caching-Methoden, empfiehlt Einstellungen und liefert wertvolle Tipps & Tricks zur Geschwindigkeitsoptimierung von WordPress-Blogs.
+
+> #### Cachify eBook für Kindle
+> Als Begleithandbuch und Installationshilfe für *Cachify* wurde ein Kindle eBook mit dem Titel „[WordPress Performance](http://www.amazon.de/dp/B0091LDUVA "WordPress Performance"): Beschleunigung der Blogseiten durch Caching“ konzipiert und veröffentlicht. Das digitale Buch beleuchtet verfügbare Caching-Methoden, empfiehlt Einstellungen und liefert wertvolle Tipps & Tricks zur Geschwindigkeitsoptimierung unter WordPress.
+
 
 = Systemvoraussetzungen =
 * WordPress ab 3.4
 * PHP ab 5.2.4
 * APC ab 3.1.4 (optional, falls installiert)
 
-= Informationen =
-* [Offizielle Homepage](http://cachify.de "Cachify WordPress Cache")
-* [Online-Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify Online-Doku")
+
+= Unterstützung =
+* Per [Flattr](https://flattr.com/donation/give/to/sergej.mueller)
+* Per [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5RDDW9FEHGLG6)
+
+
+= Handbuch =
+* [Online-Dokumentation](http://playground.ebiene.de/cachify-wordpress-cache/ "Cachify Handbuch")
+
+
+= Website =
+* [cachify.de](http://cachify.de "Cachify WordPress Cache")
+
 
 = Autor =
 * [Google+](https://plus.google.com/110569673423509816572 "Google+")
 * [Plugins](http://wpcoder.de "Plugins")
-* [Portfolio](http://ebiene.de "Portfolio")
+
 
 
 
