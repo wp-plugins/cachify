@@ -25,6 +25,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 * Speicherungsmethoden: DB, HDD und APC
 * "Cache leeren" als Schaltfläche in der Admin Bar
 * Online-Handbuch
+* Einsatzbereit für WordPress-Multisite
 * Optionale Komprimierung der HTML-Ausgabe
 * Ausnahmelisten für Beiträge und User Agents
 * Manueller und automatischer Cache-Reset
