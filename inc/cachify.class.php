@@ -582,29 +582,14 @@ final class Cachify {
 	/**
 	* Anzeige des Spam-Counters auf dem Dashboard
 	*
-	* @since   2.0
-	* @change  2.0.4
+	* @since   2.0.0
+	* @change  2.0.6
 	*/
 
 	public static function add_count()
 	{
 		/* Größe */
-		if ( !$size = get_transient('cachify_cache_size') ) {
-			/* Auslesen */
-			$size = (int) call_user_func(
-				array(
-					self::$method,
-					'get_stats'
-				)
-			);
-
-			/* Speichern */
-			set_transient(
-		      'cachify_cache_size',
-		      $size,
-		      60 * 15
-		    );
-		}
+		$size = self::get_cache_size();
 
 		/* Formatierung */
 		$format = ( empty($size) ? array(0, 'Bytes') : explode(' ', size_format($size)) );
@@ -627,6 +612,38 @@ final class Cachify {
 			(int)$format[0],
 			$format[1]
 		);
+	}
+
+
+	/**
+	* Rückgabe der Cache-Größe
+	*
+	* @since   2.0.6
+	* @change  2.0.6
+	*
+	* @param   integer  $size  Cache-Größe in Bytes
+	*/
+
+	public static function get_cache_size()
+	{
+		if ( ! $size = get_transient('cachify_cache_size') ) {
+			/* Auslesen */
+			$size = (int) call_user_func(
+				array(
+					self::$method,
+					'get_stats'
+				)
+			);
+
+			/* Speichern */
+			set_transient(
+		      'cachify_cache_size',
+		      $size,
+		      60 * 15
+		    );
+		}
+
+		return $size;
 	}
 
 
