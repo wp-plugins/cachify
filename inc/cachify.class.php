@@ -45,7 +45,7 @@ final class Cachify {
 	* Konstruktor der Klasse
 	*
 	* @since   1.0.0
-	* @change  2.0.5
+	* @change  2.0.6
 	*/
 
   	public function __construct()
@@ -175,12 +175,13 @@ final class Cachify {
 		/* Frontend */
 		} else {
 			add_action(
-				'preprocess_comment',
+				'pre_comment_approved',
 				array(
 					__CLASS__,
-					'add_comment'
+					'pre_comment'
 				),
-				1
+				99,
+				2
 			);
 			add_action(
 				'template_redirect',
@@ -747,20 +748,24 @@ final class Cachify {
 	/**
 	* Löschung des Cache beim neuen Kommentar
 	*
-	* @since   0.1
-	* @change  0.1
+	* @since   0.1.0
+	* @change  2.0.6
 	*
-	* @param   array  $comment  Array mit Eigenschaften
-	* @return  array  $comment  Array mit Eigenschaften
+	* @param   mixed  $approved  Kommentar-Status
+	* @param   array  $comment   Array mit Eigenschaften
+	* @return  mixed  $approved  Kommentar-Status
 	*/
 
-	public static function add_comment($comment)
+	public static function pre_comment($approved, $comment)
 	{
-		self::_delete_cache(
-			get_permalink($comment['comment_post_ID'])
-		);
+		/* Approved comment? */
+		if ( $approved === 1 ) {
+			self::_delete_cache(
+				get_permalink($comment['comment_post_ID'])
+			);
+		}
 
-		return $comment;
+		return $approved;
 	}
 
 

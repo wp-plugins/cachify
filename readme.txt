@@ -71,6 +71,9 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 == Changelog ==
 
+= 2.0.6 =
+* Cache-Neuaufbau einer Blogseite nur bei Kommentaren, die freigegeben sind
+
 = 2.0.5 =
 * Cache-Leerung nach einem WordPress-Upgrade
 * Keine Cache-Ausgabe für Jetpack Mobile Theme
