@@ -545,7 +545,7 @@ final class Cachify {
 		return array_merge(
 			$input,
 			array(
-				'<a href="https://flattr.com/donation/give/to/sergej.mueller" target="_blank">Flattr</a>',
+				'<a href="https://flattr.com/profile/sergej.mueller" target="_blank">Flattr</a>',
 				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>'
 			)
 		);
@@ -1378,7 +1378,7 @@ final class Cachify {
 
 				<div class="submit">
 					<p>
-						<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank">Handbuch</a><a href="http://www.amazon.de/dp/B0091LDUVA" target="_blank">Kindle eBook</a><a href="https://flattr.com/donation/give/to/sergej.mueller" target="_blank">Flattr</a><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>
+						<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank">Handbuch</a><a href="http://www.amazon.de/dp/B0091LDUVA" target="_blank">Kindle eBook</a><a href="https://flattr.com/profile/sergej.mueller" target="_blank">Flattr</a><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>
 					</p>
 
 					<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
