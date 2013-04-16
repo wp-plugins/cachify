@@ -12,8 +12,8 @@ if ( !class_exists('Cachify') ) {
 */
 
 final class Cachify_DB {
-	
-	
+
+
 	/**
 	* Speicherung im Cache
 	*
@@ -24,14 +24,14 @@ final class Cachify_DB {
 	* @param   string   $data      Inhalt des Eintrags
 	* @param   integer  $lifetime  Lebensdauer des Eintrags
 	*/
-	
+
 	public static function store_item($hash, $data, $lifetime)
 	{
 		/* Leer? */
 		if ( empty($hash) or empty($data) ) {
 			wp_die('DB add item: Empty input.');
 		}
-		
+
 		/* Store */
 		set_transient(
 			$hash,
@@ -47,8 +47,8 @@ final class Cachify_DB {
 			$lifetime
 		);
 	}
-	
-	
+
+
 	/**
 	* Lesen aus dem Cache
 	*
@@ -58,18 +58,18 @@ final class Cachify_DB {
 	* @param   string  $hash  Hash des Eintrags
 	* @return  mixed   $diff  Wert des Eintrags
 	*/
-	
+
 	public static function get_item($hash)
 	{
 		/* Leer? */
 		if ( empty($hash) ) {
 			wp_die('DB get item: Empty input.');
 		}
-		
+
 		return get_transient($hash);
 	}
-	
-	
+
+
 	/**
 	* Entfernung aus dem Cache
 	*
@@ -79,55 +79,55 @@ final class Cachify_DB {
 	* @param   string  $hash  Hash des Eintrags
 	* @param   string  $url   URL des Eintrags [optional]
 	*/
-	
+
 	public static function delete_item($hash, $url = '')
 	{
 		/* Leer? */
 		if ( empty($hash) ) {
 			wp_die('DB delete item: Empty input.');
 		}
-		
+
 		/* Löschen */
 		delete_transient($hash);
 	}
-	
-	
+
+
 	/**
 	* Leerung des Cache
 	*
 	* @since   2.0
 	* @change  2.0
 	*/
-	
+
 	public static function clear_cache()
 	{
 		/* Init */
 		global $wpdb;
-		
+
 		/* Löschen */
 		$wpdb->query("DELETE FROM `" .$wpdb->options. "` WHERE `option_name` LIKE ('_transient%.cachify')");
-		
+
 		/* Optimieren */
 		$wpdb->query("OPTIMIZE TABLE `" .$wpdb->options. "`");
 	}
-	
-	
+
+
 	/**
 	* Ausgabe des Cache
 	*
 	* @since   2.0
 	* @change  2.0.2
-	* 
+	*
 	* @param   array  $cache  Array mit Cache-Werten
 	*/
-	
+
 	public static function print_cache($cache)
 	{
 		/* Kein Array? */
 		if ( ! is_array($cache) ) {
 			return;
 		}
-		
+
 		/* Content */
 		echo $cache['data'];
 
@@ -135,12 +135,12 @@ final class Cachify_DB {
 		if ( isset($cache['meta']) ) {
 			echo self::_cache_signatur($cache['meta']);
 		}
-		
+
 		/* Raus */
 		exit;
 	}
-	
-	
+
+
 	/**
 	* Ermittlung der Cache-Größe
 	*
@@ -149,19 +149,19 @@ final class Cachify_DB {
 	*
 	* @return  integer  $diff  Spaltengröße
 	*/
-	
+
 	public static function get_stats()
 	{
 		/* Init */
 		global $wpdb;
-		
+
 		/* Auslesen */
 		return $wpdb->get_var(
 			"SELECT SUM( CHAR_LENGTH(option_value) ) FROM `" .$wpdb->options. "` WHERE `option_name` LIKE ('_transient%.cachify')"
 		);
 	}
-	
-	
+
+
 	/**
 	* Generierung der Signatur
 	*
@@ -171,14 +171,14 @@ final class Cachify_DB {
 	* @param   array   $meta  Inhalt der Metadaten
 	* @return  string  $diff  Signatur als String
 	*/
-	
+
 	private static function _cache_signatur($meta)
 	{
 		/* Kein Array? */
 		if ( ! is_array($meta) ) {
 			return;
 		}
-		
+
 		return sprintf(
 			"\n\n<!--\n%s\n%s\n%s\n%s\n-->",
 			'Cachify | http://cachify.de',
@@ -200,8 +200,8 @@ final class Cachify_DB {
 			)
 		);
 	}
-	
-	
+
+
 	/**
 	* Rückgabe der Query-Anzahl
 	*
