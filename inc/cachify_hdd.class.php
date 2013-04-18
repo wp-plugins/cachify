@@ -2,7 +2,7 @@
 
 
 /* Secure check */
-if ( !class_exists('Cachify') ) {
+if ( ! class_exists('Cachify') ) {
 	die();
 }
 
@@ -50,7 +50,9 @@ final class Cachify_HDD {
 
 	public static function get_item()
 	{
-		return is_readable( self::_file_html() );
+		return is_readable(
+			self::_file_html()
+		);
 	}
 
 
@@ -156,7 +158,7 @@ final class Cachify_HDD {
 	private static function _create_files($data)
 	{
 		/* Ordner anlegen */
-		if ( !wp_mkdir_p( self::_file_path() ) ) {
+		if ( ! wp_mkdir_p( self::_file_path() ) ) {
 			wp_die('Unable to create directory.');
 		}
 
@@ -179,7 +181,7 @@ final class Cachify_HDD {
 	private static function _create_file($file, $data)
 	{
 		/* Beschreibbar? */
-		if ( !$handle = @fopen($file, 'wb') ) {
+		if ( ! $handle = @fopen($file, 'wb') ) {
 			wp_die('Could not write file.');
 		}
 
@@ -211,7 +213,7 @@ final class Cachify_HDD {
 		$dir = untrailingslashit($dir);
 
 		/* Ordner? */
-		if ( !is_dir($dir) ) {
+		if ( ! is_dir($dir) ) {
 			return;
 		}
 
@@ -260,7 +262,7 @@ final class Cachify_HDD {
 	public static function _dir_size($dir = '.')
 	{
 		/* Ordner? */
-		if ( !is_dir($dir) ) {
+		if ( ! is_dir($dir) ) {
 			return;
 		}
 
