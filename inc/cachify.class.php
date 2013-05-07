@@ -48,7 +48,7 @@ final class Cachify {
 	* @change  2.0.6
 	*/
 
-  	public function __construct()
+	public function __construct()
   	{
   		/* Filter */
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
@@ -502,7 +502,7 @@ final class Cachify {
 	public static function action_links($data)
 	{
 		/* Rechte? */
-		if ( !current_user_can('manage_options') ) {
+		if ( ! current_user_can('manage_options') ) {
 			return $data;
 		}
 
