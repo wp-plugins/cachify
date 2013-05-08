@@ -17,14 +17,14 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 == Description ==
 
 = Unkompliziert und ausbaufähig =
-*Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form wahlweise in der Datenbank, auf der Festplatte oder dank APC (Alternative PHP Cache) im Speicher des Webservers abgelegt und beim Seitenaufruf ohne Umwege ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich je nach gewählter Methode gegen Null.
+*Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form wahlweise in der Datenbank, auf der Festplatte (HDD) oder dank APC (Alternative PHP Cache) im Speicher des Webservers abgelegt und beim Seitenaufruf ohne Umwege ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich je nach gewählter Methode gegen Null.
 
 
 = Pluspunkte =
 * Zusammenarbeit mit Custom Post Types
 * Speicherungsmethoden: DB, HDD und APC
 * "Cache leeren" als Schaltfläche in der Admin Bar
-* Online-Handbuch
+* Handbuch als Online-, Kindle- oder Print-Version
 * Einsatzbereit für WordPress-Multisite
 * Optionale Komprimierung der HTML-Ausgabe
 * Ausnahmelisten für Beiträge und User Agents
@@ -35,8 +35,8 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 * Konfigurationseinstellungen für Apache- und Nginx-Server
 
 
-> #### Cachify eBook für Kindle
-> Als Begleithandbuch und Installationshilfe für *Cachify* wurde ein Kindle eBook mit dem Titel „[WordPress Performance](http://www.amazon.de/dp/B0091LDUVA "WordPress Performance"): Beschleunigung der Blogseiten durch Caching“ konzipiert und veröffentlicht. Das digitale Buch beleuchtet verfügbare Caching-Methoden, empfiehlt Einstellungen und liefert wertvolle Tipps & Tricks zur Geschwindigkeitsoptimierung unter WordPress.
+> #### Cachify-Handbuch
+> Als Begleithandbuch und Installationshilfe für *Cachify* wurden ein Kindle-eBook und ein gedrucktes Taschenbuch mit dem Titel „[WordPress Performance](http://www.amazon.de/dp/B0091LDUVA "WordPress Performance"): Beschleunigung der Blogseiten durch Caching“ konzipiert und veröffentlicht. Beide Handbücher beleuchten verfügbare Caching-Methoden, empfehlen Plugin-Einstellungen und liefern wertvolle Tipps & Tricks zur Geschwindigkeitsoptimierung unter WordPress.
 
 
 = Support =
@@ -50,7 +50,7 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 
 = Unterstützung =
-* Per [Flattr](https://flattr.com/donation/give/to/sergej.mueller)
+* Per [Flattr](https://flattr.com/t/1327625)
 * Per [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5RDDW9FEHGLG6)
 
 
@@ -63,6 +63,7 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 
 = Autor =
+* [Twitter](https://twitter.com/wpSEO)
 * [Google+](https://plus.google.com/110569673423509816572 "Google+")
 * [Plugins](http://wpcoder.de "Plugins")
 
