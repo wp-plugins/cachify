@@ -1014,7 +1014,7 @@ final class Cachify {
 		$cleaned = preg_replace(
 			array(
 				'/<!--[^\[><](.*?)-->/s',
-				'#(?ix)(?>[^\S ]\s*|\s{2,})(?=(?:(?:[^<]++|<(?!/?(?:textarea|pre)\b))*+)(?:<(?>textarea|pre)\b|\z))#'
+				'#(?ix)(?>[^\S ]\s*|\s{2,})(?=(?:(?:[^<]++|<(?!/?(?:textarea|pre|script)\b))*+)(?:<(?>textarea|pre|script)\b|\z))#'
 			),
 			array(
 				'',
