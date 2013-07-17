@@ -901,14 +901,14 @@ final class Cachify {
 	* Prüfung auf Mobile Devices
 	*
 	* @since   0.9.1
-	* @change  2.0.5
+	* @change  2.0.7
 	*
 	* @return  boolean  TRUE bei Mobile
 	*/
 
 	private static function _is_mobile()
 	{
-		return ( strpos(TEMPLATEPATH, 'wptouch') or strpos(TEMPLATEPATH, 'carrington') or strpos(TEMPLATEPATH, 'jetpack') );
+		return ( strpos(TEMPLATEPATH, 'wptouch') or strpos(TEMPLATEPATH, 'carrington') or strpos(TEMPLATEPATH, 'jetpack') or strpos(TEMPLATEPATH, 'handheld') );
 	}
 
 
