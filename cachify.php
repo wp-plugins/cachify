@@ -5,14 +5,12 @@ Description: Smarter Cache für WordPress. Reduziert die Ladezeit der Blogseiten
 Author: Sergej M&uuml;ller
 Author URI: http://wpcoder.de
 Plugin URI: http://cachify.de
-Version: 2.0.6
+Version: 2.0.7
 */
 
 
-/* Sicherheitsabfrage */
-if ( ! class_exists('WP') ) {
-	die();
-}
+/* Quit */
+defined('ABSPATH') OR exit;
 
 
 /* Konstanten */
@@ -51,7 +49,7 @@ spl_autoload_register('cachify_autoload');
 
 /* Autoload Funktion */
 function cachify_autoload($class) {
-	if ( in_array($class, array('Cachify', 'Cachify_APC', 'Cachify_DB', 'Cachify_HDD')) ) {
+	if ( in_array($class, array('Cachify', 'Cachify_APC', 'Cachify_DB', 'Cachify_HDD', 'Cachify_MEMCACHED')) ) {
 		require_once(
 			sprintf(
 				'%s/inc/%s.class.php',

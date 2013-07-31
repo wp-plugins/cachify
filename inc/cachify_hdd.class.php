@@ -1,10 +1,8 @@
 <?php
 
 
-/* Secure check */
-if ( ! class_exists('Cachify') ) {
-	die();
-}
+/* Quit */
+defined('ABSPATH') OR exit;
 
 
 /**
@@ -12,6 +10,21 @@ if ( ! class_exists('Cachify') ) {
 */
 
 final class Cachify_HDD {
+
+
+	/**
+	* Availability check
+	*
+	* @since   2.0.7
+	* @change  2.0.7
+	*
+	* @return  boolean  true/false  TRUE when installed
+	*/
+
+	public static function is_available()
+	{
+		return get_option('permalink_structure');
+	}
 
 
 	/**

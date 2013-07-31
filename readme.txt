@@ -3,7 +3,7 @@ Contributors: sergej.mueller
 Tags: apc, cache, caching, performance
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5RDDW9FEHGLG6
 Requires at least: 3.4
-Tested up to: 3.5
+Tested up to: 3.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -22,7 +22,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 
 = Pluspunkte =
 * Zusammenarbeit mit Custom Post Types
-* Speicherungsmethoden: DB, HDD und APC
+* Speicherungsmethoden: DB, HDD, APC und Memcached
 * "Cache leeren" als Schaltfläche in der Admin Bar
 * Handbuch als Online-, Kindle- oder Print-Version
 * Einsatzbereit für WordPress-Multisite
@@ -71,6 +71,12 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 
 == Changelog ==
+
+= 2.0.7 =
+* Unterstützung für Memcached
+* WordPress 3.6 Support
+* Cache-Neuaufbau beim Theme-Wechsel
+* Quelltext-Optimierungen
 
 = 2.0.6 =
 * Cache-Neuaufbau einer Blogseite nur bei Kommentaren, die freigegeben sind

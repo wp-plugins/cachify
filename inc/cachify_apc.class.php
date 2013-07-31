@@ -1,10 +1,8 @@
 <?php
 
 
-/* Secure check */
-if ( !class_exists('Cachify') ) {
-	die();
-}
+/* Quit */
+defined('ABSPATH') OR exit;
 
 
 /**
@@ -12,6 +10,21 @@ if ( !class_exists('Cachify') ) {
 */
 
 final class Cachify_APC {
+
+
+	/**
+	* Availability check
+	*
+	* @since   2.0.7
+	* @change  2.0.7
+	*
+	* @return  boolean  true/false  TRUE when installed
+	*/
+
+	public static function is_available()
+	{
+		return extension_loaded('apc');
+	}
 
 
 	/**
@@ -87,15 +100,17 @@ final class Cachify_APC {
 	/**
 	* Leerung des Cache
 	*
-	* @since   2.0
-	* @change  2.0
+	* @since   2.0.0
+	* @change  2.0.7
 	*/
 
 	public static function clear_cache()
 	{
-		if ( extension_loaded('apc') ) {
-			apc_clear_cache('user');
+		if ( ! self::is_available() ) {
+			return;
 		}
+
+		apc_clear_cache('user');
 	}
 
 

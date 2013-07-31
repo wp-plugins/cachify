@@ -1,6 +1,10 @@
 <?php
 
 
+/* Quit */
+defined('ABSPATH') OR exit;
+
+
 /**
 * Cachify
 */
@@ -45,7 +49,7 @@ final class Cachify {
 	* Konstruktor der Klasse
 	*
 	* @since   1.0.0
-	* @change  2.0.6
+	* @change  2.0.7
 	*/
 
 	public function __construct()
@@ -55,8 +59,8 @@ final class Cachify {
 			return;
 		}
 
-		/* Variablen */
-		self::_set_vars();
+		/* Set defaults */
+		self::_set_defaults();
 
 		/* Publish-Hooks */
 		self::_publish_hooks();
@@ -71,6 +75,13 @@ final class Cachify {
 		);
 		add_action(
 			'_core_updated_successfully',
+			array(
+				__CLASS__,
+				'flush_cache'
+			)
+		);
+		add_action(
+			'switch_theme',
 			array(
 				__CLASS__,
 				'flush_cache'
@@ -212,7 +223,7 @@ final class Cachify {
 	public static function install()
 	{
 		/* Multisite & Network */
-		if ( is_multisite() && !empty($_GET['networkwide']) ) {
+		if ( is_multisite() && ! empty($_GET['networkwide']) ) {
 			/* Blog-IDs */
 			$ids = self::_get_blog_ids();
 
@@ -240,7 +251,7 @@ final class Cachify {
 
 	public static function install_later($id) {
 		/* Kein Netzwerk-Plugin */
-		if ( !is_plugin_active_for_network(CACHIFY_BASE) ) {
+		if ( ! is_plugin_active_for_network(CACHIFY_BASE) ) {
 			return;
 		}
 
@@ -318,7 +329,7 @@ final class Cachify {
 	public static function uninstall_later($id)
 	{
 		/* Kein Netzwerk-Plugin */
-		if ( !is_plugin_active_for_network(CACHIFY_BASE) ) {
+		if ( ! is_plugin_active_for_network(CACHIFY_BASE) ) {
 			return;
 		}
 
@@ -374,19 +385,27 @@ final class Cachify {
 	* Eigenschaften des Objekts
 	*
 	* @since   2.0
-	* @change  2.0
+	* @change  2.0.7
 	*/
 
-	private static function _set_vars()
+	private static function _set_defaults()
 	{
 		/* Optionen */
 		self::$options = self::_get_options();
 
-		/* Methode */
-		if ( self::$options['use_apc'] === 1 && extension_loaded('apc') ) {
+		/* APC */
+		if ( self::$options['use_apc'] === 1 && Cachify_APC::is_available() ) {
 			self::$method = new Cachify_APC;
-		} else if ( self::$options['use_apc'] === 2 ) {
+
+		/* HDD */
+		} else if ( self::$options['use_apc'] === 2 && Cachify_HDD::is_available() ) {
 			self::$method = new Cachify_HDD;
+
+		/* MEMCACHED */
+		} else if ( self::$options['use_apc'] === 3 && Cachify_MEMCACHED::is_available() ) {
+			self::$method = new Cachify_MEMCACHED;
+
+		/* DB */
 		} else {
 			self::$method = new Cachify_DB;
 		}
@@ -564,7 +583,7 @@ final class Cachify {
 	public static function add_menu($wp_admin_bar)
 	{
 		/* Aussteigen */
-		if ( !is_admin_bar_showing() or !is_super_admin() ) {
+		if ( ! is_admin_bar_showing() OR ! is_super_admin() ) {
 			return;
 		}
 
@@ -971,7 +990,7 @@ final class Cachify {
 			return true;
 		}
 
-		/* WP Touch */
+		/* WP Touch & Co. */
 		if ( self::_is_mobile() ) {
 			return true;
 		}
@@ -998,7 +1017,7 @@ final class Cachify {
 	* Minimierung des HTML-Codes
 	*
 	* @since   0.9.2
-	* @change  2.0.1
+	* @change  2.0.7
 	*
 	* @param   string  $data  Zu minimierender Datensatz
 	* @return  string  $data  Minimierter Datensatz
@@ -1014,7 +1033,7 @@ final class Cachify {
 		$cleaned = preg_replace(
 			array(
 				'/<!--[^\[><](.*?)-->/s',
-				'#(?ix)(?>[^\S ]\s*|\s{2,})(?=(?:(?:[^<]++|<(?!/?(?:textarea|pre|script)\b))*+)(?:<(?>textarea|pre|script)\b|\z))#'
+				'#(?ix)(?>[^\S ]\s*|\s{2,})(?=(?:(?:[^<]++|<(?!/?(?:textarea|pre)\b))*+)(?:<(?>textarea|pre|script)\b|\z))#'
 			),
 			array(
 				'',
@@ -1069,8 +1088,11 @@ final class Cachify {
 		/* APC */
 		Cachify_APC::clear_cache();
 
-		/* HD */
+		/* HDD */
 		Cachify_HDD::clear_cache();
+
+		/* MEMCACHED */
+		Cachify_MEMCACHED::clear_cache();
 
 		/* Transient */
 		delete_transient('cachify_cache_size');
@@ -1199,32 +1221,38 @@ final class Cachify {
 	/**
 	* Verfügbare Cache-Methoden
 	*
-	* @since  2.0
-	* @change 2.0
+	* @since  2.0.0
+	* @change 2.0.7
 	*
-	* @param  array  $available  Array mit verfügbaren Arten
+	* @param  array  $methods  Array mit verfügbaren Arten
 	*/
 
 	private static function _method_select()
 	{
-		/* Verfügbar */
-		$available = array(
+		/* Default methods */
+		$methods = array(
 			0 => 'Datenbank',
 			1 => 'APC',
-			2 => 'Festplatte'
+			2 => 'Festplatte',
+			3 => 'Memcached'
 		);
 
-		/* Kein APC */
-		if ( !extension_loaded('apc') ) {
-			unset($available[1]);
+		/* APC */
+		if ( ! Cachify_APC::is_available() ) {
+			unset($methods[1]);
 		}
 
-		/* Keine Permalinks */
-		if ( !get_option('permalink_structure') ) {
-			unset($available[2]);
+		/* Memcached? */
+		if ( ! Cachify_MEMCACHED::is_available() ) {
+			unset($methods[3]);
 		}
 
-		return $available;
+		/* HDD */
+		if ( ! Cachify_HDD::is_available() ) {
+			unset($methods[2]);
+		}
+
+		return $methods;
 	}
 
 
@@ -1378,7 +1406,7 @@ final class Cachify {
 
 				<div class="submit">
 					<p>
-						<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank">Handbuch</a><a href="http://www.amazon.de/dp/B0091LDUVA" target="_blank">Kindle eBook</a><a href="https://flattr.com/t/1327625" target="_blank">Flattr</a><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>
+						<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank">Dokumentation</a><a href="http://playground.ebiene.de/cachify-wordpress-cache/#book" target="_blank">Handbücher</a><a href="https://flattr.com/t/1327625" target="_blank">Flattr</a><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>
 					</p>
 
 					<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
