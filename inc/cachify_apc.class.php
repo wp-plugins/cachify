@@ -110,7 +110,7 @@ final class Cachify_APC {
 			return;
 		}
 
-		apc_clear_cache('user');
+		@apc_clear_cache('user');
 	}
 
 
