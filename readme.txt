@@ -75,6 +75,7 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 = 2.0.8 =
 * Volle Unterstützung von WooCommerce (WC 1.4.2+)
+* Detaillierter auf [Google+](https://plus.google.com/110569673423509816572/posts/ic4heMghbxw)
 
 = 2.0.7 =
 * Unterstützung für Memcached
