@@ -49,13 +49,13 @@ final class Cachify {
 	* Konstruktor der Klasse
 	*
 	* @since   1.0.0
-	* @change  2.0.7
+	* @change  2.0.8
 	*/
 
 	public function __construct()
   	{
   		/* Filter */
-		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+		if ( ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) OR ( defined('DONOTCACHEPAGE') && DONOTCACHEPAGE ) ) {
 			return;
 		}
 

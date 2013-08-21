@@ -22,6 +22,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 
 = Pluspunkte =
 * Zusammenarbeit mit Custom Post Types
+* Unterstützung von WooCommerce
 * Speicherungsmethoden: DB, HDD, APC und Memcached
 * "Cache leeren" als Schaltfläche in der Admin Bar
 * Handbuch als Online-, Kindle- oder Print-Version
@@ -71,6 +72,9 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 
 == Changelog ==
+
+= 2.0.8 =
+* Volle Unterstützung von WooCommerce (WC 1.4.2+)
 
 = 2.0.7 =
 * Unterstützung für Memcached
