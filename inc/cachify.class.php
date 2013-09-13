@@ -375,9 +375,7 @@ final class Cachify {
 		/* Global */
 		global $wpdb;
 
-		return $wpdb->get_col(
-			$wpdb->prepare("SELECT blog_id FROM `$wpdb->blogs`")
-		);
+		return $wpdb->get_col("SELECT blog_id FROM `$wpdb->blogs`");
 	}
 
 
