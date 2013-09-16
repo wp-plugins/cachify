@@ -33,6 +33,31 @@ final class Cachify {
 
 
 	/**
+	* Method settings
+	*
+	* @since  2.0.9
+	* @var    integer
+	*/
+
+	const METHOD_DB = 0;
+	const METHOD_APC = 1;
+	const METHOD_HDD = 2;
+	const METHOD_MMC = 3;
+
+
+	/**
+	* Minify settings
+	*
+	* @since  2.0.9
+	* @var    integer
+	*/
+
+	const MINIFY_DISABLED = 0;
+	const MINIFY_HTML_ONLY = 1;
+	const MINIFY_HTML_JS = 2;
+
+
+	/**
 	* Pseudo-Konstruktor der Klasse
 	*
 	* @since   2.0.5
@@ -392,15 +417,15 @@ final class Cachify {
 		self::$options = self::_get_options();
 
 		/* APC */
-		if ( self::$options['use_apc'] === 1 && Cachify_APC::is_available() ) {
+		if ( self::$options['use_apc'] === self::METHOD_APC && Cachify_APC::is_available() ) {
 			self::$method = new Cachify_APC;
 
 		/* HDD */
-		} else if ( self::$options['use_apc'] === 2 && Cachify_HDD::is_available() ) {
+		} else if ( self::$options['use_apc'] === self::METHOD_HDD && Cachify_HDD::is_available() ) {
 			self::$method = new Cachify_HDD;
 
 		/* MEMCACHED */
-		} else if ( self::$options['use_apc'] === 3 && Cachify_MEMCACHED::is_available() ) {
+		} else if ( self::$options['use_apc'] === self::METHOD_MMC && Cachify_MEMCACHED::is_available() ) {
 			self::$method = new Cachify_MEMCACHED;
 
 		/* DB */
@@ -454,7 +479,7 @@ final class Cachify {
 	* Rückgabe der Optionen
 	*
 	* @since   2.0
-	* @change  2.0
+	* @change  2.0.9
 	*
 	* @return  array  $diff  Array mit Werten
 	*/
@@ -465,11 +490,11 @@ final class Cachify {
 			get_option('cachify'),
 			array(
 				'only_guests'	 => 1,
-				'compress_html'	 => 0,
+				'compress_html'	 => self::MINIFY_DISABLED,
 				'cache_expires'	 => 12,
 				'without_ids'	 => '',
 				'without_agents' => '',
-				'use_apc'		 => 0
+				'use_apc'		 => self::METHOD_DB
 			)
 		);
 	}
@@ -488,7 +513,7 @@ final class Cachify {
 	public static function robots_txt($data)
 	{
 		/* HDD only */
-		if ( self::$options['use_apc'] !== 2 ) {
+		if ( self::$options['use_apc'] !== self::METHOD_HDD ) {
 			return $data;
 		}
 
@@ -735,7 +760,7 @@ final class Cachify {
 	public static function flush_notice()
 	{
 		/* Kein Admin */
-		if ( !is_super_admin() ) {
+		if ( ! is_super_admin() ) {
 			return false;
 		}
 
@@ -1015,23 +1040,47 @@ final class Cachify {
 	* Minimierung des HTML-Codes
 	*
 	* @since   0.9.2
-	* @change  2.0.7
+	* @change  2.0.9
 	*
 	* @param   string  $data  Zu minimierender Datensatz
 	* @return  string  $data  Minimierter Datensatz
+	*
+	* @hook    array   cachify_minify_ignore_tags
 	*/
 
 	private static function _minify_cache($data) {
-		/* Minimierung? */
-		if ( !self::$options['compress_html'] ) {
+		/* Disabled? */
+		if ( ! self::$options['compress_html'] ) {
 			return($data);
 		}
 
-		/* Verkleinern */
+		/* Ignore this html tags */
+		$ignore_tags = (array)apply_filters(
+			'cachify_minify_ignore_tags',
+			array(
+				'textarea',
+				'pre'
+			)
+		);
+
+		/* Add the script tag */
+		if ( self::$options['compress_html'] !== self::MINIFY_HTML_JS ) {
+			$ignore_tags[] = 'script';
+		}
+
+		/* Empty blacklist? | TODO: Make better */
+		if ( ! $ignore_tags ) {
+			return($data);
+		}
+
+		/* Convert to string */
+		$ignore_regex = implode('|', $ignore_tags);
+
+		/* Minify */
 		$cleaned = preg_replace(
 			array(
 				'/<!--[^\[><](.*?)-->/s',
-				'#(?ix)(?>[^\S ]\s*|\s{2,})(?=(?:(?:[^<]++|<(?!/?(?:textarea|pre|script)\b))*+)(?:<(?>textarea|pre|script)\b|\z))#'
+				'#(?ix)(?>[^\S ]\s*|\s{2,})(?=(?:(?:[^<]++|<(?!/?(?:' .$ignore_regex. ')\b))*+)(?:<(?>' .$ignore_regex. ')\b|\z))#'
 			),
 			array(
 				'',
@@ -1040,7 +1089,7 @@ final class Cachify {
 			(string) $data
 		);
 
-		/* Fehlerhaft? */
+		/* Fault */
 		if ( strlen($cleaned) <= 1 ) {
 			return($data);
 		}
@@ -1220,19 +1269,19 @@ final class Cachify {
 	* Verfügbare Cache-Methoden
 	*
 	* @since  2.0.0
-	* @change 2.0.7
+	* @change 2.0.9
 	*
 	* @param  array  $methods  Array mit verfügbaren Arten
 	*/
 
 	private static function _method_select()
 	{
-		/* Default methods */
+		/* Defaults */
 		$methods = array(
-			0 => 'Datenbank',
-			1 => 'APC',
-			2 => 'Festplatte',
-			3 => 'Memcached'
+			self::METHOD_DB => 'Datenbank',
+			self::METHOD_APC => 'APC',
+			self::METHOD_HDD => 'Festplatte',
+			self::METHOD_MMC => 'Memcached'
 		);
 
 		/* APC */
@@ -1251,6 +1300,16 @@ final class Cachify {
 		}
 
 		return $methods;
+	}
+
+
+	private static function _minify_select()
+	{
+		return array(
+			self::MINIFY_DISABLED  => 'Keine',
+			self::MINIFY_HTML_ONLY => 'Nur HTML',
+			self::MINIFY_HTML_JS   => 'HTML und JavaScript'
+		);
 	}
 
 
@@ -1290,7 +1349,7 @@ final class Cachify {
 		self::flush_cache();
 
 		/* Hinweis */
-		if ( self::$options['use_apc'] != $data['use_apc'] && $data['use_apc'] >= 1 ) {
+		if ( self::$options['use_apc'] != $data['use_apc'] && $data['use_apc'] >= self::METHOD_APC ) {
 			add_settings_error(
 				'cachify_method_tip',
 				'cachify_method_tip',
@@ -1302,7 +1361,7 @@ final class Cachify {
 		/* Rückgabe */
 		return array(
 			'only_guests'	 => (int)(!empty($data['only_guests'])),
-			'compress_html'	 => (int)(!empty($data['compress_html'])),
+			'compress_html'	 => (int)$data['compress_html'],
 			'cache_expires'	 => (int)(@$data['cache_expires']),
 			'without_ids'	 => (string)sanitize_text_field(@$data['without_ids']),
 			'without_agents' => (string)sanitize_text_field(@$data['without_agents']),
@@ -1315,7 +1374,7 @@ final class Cachify {
 	* Darstellung der Optionsseite
 	*
 	* @since   1.0
-	* @change  2.0
+	* @change  2.0.9
 	*/
 
 	public static function options_page()
@@ -1334,7 +1393,7 @@ final class Cachify {
 
 				<div class="table rounded">
 					<table class="form-table">
-						<caption class="rounded">Einstellungen</caption>
+						<caption class="rounded">Methode</caption>
 
 						<tr>
 							<th>
@@ -1357,17 +1416,29 @@ final class Cachify {
 								<input type="text" name="cachify[cache_expires]" value="<?php echo $options['cache_expires'] ?>" class="small" />
 							</td>
 						</tr>
+					</table>
+				</div>
+
+
+				<div class="table rounded">
+					<table class="form-table">
+						<caption class="rounded">Minimierung</caption>
 
 						<tr>
 							<th>
-								Minimierung der Ausgabe
+								Anwendungsbereich im Quelltext
 							</th>
 							<td>
-								<input type="checkbox" name="cachify[compress_html]" value="1" <?php checked('1', $options['compress_html']); ?> />
+								<select name="cachify[compress_html]">
+									<?php foreach( self::_minify_select() as $k => $v ) { ?>
+										<option value="<?php echo esc_attr($k) ?>" <?php selected($options['compress_html'], $k); ?>><?php echo esc_html($v) ?></option>
+									<?php } ?>
+								</select>
 							</td>
 						</tr>
 					</table>
 				</div>
+
 
 				<div class="table rounded">
 					<table class="form-table">

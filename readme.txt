@@ -73,6 +73,10 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 == Changelog ==
 
+= 2.0.9 =
+* Quelltext-Minimierung als Selektbox und Hook
+* Interne Umstellung auf Konstanten
+
 = 2.0.8 =
 * Volle Unterstützung von WooCommerce (WC 1.4.2+)
 * Detaillierter auf [Google+](https://plus.google.com/110569673423509816572/posts/ic4heMghbxw)

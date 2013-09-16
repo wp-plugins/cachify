@@ -5,7 +5,7 @@ Description: Smarter Cache für WordPress. Reduziert die Ladezeit der Blogseiten
 Author: Sergej M&uuml;ller
 Author URI: http://wpcoder.de
 Plugin URI: http://cachify.de
-Version: 2.0.8
+Version: 2.0.9
 */
 
 
