@@ -73,6 +73,9 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 == Changelog ==
 
+= 2.1.0 =
+* Cache-Leerung bei Plugin-Deaktivierung
+
 = 2.0.9 =
 * Quelltext-Minimierung als Selektbox und Hook
 * Interne Umstellung auf Konstanten

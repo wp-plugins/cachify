@@ -239,13 +239,26 @@ final class Cachify {
 
 
 	/**
-	* Plugin-Installation für MU-Blogs
+	* Deactivation hook
 	*
-	* @since   1.0
-	* @change  1.0
+	* @since   2.1.0
+	* @change  2.1.0
 	*/
 
-	public static function install()
+	public static function on_deactivation()
+	{
+		self::flush_cache();
+	}
+
+
+	/**
+	* Activation hook
+	*
+	* @since   1.0
+	* @change  2.1.0
+	*/
+
+	public static function on_activation()
 	{
 		/* Multisite & Network */
 		if ( is_multisite() && ! empty($_GET['networkwide']) ) {
@@ -314,10 +327,10 @@ final class Cachify {
 	* Deinstallation des Plugins pro MU-Blog
 	*
 	* @since   1.0
-	* @change  1.0
+	* @change  2.1.0
 	*/
 
-	public static function uninstall()
+	public static function on_uninstall()
 	{
 		/* Global */
 		global $wpdb;
