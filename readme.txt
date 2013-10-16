@@ -78,6 +78,7 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 = 2.1.1 =
 * Hook `cachify_skip_cache` für die Steuerung der Cache-Generierung
 * Support für das MP6 Plugin
+* Detaillierter auf [Google+](https://plus.google.com/110569673423509816572/posts/S1mpFsG3NZC)
 
 = 2.1.0 =
 * Cache-Leerung bei Plugin-Deaktivierung
