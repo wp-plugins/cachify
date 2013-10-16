@@ -34,6 +34,7 @@ Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit 
 * Automatisches Management des Cache-Bestandes
 * Anzeige der Cache-Belegung auf dem Dashboard
 * Konfigurationseinstellungen für Apache- und Nginx-Server
+* Zahlreiche Hooks/Filter als Schnittstelle
 
 
 > #### Cachify-Handbuch
@@ -48,6 +49,7 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 * WordPress ab 3.4
 * PHP ab 5.2.4
 * APC ab 3.1.4 (optional, falls installiert)
+* Memcached unter Nginx (optional)
 
 
 = Unterstützung =
@@ -72,6 +74,10 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 
 == Changelog ==
+
+= 2.1.1 =
+* Hook `cachify_skip_cache` für die Steuerung der Cache-Generierung
+* Support für das MP6 Plugin
 
 = 2.1.0 =
 * Cache-Leerung bei Plugin-Deaktivierung

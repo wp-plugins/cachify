@@ -611,7 +611,7 @@ final class Cachify {
 	* Hinzufügen eines Admin-Bar-Menüs
 	*
 	* @since   1.2
-	* @change  1.2.1
+	* @change  2.1.1
 	*
 	* @param   object  Objekt mit Menü-Eigenschaften
 	*/
@@ -627,7 +627,7 @@ final class Cachify {
 		$wp_admin_bar->add_menu(
 			array(
 				'id' 	 => 'cachify',
-				'title'  => '<span class="ab-icon" title="Cache leeren"></span>',
+				'title'  => '<span>Cache leeren</span>',
 				'href'   => add_query_arg('_cachify', 'flush'),
 				'parent' => 'top-secondary'
 			)
@@ -1001,32 +1001,39 @@ final class Cachify {
 	* Definition der Ausnahmen für den Cache
 	*
 	* @since   0.2
-	* @change  2.0
+	* @change  2.1.1
 	*
 	* @return  boolean  TRUE bei Ausnahmen
+	*
+	* @hook    boolean  cachify_skip_cache
 	*/
 
 	private static function _skip_cache()
 	{
-		/* Optionen */
-		$options = self::$options;
+		/* No cache hook */
+		if ( apply_filters('cachify_skip_cache', false) ) {
+			return true;
+		}
 
-		/* Filter */
+		/* Conditional Tags */
 		if ( self::_is_index() or is_search() or is_404() or is_feed() or is_trackback() or is_robots() or is_preview() or post_password_required() ) {
 			return true;
 		}
 
-		/* Request */
+		/* Request vars */
 		if ( !empty($_POST) or (!empty($_GET) && get_option('permalink_structure')) ) {
 			return true;
 		}
+
+		/* Plugin options */
+		$options = self::$options;
 
 		/* Logged in */
 		if ( $options['only_guests'] && self::_is_logged_in() ) {
 			return true;
 		}
 
-		/* WP Touch & Co. */
+		/* Mobile request */
 		if ( self::_is_mobile() ) {
 			return true;
 		}

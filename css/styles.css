@@ -1,26 +1,38 @@
-/* @group Plugin Icon */
 
-#icon-cachify {
-	width: 32px;
-	height: 32px;
-	background: url('../img/icon@2x.png');
-	background-size: 100%;
+/* @group Adminbar Icons */
+
+@font-face {
+	font-family: 'CachifyIcons';
+	src: url('../font/icons.woff') format('woff');
 }
 
-/* @end group */
-
-
-/* @group Adminbar Icon */
-
-#wp-admin-bar-cachify .ab-icon {
-	float: left;
-	width: 16px;
-	height: 16px;
+#wp-admin-bar-cachify a.ab-item:before,
+#icon-cachify:before {
 	position: relative;
-	margin-top: 6px;
-	background: url(../img/trash@2x.png);
-	background-size: 100%;
+	font-family: CachifyIcons !important;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
 
+body:not(.mp6) #wp-admin-bar-cachify a.ab-item span {
+	display: none;
+}
+#wp-admin-bar-cachify a.ab-item:before {
+	top: 1px;
+	content: '\e800';
+	font-size: 18px;
+	line-height: 22px;
+	display: inline-block;
+}
+#icon-cachify {
+	padding-right: 8px;
+}
+#icon-cachify:before {
+	top: -6px;
+	color: #494949;
+	content: '\e801';
+	font-size: 42px;
+	line-height: 42px;
 }
 
 /* @end group */
