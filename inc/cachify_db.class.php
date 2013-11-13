@@ -118,7 +118,7 @@ final class Cachify_DB {
 		global $wpdb;
 
 		/* Löschen */
-		$wpdb->query("DELETE FROM `" .$wpdb->options. "` WHERE `option_name` LIKE ('_transient%.cachify')");
+		$wpdb->query("DELETE FROM `" .$wpdb->options. "` WHERE `option_name` LIKE ('\_transient%.cachify')");
 
 		/* Optimieren */
 		$wpdb->query("OPTIMIZE TABLE `" .$wpdb->options. "`");
@@ -170,7 +170,7 @@ final class Cachify_DB {
 
 		/* Auslesen */
 		return $wpdb->get_var(
-			"SELECT SUM( CHAR_LENGTH(option_value) ) FROM `" .$wpdb->options. "` WHERE `option_name` LIKE ('_transient%.cachify')"
+			"SELECT SUM( CHAR_LENGTH(option_value) ) FROM `" .$wpdb->options. "` WHERE `option_name` LIKE ('\_transient%.cachify')"
 		);
 	}
 
