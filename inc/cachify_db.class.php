@@ -28,6 +28,20 @@ final class Cachify_DB {
 
 
 	/**
+	* Caching method as string
+	*
+	* @since   2.1.2
+	* @change  2.1.2
+	*
+	* @return  string  Caching method
+	*/
+
+	public static function stringify‎_method() {
+		return 'DB';
+	}
+
+
+	/**
 	* Speicherung im Cache
 	*
 	* @since   2.0
