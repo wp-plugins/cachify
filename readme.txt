@@ -75,6 +75,11 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 == Changelog ==
 
+= 2.1.3 =
+* Manuelle Auswahl: Beim Artikel-Update nur den Seitencache löschen [Doku](http://playground.ebiene.de/cachify-wordpress-cache/#cachify-publish-status)
+* Lokalisierung der Plugin-Dateien
+* Umbauten am Plugin-Core
+
 = 2.1.2 =
 * Optimierung für WordPress 3.8
 * Option hinzugefügt: Neue Kommentare lösen einen Cache-Reset aus
