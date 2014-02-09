@@ -1477,7 +1477,7 @@ final class Cachify {
 		return array(
 			self::MINIFY_DISABLED  => __('No minify', 'cachify'),
 			self::MINIFY_HTML_ONLY => 'HTML',
-			self::MINIFY_HTML_JS   => 'HTML + JavaScript'
+			self::MINIFY_HTML_JS   => 'HTML + Inline JavaScript'
 		);
 	}
 
