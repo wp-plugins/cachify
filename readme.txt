@@ -75,9 +75,12 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 == Changelog ==
 
+= 2.1.6 =
+* Button "Cache leeren" sichtbar sowohl in WP 3.8 wie WP 3.9
+
 = 2.1.5 =
 * Support für WordPress 3.9
-* Fix: Button "Cache leeren" sichtbar bei jeder Bildschirmauflösung
+* Button "Cache leeren" sichtbar bei jeder Bildschirmauflösung
 
 = 2.1.4 =
 * Support für WordPress 3.8.1
