@@ -90,7 +90,14 @@ final class Cachify {
 		/* Publish-Hooks */
 		self::_register_publish_hooks();
 
-		/* Flush Hook */
+		/* Flush Hooks */
+		add_action(
+			'cachify_remove_post_cache',
+			array(
+				__CLASS__,
+				'remove_page_cache_by_post_id'
+			)
+		);
 		add_action(
 			'cachify_flush_cache',
 			array(
@@ -586,7 +593,7 @@ final class Cachify {
 	* Hinzufügen eines Admin-Bar-Menüs
 	*
 	* @since   1.2
-	* @change  2.1.6
+	* @change  2.1.5
 	*
 	* @param   object  Objekt mit Menü-Eigenschaften
 	*/
@@ -926,7 +933,7 @@ final class Cachify {
 
 
 	/**
-	* Removes a page id from cache
+	* Removes a page (id) from cache
 	*
 	* @since   2.0.3
 	* @change  2.1.3
@@ -936,6 +943,12 @@ final class Cachify {
 
 	public static function remove_page_cache_by_post_id($post_ID)
 	{
+		/* Value check */
+		if ( ! $post_ID = (int)$post_ID ) {
+			return;
+		}
+
+		/* Remove page by url */
 		self::remove_page_cache_by_url(
 			get_permalink( $post_ID )
 		);
