@@ -966,6 +966,11 @@ final class Cachify {
 
 	public static function remove_page_cache_by_url($url)
 	{
+		/* Value check */
+		if ( ! $url = (string)$url ) {
+			return;
+		}
+
 		call_user_func(
 			array(
 				self::$method,
