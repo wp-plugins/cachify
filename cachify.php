@@ -23,7 +23,7 @@ define('CACHIFY_CACHE_DIR', WP_CONTENT_DIR. '/cache/cachify');
 
 /* Hooks */
 add_action(
-	'init',
+	'plugins_loaded',
 	array(
 		'Cachify',
 		'instance'
