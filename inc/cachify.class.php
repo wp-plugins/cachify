@@ -73,13 +73,16 @@ final class Cachify {
 	/**
 	* Konstruktor der Klasse
 	*
+	* @since   2.1.7  Call 'register_publish_hooks' via add_action('init')
 	* @since   1.0.0
-	* @change  2.1.3
+	*
+	* @param   void
+	* @return  void
 	*/
 
 	public function __construct()
 	{
-		/* Filter */
+		/* Skip requests */
 		if ( ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) OR ( defined('DONOTCACHEPAGE') && DONOTCACHEPAGE ) ) {
 			return;
 		}
@@ -87,8 +90,15 @@ final class Cachify {
 		/* Set defaults */
 		self::_set_default_vars();
 
-		/* Publish-Hooks */
-		self::_register_publish_hooks();
+		/* Publish hooks */
+		add_action(
+			'init',
+			array(
+				__CLASS__,
+				'register_publish_hooks'
+			),
+			99
+		);
 
 		/* Flush Hooks */
 		add_action(
@@ -848,11 +858,14 @@ final class Cachify {
 	/**
 	* Generierung von Publish-Hooks für Custom Post Types
 	*
+	* @since   2.1.7  Make the function public
 	* @since   2.0.3
-	* @change  2.1.3
+	*
+	* @param   void
+	* @return  void
 	*/
 
-	private static function _register_publish_hooks() {
+	public static function register_publish_hooks() {
 		/* Available post types */
 		$post_types = get_post_types(
 			array('public' => true)
@@ -863,7 +876,7 @@ final class Cachify {
 			return;
 		}
 
-		/* Loopen */
+		/* Loop the post types */
 		foreach ( $post_types as $post_type ) {
 			add_action(
 				'publish_' .$post_type,
