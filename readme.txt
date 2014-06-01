@@ -77,6 +77,12 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 == Changelog ==
 
+= 2.1.7 =
+* Kein Caching der Seiten im WooCommerce-Checkout
+* Cache-Leerung bei Custom Post Types
+* Einführung zusätzlicher Sicherheitsabfragen
+* Code-Refactoring
+
 = 2.1.6 =
 * Button "Cache leeren" sichtbar sowohl in WP 3.8 wie WP 3.9
 

@@ -3,11 +3,11 @@
 Plugin Name: Cachify
 Text Domain: cachify
 Domain Path: /lang
-Description: Easy to use WordPress cache plugin with static file serving in the database, hard disc, memcached and apc.
+Description: Easy to use WordPress caching plugin. Serving static blog pages from Database, Hard Disc, Memcached or APC.
 Author: Sergej M&uuml;ller
 Author URI: http://wpcoder.de
 Plugin URI: http://cachify.de
-Version: 2.1.6
+Version: 2.1.7
 */
 
 
@@ -27,8 +27,7 @@ add_action(
 	array(
 		'Cachify',
 		'instance'
-	),
-	99
+	)
 );
 register_activation_hook(
 	__FILE__,

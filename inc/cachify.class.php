@@ -73,8 +73,8 @@ final class Cachify {
 	/**
 	* Konstruktor der Klasse
 	*
-	* @since   2.1.7  Call 'register_publish_hooks' via add_action('init')
 	* @since   1.0.0
+	* @change  2.1.7
 	*
 	* @param   void
 	* @return  void
@@ -82,11 +82,6 @@ final class Cachify {
 
 	public function __construct()
 	{
-		/* Skip requests */
-		if ( ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) OR ( defined('DONOTCACHEPAGE') && DONOTCACHEPAGE ) ) {
-			return;
-		}
-
 		/* Set defaults */
 		self::_set_default_vars();
 
@@ -298,7 +293,7 @@ final class Cachify {
 
 			/* Loopen */
 			foreach ($ids as $id) {
-				switch_to_blog( (int)$id );
+				switch_to_blog($id);
 				self::_install_backend();
 			}
 
@@ -318,14 +313,15 @@ final class Cachify {
 	* @change  1.0
 	*/
 
-	public static function install_later($id) {
+	public static function install_later($id)
+	{
 		/* Kein Netzwerk-Plugin */
 		if ( ! is_plugin_active_for_network(CACHIFY_BASE) ) {
 			return;
 		}
 
 		/* Wechsel */
-		switch_to_blog( (int)$id );
+		switch_to_blog($id);
 
 		/* Installieren */
 		self::_install_backend();
@@ -367,7 +363,7 @@ final class Cachify {
 		global $wpdb;
 
 		/* Multisite & Network */
-		if ( is_multisite() && !empty($_GET['networkwide']) ) {
+		if ( is_multisite() && ! empty($_GET['networkwide']) ) {
 			/* Alter Blog */
 			$old = $wpdb->blogid;
 
@@ -403,7 +399,7 @@ final class Cachify {
 		}
 
 		/* Wechsel */
-		switch_to_blog( (int)$id );
+		switch_to_blog($id);
 
 		/* Installieren */
 		self::_uninstall_backend();
@@ -865,7 +861,8 @@ final class Cachify {
 	* @return  void
 	*/
 
-	public static function register_publish_hooks() {
+	public static function register_publish_hooks()
+	{
 		/* Available post types */
 		$post_types = get_post_types(
 			array('public' => true)
@@ -899,15 +896,16 @@ final class Cachify {
 
 
 	/**
-	* Removes the post type cache on updates
+	* Removes the post type cache on post updates
 	*
 	* @since   2.0.3
-	* @change  2.1.3
+	* @change  2.1.7
 	*
 	* @param   integer  $post_ID  Post ID
 	*/
 
-	public static function publish_post_types($post_ID, $post) {
+	public static function publish_post_types($post_ID, $post)
+	{
 		/* No Post_ID? */
 		if ( empty($post_ID) OR empty($post) ) {
 			return;
@@ -925,6 +923,11 @@ final class Cachify {
 
 		/* Security */
 		check_admin_referer(CACHIFY_BASE, '_cachify_status_nonce');
+
+		/* Check user role */
+		if ( ! current_user_can('publish_posts') ) {
+			return;
+		}
 
 		/* Save as var */
 		$remove_post_type_cache = (int)$_POST['_cachify_remove_post_type_cache_on_update'];
@@ -998,15 +1001,15 @@ final class Cachify {
 	/**
 	* Rückgabe der Cache-Gültigkeit
 	*
-	* @since   2.0
-	* @change  2.0
+	* @since   2.0.0
+	* @change  2.1.7
 	*
 	* @return  intval    Gültigkeit in Sekunden
 	*/
 
 	private static function _cache_expires()
 	{
-		return 60 * 60 * self::$options['cache_expires'];
+		return HOUR_IN_SECONDS * self::$options['cache_expires'];
 	}
 
 
@@ -1108,7 +1111,7 @@ final class Cachify {
 	* Definition der Ausnahmen für den Cache
 	*
 	* @since   0.2
-	* @change  2.1.1
+	* @change  2.1.7
 	*
 	* @return  boolean  TRUE bei Ausnahmen
 	*
@@ -1123,7 +1126,12 @@ final class Cachify {
 		}
 
 		/* Conditional Tags */
-		if ( self::_is_index() or is_search() or is_404() or is_feed() or is_trackback() or is_robots() or is_preview() or post_password_required() ) {
+		if ( self::_is_index() OR is_search() OR is_404() OR is_feed() OR is_trackback() OR is_robots() OR is_preview() OR post_password_required() ) {
+			return true;
+		}
+
+		/* WooCommerce usage */
+		if ( defined('DONOTCACHEPAGE') && DONOTCACHEPAGE ) {
 			return true;
 		}
 
@@ -1131,7 +1139,7 @@ final class Cachify {
 		$options = self::$options;
 
 		/* Request vars */
-		if ( !empty($_POST) OR (!empty($_GET) && get_option('permalink_structure')) ) {
+		if ( ! empty($_POST) OR ( ! empty($_GET) && get_option('permalink_structure') ) ) {
 			return true;
 		}
 
@@ -1175,7 +1183,8 @@ final class Cachify {
 	* @hook    array   cachify_minify_ignore_tags
 	*/
 
-	private static function _minify_cache($data) {
+	private static function _minify_cache($data)
+	{
 		/* Disabled? */
 		if ( ! self::$options['compress_html'] ) {
 			return($data);
@@ -1371,7 +1380,7 @@ final class Cachify {
 	* Display a combo select on post publish box
 	*
 	* @since   2.1.3
-	* @change  2.1.3
+	* @change  2.1.7
 	*/
 
 	public static function print_flush_dropdown()
@@ -1383,6 +1392,11 @@ final class Cachify {
 
 		/* Published posts only */
 		if ( empty($GLOBALS['post']) OR ! is_object($GLOBALS['post']) OR $GLOBALS['post']->post_status !== 'publish' ) {
+			return;
+		}
+
+		/* Check user role */
+		if ( ! current_user_can('publish_posts') ) {
 			return;
 		}
 
@@ -1554,7 +1568,7 @@ final class Cachify {
 
 
 	/**
-	* Valisierung der Optionsseite
+	* Validierung der Optionsseite
 	*
 	* @since   1.0.0
 	* @change  2.1.3
@@ -1598,7 +1612,7 @@ final class Cachify {
 	* Darstellung der Optionsseite
 	*
 	* @since   1.0
-	* @change  2.1.3
+	* @change  2.1.7
 	*/
 
 	public static function options_page()
@@ -1638,11 +1652,11 @@ final class Cachify {
 
 					<tr valign="top">
 						<th scope="row">
-							<?php _e('Cache validity', 'cachify') ?>
+							<?php _e('Cache expiration', 'cachify') ?>
 						</th>
 						<td>
 							<label for="cachify_cache_expires">
-								<input type="number" min="0" step="1" name="cachify[cache_expires]" id="cachify_cache_expires" value="<?php echo $options['cache_expires'] ?>" class="small-text" />
+								<input type="number" min="0" step="1" name="cachify[cache_expires]" id="cachify_cache_expires" value="<?php echo esc_attr($options['cache_expires']) ?>" class="small-text" />
 								<?php _e('Hours', 'cachify') ?>
 							</label>
 						</td>
@@ -1676,14 +1690,14 @@ final class Cachify {
 						<td>
 							<fieldset>
 								<label for="cachify_without_ids">
-									<input type="text" name="cachify[without_ids]" id="cachify_without_ids" value="<?php echo $options['without_ids'] ?>" />
+									<input type="text" name="cachify[without_ids]" id="cachify_without_ids" value="<?php echo esc_attr($options['without_ids']) ?>" />
 									Post/Pages-IDs
 								</label>
 
 								<br />
 
 								<label for="cachify_without_agents">
-									<input type="text" name="cachify[without_agents]" id="cachify_without_agents" value="<?php echo $options['without_agents'] ?>" />
+									<input type="text" name="cachify[without_agents]" id="cachify_without_agents" value="<?php echo esc_attr($options['without_agents']) ?>" />
 									Browser User-Agents
 								</label>
 							</fieldset>
@@ -1709,7 +1723,7 @@ final class Cachify {
 
 					<tr valign="top">
 						<th scope="row">
-							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+							<?php submit_button() ?>
 						</th>
 						<td>
 							<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank"><?php _e('Manual', 'cachify') ?></a> &bull; <a href="http://playground.ebiene.de/cachify-wordpress-cache/#book" target="_blank"><?php _e('Books', 'cachify') ?></a> &bull; <a href="https://flattr.com/t/1327625" target="_blank">Flattr</a> &bull; <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>
