@@ -10,7 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 
-Smart but efficient cache solution for WordPress. Use DB, HDD, APC or Memcached for storing your blog pages.
+Smart but efficient cache solution for WordPress. Use DB, HDD, APC or Memcached for storing your blog pages. Make WordPress faster!
 
 
 
