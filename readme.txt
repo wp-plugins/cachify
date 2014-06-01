@@ -10,11 +10,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 
-Turbo für WordPress. Smarte, aber effiziente Cache-Lösung für WordPress. Mit der Konzentration aufs Wesentliche.
+Smart but efficient cache solution for WordPress. Use DB, HDD, APC or Memcached for storing your blog pages.
 
 
 
 == Description ==
+
+*Notice: The plugin is available in English and German.*
 
 = Unkompliziert und ausbaufähig =
 *Cachify* optimiert Ladezeit der Blogseiten, indem Seiteninhalte in statischer Form wahlweise in der Datenbank, auf der Festplatte (HDD) oder dank APC (Alternative PHP Cache) im Speicher des Webservers abgelegt und beim Seitenaufruf ohne Umwege ausgegeben werden. Die Anzahl der DB-Anfragen und PHP-Anweisungen reduziert sich je nach gewählter Methode gegen Null.
