@@ -76,6 +76,9 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 == Changelog ==
 
+= 2.1.8 =
+* HHVM-Unterstützung für die *Memcached* Caching-Methode (Danke, [Ulrich Block](http://www.ulrich-block.de))
+
 = 2.1.7 =
 * Cache-Leerung bei Custom Post Types
 * Einführung zusätzlicher Sicherheitsabfragen
