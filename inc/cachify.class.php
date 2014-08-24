@@ -1187,7 +1187,12 @@ final class Cachify {
 	{
 		/* Disabled? */
 		if ( ! self::$options['compress_html'] ) {
-			return($data);
+			return $data;
+		}
+
+		/* Avoid slow rendering */
+		if ( strlen($data) > 700000) {
+			return $data;
 		}
 
 		/* Ignore this html tags */
@@ -1206,7 +1211,7 @@ final class Cachify {
 
 		/* Empty blacklist? | TODO: Make it better */
 		if ( ! $ignore_tags ) {
-			return($data);
+			return $data;
 		}
 
 		/* Convert to string */
@@ -1222,12 +1227,12 @@ final class Cachify {
 				'',
 				' '
 			),
-			(string) $data
+			$data
 		);
 
 		/* Fault */
 		if ( strlen($cleaned) <= 1 ) {
-			return($data);
+			return $data;
 		}
 
 		return $cleaned;
