@@ -1,7 +1,7 @@
 === Cachify ===
 Contributors: sergej.mueller
 Tags: apc, cache, caching, performance
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5RDDW9FEHGLG6
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAQUT9RLPW8QN
 Requires at least: 3.8
 Tested up to: 4.0
 Stable tag: trunk
@@ -55,7 +55,7 @@ Freundlich formulierte Fragen rund um das Plugin werden per E-Mail beantwortet.
 
 = Unterstützung =
 * Per [Flattr](https://flattr.com/t/1327625)
-* Per [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5RDDW9FEHGLG6)
+* Per [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAQUT9RLPW8QN)
 
 
 = Handbuch =

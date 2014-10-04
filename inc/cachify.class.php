@@ -589,7 +589,7 @@ final class Cachify {
 			$input,
 			array(
 				'<a href="https://flattr.com/t/1327625" target="_blank">Flattr</a>',
-				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>'
+				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ZAQUT9RLPW8QN" target="_blank">PayPal</a>'
 			)
 		);
 	}
@@ -1731,7 +1731,7 @@ final class Cachify {
 							<?php submit_button() ?>
 						</th>
 						<td>
-							<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank"><?php _e('Manual', 'cachify') ?></a> &bull; <a href="http://playground.ebiene.de/cachify-wordpress-cache/#book" target="_blank"><?php _e('Books', 'cachify') ?></a> &bull; <a href="https://flattr.com/t/1327625" target="_blank">Flattr</a> &bull; <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5RDDW9FEHGLG6" target="_blank">PayPal</a>
+							<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank"><?php _e('Manual', 'cachify') ?></a> &bull; <a href="http://playground.ebiene.de/cachify-wordpress-cache/#book" target="_blank"><?php _e('Books', 'cachify') ?></a> &bull; <a href="https://flattr.com/t/1327625" target="_blank">Flattr</a> &bull; <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ZAQUT9RLPW8QN" target="_blank">PayPal</a>
 						</td>
 					</tr>
 				</table>
