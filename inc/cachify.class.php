@@ -523,9 +523,9 @@ final class Cachify {
 
 		/* Ausgabe */
 		$data .= sprintf(
-			'Disallow: %s/wp-content/cache/%s',
+			'%2$sDisallow: %1$s/wp-content/cache/%2$s',
 			( empty($path) ? '' : $path ),
-			"\n"
+			PHP_EOL
 		);
 
 		return $data;
