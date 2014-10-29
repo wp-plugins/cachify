@@ -54,8 +54,9 @@ Fragen rund um das Plugin werden gern per E-Mail beantwortet. Beachtet auch die 
 
 
 = Unterstützung =
-* Per [Flattr](https://flattr.com/t/1327625)
-* Per [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAQUT9RLPW8QN)
+* [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAQUT9RLPW8QN)
+* [Flattr](https://flattr.com/t/1327625)
+* [Wishlist](https://www.amazon.de/registry/wishlist/2U5I7F9649LOJ/)
 
 
 = Handbuch =
@@ -75,6 +76,10 @@ Fragen rund um das Plugin werden gern per E-Mail beantwortet. Beachtet auch die 
 
 
 == Changelog ==
+
+= 2.1.9 =
+* Vervollständigung des Cachify-Pfades in `robots.txt`: `Disallow: /wp-content/cache/cachify/`
+* *Release-Zeitaufwand (Development & QA): 0,75 Stunden*
 
 = 2.1.8 =
 * HHVM-Unterstützung für die *Memcached* Caching-Methode (Danke, [Ulrich Block](http://www.ulrich-block.de))

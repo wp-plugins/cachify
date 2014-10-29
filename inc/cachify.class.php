@@ -505,7 +505,7 @@ final class Cachify {
 	* Hinzufügen der Action-Links
 	*
 	* @since   1.0
-	* @change  2.0.2
+	* @change  2.1.9
 	*
 	* @param   string  $data  Ursprungsinhalt der dynamischen robots.txt
 	* @return  string  $data  Modifizierter Inhalt der robots.txt
@@ -523,7 +523,7 @@ final class Cachify {
 
 		/* Ausgabe */
 		$data .= sprintf(
-			'%2$sDisallow: %1$s/wp-content/cache/%2$s',
+			'%2$sDisallow: %1$s/wp-content/cache/cachify/%2$s',
 			( empty($path) ? '' : $path ),
 			PHP_EOL
 		);
@@ -588,8 +588,9 @@ final class Cachify {
 		return array_merge(
 			$input,
 			array(
+				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ZAQUT9RLPW8QN" target="_blank">PayPal</a>',
 				'<a href="https://flattr.com/t/1327625" target="_blank">Flattr</a>',
-				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ZAQUT9RLPW8QN" target="_blank">PayPal</a>'
+				'<a href="https://www.amazon.de/registry/wishlist/2U5I7F9649LOJ/" target="_blank">Wishlist</a>'
 			)
 		);
 	}
@@ -1617,7 +1618,7 @@ final class Cachify {
 	* Darstellung der Optionsseite
 	*
 	* @since   1.0
-	* @change  2.1.7
+	* @change  2.1.9
 	*/
 
 	public static function options_page()
@@ -1731,7 +1732,7 @@ final class Cachify {
 							<?php submit_button() ?>
 						</th>
 						<td>
-							<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank"><?php _e('Manual', 'cachify') ?></a> &bull; <a href="http://playground.ebiene.de/cachify-wordpress-cache/#book" target="_blank"><?php _e('Books', 'cachify') ?></a> &bull; <a href="https://flattr.com/t/1327625" target="_blank">Flattr</a> &bull; <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ZAQUT9RLPW8QN" target="_blank">PayPal</a>
+							<a href="http://playground.ebiene.de/cachify-wordpress-cache/" target="_blank"><?php _e('Manual', 'cachify') ?></a> &bull; <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ZAQUT9RLPW8QN" target="_blank">PayPal</a> &bull; <a href="https://flattr.com/t/1327625" target="_blank">Flattr</a> &bull; <a href="https://www.amazon.de/registry/wishlist/2U5I7F9649LOJ/" target="_blank">Wishlist</a>
 						</td>
 					</tr>
 				</table>
