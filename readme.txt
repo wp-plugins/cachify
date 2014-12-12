@@ -77,6 +77,9 @@ Fragen rund ums Plugin werden gern per E-Mail beantwortet. Beachtet auch die [Gu
 
 == Changelog ==
 
+= 2.2.1 =
+* Fix für die Meldung "Call to undefined function is_plugin_active_for_network" in WordPress-Multisite
+
 = 2.2.0 =
 * Werkzeugleiste: Anzeige des "Cache leeren" Buttons im Frontend der Website
 * Werkzeugleiste: Steuerung der Anzeige des "Cache leeren" Buttons via Hook
