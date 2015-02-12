@@ -124,6 +124,13 @@ final class Cachify {
 				'flush_total_cache'
 			)
 		);
+		add_action(
+			'wp_trash_post',
+			array(
+				__CLASS__,
+				'flush_total_cache'
+			)
+		);
 
         /* Flush icon */
 		add_action(
