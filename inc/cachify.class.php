@@ -74,7 +74,7 @@ final class Cachify {
 	* Konstruktor der Klasse
 	*
 	* @since   1.0.0
-	* @change  2.2.0
+	* @change  2.2.2
 	*
 	* @param   void
 	* @return  void
@@ -213,7 +213,7 @@ final class Cachify {
 				)
 			);
 
-			add_action(
+			add_filter(
 				'dashboard_glance_items',
 				array(
 					__CLASS__,
@@ -611,11 +611,19 @@ final class Cachify {
 	* Anzeige des Spam-Counters auf dem Dashboard
 	*
 	* @since   2.0.0
-	* @change  2.1.3
+	* @change  2.2.2
+	*
+	* @param   array  $items  Initial array with dashboard items
+	* @return  array  $items  Merged array with dashboard items
 	*/
 
-	public static function add_dashboard_count()
+	public static function add_dashboard_count( $items = array() )
 	{
+		/* Skip */
+        if ( ! current_user_can('manage_options') ) {
+            return $items;
+        }
+
 		/* Cache size */
 		$size = self::get_cache_size();
 
@@ -627,13 +635,9 @@ final class Cachify {
 			)
 		);
 
-		/* Print the link */
-		echo sprintf(
-			'<li>
-				<a href="%s" class="cachify-icon cachify-icon--%s" title="%s: %s">
-					%s Cache
-				</a>
-			</li>',
+		/* Right now item */
+		$items[] = sprintf(
+			'<a href="%s" class="cachify-icon cachify-icon--%s" title="%s: %s">%s Cache</a>',
 			add_query_arg(
 				array(
 					'page' => 'cachify'
@@ -645,6 +649,8 @@ final class Cachify {
 			esc_attr($method),
 			( empty($size) ? __('Empty', 'cachify') : size_format($size) )
 		);
+
+		return $items;
 	}
 
 
