@@ -77,6 +77,10 @@ Fragen rund ums Plugin werden gern per E-Mail beantwortet. Beachtet auch die [Gu
 
 == Changelog ==
 
+= 2.2.2 =
+* Fix: Parameter-Rückgabe beim Filter `dashboard_glance_items`
+* Großzügige Anwendung des Filters `esc_html`
+
 = 2.2.1 =
 * Fix für die Meldung "Call to undefined function is_plugin_active_for_network" in WordPress-Multisite
 
