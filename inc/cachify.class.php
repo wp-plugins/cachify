@@ -711,7 +711,7 @@ final class Cachify {
 		$wp_admin_bar->add_menu(
 			array(
 				'id' 	 => 'cachify',
-				'href'   => wp_nonce_url( add_query_arg('_cachify', 'flush'), '_cachify_flush_nonce'),
+				'href'   => wp_nonce_url( add_query_arg('_cachify', 'flush'), '_cachify__flush_nonce'),
 				'parent' => 'top-secondary',
 				'title'	 => '<span class="ab-icon dashicons"></span>',
 				'meta'   => array( 'title' => esc_html__('Flush the cachify cache', 'cachify') )
@@ -724,7 +724,7 @@ final class Cachify {
 	* Verarbeitung der Plugin-Meta-Aktionen
 	*
 	* @since   0.5
-	* @change  2.2.1
+	* @change  2.2.2
     *
     * @hook    mixed  cachify_user_can_flush_cache
 	*
@@ -739,7 +739,7 @@ final class Cachify {
 		}
 
         /* Check nonce */
-        if ( empty($_GET['_wpnonce']) OR ! wp_verify_nonce($_GET['_wpnonce'], '_cachify_flush_nonce') ) {
+        if ( empty($_GET['_wpnonce']) OR ! wp_verify_nonce($_GET['_wpnonce'], '_cachify__flush_nonce') ) {
             return;
         }
 
@@ -950,7 +950,7 @@ final class Cachify {
 	* Removes the post type cache on post updates
 	*
 	* @since   2.0.3
-	* @change  2.1.7
+	* @change  2.2.2
 	*
 	* @param   integer  $post_ID  Post ID
 	*/
@@ -973,7 +973,7 @@ final class Cachify {
 		}
 
 		/* Security */
-		check_admin_referer(CACHIFY_BASE, '_cachify_status_nonce');
+		check_admin_referer(CACHIFY_BASE, '_cachify__status_nonce_' .$post_ID);
 
 		/* Check user role */
 		if ( ! current_user_can('publish_posts') ) {
@@ -1457,7 +1457,7 @@ final class Cachify {
 		}
 
 		/* Security */
-		wp_nonce_field(CACHIFY_BASE, '_cachify_status_nonce');
+		wp_nonce_field(CACHIFY_BASE, '_cachify__status_nonce_' .$GLOBALS['post']->ID);
 
 		/* Already saved? */
 		$current_action = (int)get_user_meta(
