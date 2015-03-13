@@ -36,6 +36,7 @@ defined('ABSPATH') OR exit;
 
 /* Konstanten */
 define('CACHIFY_FILE', __FILE__);
+define('CACHIFY_DIR', dirname(__FILE__));
 define('CACHIFY_BASE', plugin_basename(__FILE__));
 define('CACHIFY_CACHE_DIR', WP_CONTENT_DIR. '/cache/cachify');
 
@@ -80,7 +81,7 @@ function cachify_autoload($class) {
 		require_once(
 			sprintf(
 				'%s/inc/%s.class.php',
-				dirname(__FILE__),
+				CACHIFY_DIR,
 				strtolower($class)
 			)
 		);
