@@ -972,8 +972,10 @@ final class Cachify {
 			return self::flush_total_cache();
 		}
 
-		/* Security */
-		check_admin_referer(CACHIFY_BASE, '_cachify__status_nonce_' .$post_ID);
+		/* Check nonce */
+		if ( ! isset($_POST['_cachify__status_nonce_' .$post_ID]) OR ! wp_verify_nonce($_POST['_cachify__status_nonce_' .$post_ID], CACHIFY_BASE) ) {
+			return;
+		}
 
 		/* Check user role */
 		if ( ! current_user_can('publish_posts') ) {
