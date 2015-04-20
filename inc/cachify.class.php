@@ -711,7 +711,7 @@ final class Cachify {
 		$wp_admin_bar->add_menu(
 			array(
 				'id' 	 => 'cachify',
-				'href'   => wp_nonce_url( add_query_arg('_cachify', 'flush'), '_cachify__flush_nonce'),
+				'href'   => wp_nonce_url( add_query_arg('_cachify', 'flush'), '_cachify__flush_nonce'), // esc_url in /wp-includes/class-wp-admin-bar.php#L438
 				'parent' => 'top-secondary',
 				'title'	 => '<span class="ab-icon dashicons"></span>',
 				'meta'   => array( 'title' => esc_html__('Flush the cachify cache', 'cachify') )
