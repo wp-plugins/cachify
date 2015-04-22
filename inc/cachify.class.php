@@ -797,7 +797,7 @@ final class Cachify {
 		}
 
 		if ( ! is_admin() ) {
-			wp_redirect(
+			wp_safe_redirect(
 				remove_query_arg(
 					'_cachify',
 					wp_get_referer()
