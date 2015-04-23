@@ -826,7 +826,7 @@ final class Cachify {
 		}
 
 		echo sprintf(
-			'<div id="message" class="updated"><p><strong>%s</strong></p></div>',
+			'<div class="notice notice-success is-dismissible"><p>%s</p></div>',
 			esc_html__('Cachify cache is flushed.', 'cachify')
 		);
 	}
