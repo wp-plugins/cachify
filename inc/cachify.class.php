@@ -284,7 +284,7 @@ final class Cachify {
 
 	public static function on_deactivation()
 	{
-		self::flush_total_cache();
+		self::flush_total_cache(true);
 	}
 
 
@@ -357,7 +357,7 @@ final class Cachify {
 		);
 
 		/* Flush */
-		self::flush_total_cache();
+		self::flush_total_cache(true);
 	}
 
 
@@ -433,7 +433,7 @@ final class Cachify {
 		delete_option('cachify');
 
 		/* Cache leeren */
-		self::flush_total_cache();
+		self::flush_total_cache(true);
 	}
 
 
@@ -1299,19 +1299,28 @@ final class Cachify {
 	* @change  2.0
 	*/
 
-	public static function flush_total_cache()
+	public static function flush_total_cache($clear_all_methods = false)
 	{
-		/* DB */
-		Cachify_DB::clear_cache();
+		if ( $clear_all_methods ) {
+			/* DB */
+			Cachify_DB::clear_cache();
 
-		/* APC */
-		Cachify_APC::clear_cache();
+			/* APC */
+			Cachify_APC::clear_cache();
 
-		/* HDD */
-		Cachify_HDD::clear_cache();
+			/* HDD */
+			Cachify_HDD::clear_cache();
 
-		/* MEMCACHED */
-		Cachify_MEMCACHED::clear_cache();
+			/* MEMCACHED */
+			Cachify_MEMCACHED::clear_cache();
+		} else {
+			call_user_func(
+				array(
+					self::$method,
+					'clear_cache'
+				)
+			);
+		}
 
 		/* Transient */
 		delete_transient('cachify_cache_size');
@@ -1641,7 +1650,7 @@ final class Cachify {
 	public static function validate_options($data)
 	{
 		/* Cache leeren */
-		self::flush_total_cache();
+		self::flush_total_cache(true);
 
 		/* Hinweis */
 		if ( self::$options['use_apc'] != $data['use_apc'] && $data['use_apc'] >= self::METHOD_APC ) {
