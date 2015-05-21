@@ -1649,6 +1649,11 @@ final class Cachify {
 
 	public static function validate_options($data)
 	{
+		/* Empty data? */
+		if ( empty($data) ) {
+			return;
+		}
+
 		/* Cache leeren */
 		self::flush_total_cache(true);
 
